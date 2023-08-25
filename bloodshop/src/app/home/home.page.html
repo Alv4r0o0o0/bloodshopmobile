@@ -1,29 +1,73 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button auto-hide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Inicio de sesion
-    </ion-title>
+    <ion-title>Menu Button</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>BLOODSHOP</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full">Iniciar Sesión <ion-icon name="person-outline"></ion-icon></ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full">Hombre</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full">Mujer</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full">Niños</ion-button>
+        </ion-col>
+      </ion-row>
 
-  
+    </ion-grid>
+
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</div>
+
+
+<ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content>
       <div class="ion-padding">
         <h1 class="ion-text-center">BLOODSHOP</h1>
       </div>
       <ion-item>
-        <ion-input type="text" name="email" placeholder="Usuario"></ion-input>
+        <ion-label>Usuario: </ion-label>
+        <ion-input type="text" name="email"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
 
       <ion-item>
-        <ion-input type="password" name="password" placeholder="Contraseña"></ion-input>
+        <ion-label>Contraseña:</ion-label>
+        <ion-input type="password" name="password" ></ion-input>
         <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
 
@@ -41,4 +85,5 @@
       </div>
     </ion-card-content>
   </ion-card>
+  
 </ion-content>
