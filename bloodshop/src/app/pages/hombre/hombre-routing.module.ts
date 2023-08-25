@@ -7,11 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: HombrePage
+    
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  
 })
 export class HombrePageRoutingModule {}
