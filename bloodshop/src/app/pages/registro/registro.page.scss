@@ -38,7 +38,7 @@
   }
   ion-button{
     height: 100%;
-    --background: rgb(53, 0, 158);
+    --background: rgb(55, 0, 158);
   }
   
   .background-logo {
@@ -55,4 +55,8 @@
     font-size: 48px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
-
+  ion-col ion-button{
+    --background: rgb(60, 0, 128);
+    --color: white;
+    --padding: 10px;
+  }
