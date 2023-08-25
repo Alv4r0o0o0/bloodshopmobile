@@ -1,13 +1,88 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>mujer</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-menu contentId="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">mujer</ion-title>
+      <ion-title>Menu Content</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+  <ion-content class="ion-padding">This is the menu content.</ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding"> Tap the button in the toolbar to open the menu. </ion-content>
+
+  
+</div>
+
+
+ <ion-card>
+    <img alt="Silhouette of mountains" src="https://thn.pe/cdn/shop/files/banner-home-gamma-force-21082023.jpg?v=1692640908&width=3840" />
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col><ion-card-content>
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
+          Zapatilla Nike Airfoce 
+
+       </ion-card-content>
+     
+       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+        <ion-col><ion-card-content>
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
+          Zapatilla Nike Airfoce 
+       </ion-card-content>
+     
+       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+        
+      </ion-row>
+      <ion-row>
+        <ion-col><ion-card-content>
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
+          Zapatilla Nike Airfoce 
+       </ion-card-content>
+     
+       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+        <ion-col><ion-card-content>
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
+          Zapatilla Nike Airfoce 
+       </ion-card-content>
+     
+       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+        
+      </ion-row>
+    </ion-grid>
+
+
+    <ion-content class="ion-padding">
+      <h1>Content</h1>
+    </ion-content>
+    <ion-footer class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Footer</ion-title>
+      </ion-toolbar>
+    </ion-footer>
