@@ -10,7 +10,15 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
+  {
+    path: 'editarperfil',
+    loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+  },
+<<<<<<< HEAD
   {
     path: 'nombre',
     loadChildren: () => import('./pages/nombre/nombre.module').then( m => m.NombrePageModule)
@@ -27,6 +35,10 @@ const routes: Routes = [
     path: 'ninos',
     loadChildren: () => import('./pages/ninos/ninos.module').then( m => m.NinosPageModule)
   },
+];
+=======
+>>>>>>> d8895213fce73c8079fb9e174abe1fa5e2f3f433
+
 ];
 
 @NgModule({
