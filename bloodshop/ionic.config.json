@@ -1,0 +1,7 @@
+{
+  "name": "bloodshop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
