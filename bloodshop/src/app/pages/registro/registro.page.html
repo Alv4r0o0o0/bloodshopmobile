@@ -1,8 +1,57 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>BLOODSHOP</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>BLOODSHOP</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/home']">Iniciar Sesión <ion-icon
+              name="person-outline"></ion-icon></ion-button>
+        </ion-col>
+      </ion-row>
+      <br>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/hombre']">Hombre</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/mujer']">Mujer</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/ninos']">Niños</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</div>
 
 <ion-content [fullscreen]="true">
 
@@ -11,41 +60,51 @@
     <ion-card-content>
       <div class="ion-padding">
         <h1 class="ion-text-center">BLOODSHOP</h1>
+        <h2 class="ion-text-center">REGISTRARSE</h2>
       </div>
       <ion-item>
+        <ion-label>Nombre:</ion-label>
         <ion-input type="text" name="nombre" placeholder="Nombre"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
+        <ion-label>Apellido:</ion-label>
         <ion-input type="text" name="apellido" placeholder="Apellido"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="rut" placeholder="RUT: 12345678-9"></ion-input>
+        <ion-label>Rut:</ion-label>
+        <ion-input type="text" name="rut" placeholder="12345678-9"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="date" name="fechnac" placeholder="Fecha de Nacimiento"></ion-input>
+        <ion-label>Fecha de nacimiento:</ion-label>
+        <ion-input style="text-transform: uppercase;" type="date" name="fechnac" placeholder="Fecha de Nacimiento"></ion-input>
         
       </ion-item>
       <ion-item>
+        <ion-label>Telefono:</ion-label>
         <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
         <ion-icon name="call-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="email" placeholder="blood@shop.cl"></ion-input>
+        <ion-label>Correo:</ion-label>
+        <ion-input style="text-transform: uppercase;" type="text" name="email" placeholder="blood@shop.cl"></ion-input>
         <ion-icon name="mail-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="confemail" placeholder="blood@shop.cl"></ion-input>
+        <ion-label>Confirmar Correo:</ion-label>
+        <ion-input style="text-transform: uppercase;" type="text" name="confemail" placeholder="blood@shop.cl"></ion-input>
         <ion-icon name="mail-outline"></ion-icon>
       </ion-item>
       <ion-item>
+        <ion-label>Contraseña:</ion-label>
         <ion-input type="text" name="clave" placeholder="Contraseña"></ion-input>
         <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="confclave" placeholder="Contraseña"></ion-input>
+        <ion-label>Confirmar Contraseña:</ion-label>
+        <ion-input type="text" name="confclave" placeholder="Confirmar Contraseña"></ion-input>
         <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
       
