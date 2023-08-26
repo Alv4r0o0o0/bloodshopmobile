@@ -17,22 +17,22 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button expand="full">Iniciar Sesión <ion-icon name="person-outline"></ion-icon></ion-button>
+          <ion-button expand="full" [routerLink]="['/home']">Iniciar Sesión <ion-icon name="person-outline"></ion-icon></ion-button>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="full">Hombre</ion-button>
+          <ion-button expand="full" [routerLink]="['/hombre']">Hombre</ion-button>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="full">Mujer</ion-button>
+          <ion-button expand="full" [routerLink]="['/mujer']">Mujer</ion-button>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="full">Niños</ion-button>
+          <ion-button expand="full" [routerLink]="['/ninos']">Niños</ion-button>
         </ion-col>
       </ion-row>
 
@@ -53,12 +53,12 @@
 
 
 
-
 <ion-content [fullscreen]="true">
+  
   <ion-card>
     <img alt="Silhouette of mountains" src="https://thn.pe/cdn/shop/files/banner-home-gamma-force-21082023.jpg?v=1692640908&width=3840" />
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-title>Las mejores zapatillas a tu alcanze</ion-card-title>
       <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
     </ion-card-header>
   
@@ -76,8 +76,8 @@
     <ion-grid [fixed]="true">
       <ion-row>
         <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
-        
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
+          Zapatilla Nike Air Max Plus
        </ion-card-content>
      
        <ion-button fill="clear">Comprar</ion-button>
