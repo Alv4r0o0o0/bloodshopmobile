@@ -38,7 +38,23 @@ const routes: Routes = [
   {
     path: 'olvidarclave',
     loadChildren: () => import('./pages/olvidarclave/olvidarclave.module').then( m => m.OlvidarclavePageModule)
+  },  {
+    path: 'detailhombre1',
+    loadChildren: () => import('./pages/detailhombre1/detailhombre1.module').then( m => m.Detailhombre1PageModule)
   },
+  {
+    path: 'detailhombre2',
+    loadChildren: () => import('./pages/detailhombre2/detailhombre2.module').then( m => m.Detailhombre2PageModule)
+  },
+  {
+    path: 'detailhombre3',
+    loadChildren: () => import('./pages/detailhombre3/detailhombre3.module').then( m => m.Detailhombre3PageModule)
+  },
+  {
+    path: 'detailhombre4',
+    loadChildren: () => import('./pages/detailhombre4/detailhombre4.module').then( m => m.Detailhombre4PageModule)
+  },
+
 ];
 
 
