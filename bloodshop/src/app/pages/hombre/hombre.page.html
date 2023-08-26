@@ -1,9 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
       <ion-menu-button auto-hide="false"></ion-menu-button>
     </ion-buttons>
     <ion-title>Menu Button</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -17,10 +23,10 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button size="small">Iniciar Sesión <ion-icon name="person-outline"></ion-icon></ion-button>
+          <ion-button size="default" [routerLink]="['/home']">Iniciar Sesión</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button size="small" [routerLink]="['/editarperfil']">Editar Perfil <ion-icon name="person-outline"></ion-icon></ion-button>
+          <ion-button size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
         </ion-col>
       </ion-row>
       

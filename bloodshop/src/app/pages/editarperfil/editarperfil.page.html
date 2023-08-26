@@ -1,11 +1,63 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="primary"></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>editarperfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Editar Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>BLOODSHOP</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button size="default" [routerLink]="['/home']">Iniciar Sesión</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
+        </ion-col>
+      </ion-row>
+      
+      <br>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/hombre']">Hombre</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/mujer']">Mujer</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" [routerLink]="['/ninos']">Niños</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</div>
 
 
 <ion-content [fullscreen]="true">
@@ -17,28 +69,39 @@
         <h1 class="ion-text-center">BLOODSHOP</h1>
       </div>
       <ion-item>
-        <ion-input type="text" name="nombre" placeholder="Nombre"></ion-input>
+        <ion-label>Nombre:</ion-label>
+        <ion-input type="text" name="nombre" ></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="apellido" placeholder="Apellido"></ion-input>
+        <ion-label>Apellido:</ion-label>
+        <ion-input type="text" name="apellido" ></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="rut" placeholder="RUT: 12345678-9"></ion-input>
+        <ion-label>Rut:</ion-label>
+        <ion-input type="text" name="rut" placeholder="12345678-9"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="date" name="fechnac" placeholder="Fecha de Nacimiento"></ion-input>
+        <ion-label>Fecha de nacimiento:</ion-label>
+        <ion-input style="text-transform: uppercase;" type="date" name="fechnac"></ion-input>
         
       </ion-item>
       <ion-item>
+        <ion-label>Telefono:</ion-label>
         <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
         <ion-icon name="call-outline"></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="email" placeholder="blood@shop.cl"></ion-input>
+        <ion-label>Email:</ion-label>
+        <ion-input type="email" name="email" placeholder="blood@shop.cl"></ion-input>
         <ion-icon name="mail-outline"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label>Contraseña:</ion-label>
+        <ion-input type="text" name="clave" placeholder="Contraseña"></ion-input>
+        <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
       
 
