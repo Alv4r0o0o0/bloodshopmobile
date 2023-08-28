@@ -53,30 +53,38 @@
   </ion-header>
 </div>
 
-
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content>
       <div class="ion-padding">
         <h1 class="ion-text-center">BLOODSHOP</h1>
       </div>
-      <form action="">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item lines="full">
           <ion-label>Usuario: </ion-label>
-          <ion-input type="text" name="email"></ion-input>
+          <ion-input type="text" formControlName="email"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
+        <div *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          Usuario es requerido.
+        </div>
+        <div *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+          Usuario debe ser un correo válido.
+        </div>
 
         <ion-item lines="full">
           <ion-label>Contraseña:</ion-label>
-          <ion-input type="password" name="password"></ion-input>
+          <ion-input type="password" formControlName="password"></ion-input>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
+        <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          Contraseña es requerida.
+        </div>
       </form>
       <ion-row>
         <ion-col class="ion-padding">
           <div class="ion-text-center">
-            <ion-button shape="round" size="default" [routerLink]="['/hombre']">Iniciar Sesión</ion-button>
+            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" (click)="login()">Iniciar Sesión</ion-button>
             <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
@@ -87,5 +95,4 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
