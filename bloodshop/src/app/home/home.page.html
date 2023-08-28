@@ -59,7 +59,7 @@
       <div class="ion-padding">
         <h1 class="ion-text-center">BLOODSHOP</h1>
       </div>
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <form [formGroup]="loginForm" >
         <ion-item lines="full">
           <ion-label>Usuario: </ion-label>
           <ion-input type="text" formControlName="email"></ion-input>
@@ -84,7 +84,7 @@
       <ion-row>
         <ion-col class="ion-padding">
           <div class="ion-text-center">
-            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" (click)="login()">Iniciar Sesión</ion-button>
+            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" [routerLink]="['/hombre']">Iniciar Sesión</ion-button>
             <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>

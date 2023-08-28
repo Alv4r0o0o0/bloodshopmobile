@@ -17,13 +17,4 @@ export class HomePage {
     });
   }
 
-  // Función para realizar la acción de inicio de sesión
-  login() {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.value.email;
-      const password = this.loginForm.value.password;
-      // Aquí puedes realizar la lógica de inicio de sesión, por ejemplo, enviar los datos al servidor
-      console.log('Inicio de sesión exitoso', email, password);
-    }
-  }
 }
