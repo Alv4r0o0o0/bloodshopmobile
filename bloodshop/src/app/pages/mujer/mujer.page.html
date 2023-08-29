@@ -1,9 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
       <ion-menu-button auto-hide="false"></ion-menu-button>
     </ion-buttons>
     <ion-title>Menu Button</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -17,9 +23,14 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button expand="full" [routerLink]="['/home']">Iniciar Sesión <ion-icon name="person-outline"></ion-icon></ion-button>
+          <ion-button size="default" [routerLink]="['/home']">Iniciar Sesión</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
         </ion-col>
       </ion-row>
+      
+      <br>
       <ion-row>
         <ion-col>
           <ion-button expand="full" [routerLink]="['/hombre']">Hombre</ion-button>
@@ -76,35 +87,35 @@
     <ion-grid [fixed]="true">
       <ion-row>
         <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
-          Zapatilla Nike Air Max Plus
+          <img alt="Silhouette of mountains" src="https://nikeclprod.vteximg.com.br/arquivos/ids/662992-1000-1000/FD1448_664_A_PREM.jpg?v=638108646069600000" />
+          Nike Air Force 1 '07
        </ion-card-content>
      
-       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear" [routerLink]="['/detailmujer1']" >Comprar</ion-button>
        <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
         <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
-          Zapatilla Nike Airfoce 
+          <img alt="Silhouette of mountains" src="https://www.blockstore.cl/cdn/shop/products/p-38767208-11_400x400_crop_center.jpg?v=1669639141" />
+           Puma Rider Fv Future
        </ion-card-content>
      
-       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear" [routerLink]="['/detailmujer2']">Comprar</ion-button>
        <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
         
       </ion-row>
       <ion-row>
         <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
-          Zapatilla Nike Airfoce 
+          <img alt="Silhouette of mountains" src="https://www.realkicks.cl/cdn/shop/products/p-GW4417-2_400x400_crop_center.jpg?v=1680734689" />
+          ADIDAS RACER TR21 
        </ion-card-content>
      
-       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear" [routerLink]="['/detailmujer3']">Comprar</ion-button>
        <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
         <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/0f5256a3-de76-4696-89c2-e97a412c7957/air-force-1-07-zapatillas-VJhk3P.png" />
-          Zapatilla Nike Airfoce 
+          <img alt="Silhouette of mountains" src="https://falabella.scene7.com/is/image/Falabella/50106347_1" />
+          Nike Air max intrlk  
        </ion-card-content>
      
-       <ion-button fill="clear">Comprar</ion-button>
+       <ion-button fill="clear" [routerLink]="['/detailmujer4']">Comprar</ion-button>
        <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
         
       </ion-row>

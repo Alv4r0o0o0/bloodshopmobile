@@ -54,6 +54,38 @@ const routes: Routes = [
     path: 'detailhombre4',
     loadChildren: () => import('./pages/detailhombre4/detailhombre4.module').then( m => m.Detailhombre4PageModule)
   },
+  {
+    path: 'detailmujer1',
+    loadChildren: () => import('./pages/detailmujer1/detailmujer1.module').then( m => m.Detailmujer1PageModule)
+  },
+  {
+    path: 'detailmujer2',
+    loadChildren: () => import('./pages/detailmujer2/detailmujer2.module').then( m => m.Detailmujer2PageModule)
+  },
+  {
+    path: 'detailmujer3',
+    loadChildren: () => import('./pages/detailmujer3/detailmujer3.module').then( m => m.Detailmujer3PageModule)
+  },
+  {
+    path: 'detailmujer4',
+    loadChildren: () => import('./pages/detailmujer4/detailmujer4.module').then( m => m.Detailmujer4PageModule)
+  },
+  {
+    path: 'detailninos1',
+    loadChildren: () => import('./pages/detailninos1/detailninos1.module').then( m => m.Detailninos1PageModule)
+  },
+  {
+    path: 'detailninos2',
+    loadChildren: () => import('./pages/detailninos2/detailninos2.module').then( m => m.Detailninos2PageModule)
+  },
+  {
+    path: 'detailninos3',
+    loadChildren: () => import('./pages/detailninos3/detailninos3.module').then( m => m.Detailninos3PageModule)
+  },
+  {
+    path: 'detailninos4',
+    loadChildren: () => import('./pages/detailninos4/detailninos4.module').then( m => m.Detailninos4PageModule)
+  },
 
 ];
 
