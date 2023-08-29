@@ -71,16 +71,17 @@
           <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>
           <ion-icon name="person-outline"></ion-icon>  
         </ion-item>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('required') && registroForm.get('nombre')?.touched"> Complete este campo <ion-icon name="close"></ion-icon></div> 
-
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('required') && registroForm.get('nombre')?.touched"> Complete este campo</div> 
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('invalidLength')"> El nombre debe tener entre 4 y 15 letras</div>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('invalidCharacters')"> No se permiten símbolos ni números en el nombre</div>
         <ion-item>
           <ion-label>Apellido:</ion-label>
           <ion-input type="text" id="apellido" placeholder="Apellido" formControlName="apellido"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.dirty"> Complete este campo <ion-icon name="close"></ion-icon></div>
-        
-
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.touched">Complete este campo</div>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('apellido')?.hasError('invalidLength')">El apellido debe tener entre 4 y 15 letras</div>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('apellido')?.hasError('invalidCharacters')">No se permiten símbolos ni números en el apellido</div>
         <ion-item>
           <ion-label>Rut:</ion-label>
           <ion-input type="text" id="rut" formControlName="rut" placeholder="12345678-9"></ion-input>
@@ -103,6 +104,10 @@
           <ion-label>Telefono:</ion-label>
           <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
           <ion-icon name="call-outline"></ion-icon>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.hasError('required') && registroForm.get('telefono')?.touched">Complete este campo</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.hasError('invalidLength')">
+            El teléfono debe tener 8 caracteres <ion-icon name="close"></ion-icon>
+          </div>
         </ion-item>
         
 

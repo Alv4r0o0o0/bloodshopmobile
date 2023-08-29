@@ -28,7 +28,59 @@ function rutValidator(control: AbstractControl): ValidationErrors | null {
 }
 
 
+function nombreValidator(control: AbstractControl): ValidationErrors | null {
+  const nombre = control.value;
 
+  if (!nombre) {
+    return null; // Si el campo está vacío, no hay error
+  }
+
+  const nombreval = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); // Remover caracteres no válidos
+
+  if (nombreval.length < 4 || nombreval.length > 15) {
+    return { invalidLength: true }; // Nombre debe tener entre 4 y 15 letras
+  }
+
+  if (nombre !== nombreval) {
+    return { invalidCharacters: true }; // Nombre contiene caracteres no válidos
+  }
+
+  return null; // Nombre válido
+}
+
+function apellidoValidator(control: AbstractControl): ValidationErrors | null {
+  const apellido = control.value;
+
+  if (!apellido) {
+    return null; // Si el campo está vacío, no hay error
+  }
+
+  const apellidoval = apellido.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); // Remover caracteres no válidos
+
+  if (apellidoval.length < 4 || apellidoval.length > 15) {
+    return { invalidLength: true }; // Apellido debe tener entre 4 y 15 letras
+  }
+
+  if (apellido !== apellidoval) {
+    return { invalidCharacters: true }; // Apellido contiene caracteres no válidos
+  }
+
+  return null; // Apellido válido
+}
+
+function telefonoValidator(control: AbstractControl): ValidationErrors | null {
+  const telefono = control.value;
+
+  if (!telefono) {
+    return null; // Si el campo está vacío, no hay error
+  }
+
+  if (telefono.length !== 9) {
+    return { invalidLength: true }; // Teléfono debe tener exactamente 8 caracteres
+  }
+
+  return null; // Teléfono válido
+}
 
 
 @Component({
@@ -43,9 +95,10 @@ export class RegistroPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.registroForm = this.formBuilder.group({
-      nombre: ['', [Validators.required,]],
-      apellido: ['', Validators.required],
+      nombre: ['', [Validators.required, nombreValidator,]],
+      apellido: ['', Validators.required, apellidoValidator],
       rut: ['', [Validators.required, rutValidator]],
+      telefono: ['', [Validators.required, telefonoValidator]],
     });
   }
   ngOnInit() {
