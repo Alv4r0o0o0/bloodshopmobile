@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,6 +14,7 @@ import { Detailninos2Page } from './detailninos2.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     Detailninos2PageRoutingModule
   ],
   declarations: [Detailninos2Page]

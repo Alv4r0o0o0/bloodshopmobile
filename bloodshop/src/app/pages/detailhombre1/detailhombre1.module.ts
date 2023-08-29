@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ComponentsModule } from 'src/app/components/components.module';
 import { IonicModule } from '@ionic/angular';
 
 import { Detailhombre1PageRoutingModule } from './detailhombre1-routing.module';
@@ -13,6 +13,7 @@ import { Detailhombre1Page } from './detailhombre1.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     Detailhombre1PageRoutingModule
   ],
   declarations: [Detailhombre1Page]
