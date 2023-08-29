@@ -65,7 +65,7 @@
         <h1 class="ion-text-center">BLOODSHOP</h1>
         <h2 class="ion-text-center">REGISTRARSE</h2>
       </div>
-      <form [formGroup]="registroForm">
+      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
         <ion-item>
           <ion-label for="name">Nombre:</ion-label>
           <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>
@@ -83,9 +83,14 @@
 
         <ion-item>
           <ion-label>Rut:</ion-label>
-          <ion-input type="number" name="rut" placeholder="12345678-9"></ion-input>
+          <ion-input type="text" id="rut" formControlName="rut" placeholder="12345678-9"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('rut')?.invalid && (registroForm.get('rut')?.dirty || registroForm.get('rut')?.touched)">
+          <div *ngIf="registroForm.get('rut')?.hasError('required')">El RUT es obligatorio.</div>
+          <div *ngIf="registroForm.get('rut')?.hasError('invalidLength')">El RUT debe tener 9 dígitos.</div>
+          <div *ngIf="registroForm.get('rut')?.hasError('invalidRut')">El RUT no es válido.</div>
+        </div>
         
 
         <ion-item>
