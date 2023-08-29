@@ -30,14 +30,18 @@ function rutValidator(control: AbstractControl): ValidationErrors | null {
 
 function nombreValidator(control: AbstractControl): ValidationErrors | null {
   const nombre = control.value;
-
+  const regex = /^[a-zA-Z0-9\s]+$/;
   if (!nombre) {
     return null; // Si el campo está vacío, no hay error
   }
 
+  if(!regex.test(nombre)){
+    return { invalidCaracteres: true };
+  }
+
   const nombreval = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); // Remover caracteres no válidos
 
-  if (nombreval.length < 4 || nombreval.length > 15) {
+  if (nombreval.length < 3 || nombreval.length > 15) {
     return { invalidLength: true }; // Nombre debe tener entre 4 y 15 letras
   }
 
@@ -82,6 +86,45 @@ function telefonoValidator(control: AbstractControl): ValidationErrors | null {
   return null; // Teléfono válido
 }
 
+function contraseñaValidator(control: AbstractControl){
+  const password = control.value;
+  const mayuscula = /[A-Z]/.test(password);
+  const minuscula = /[a-z]/.test(password);
+  const numero = /[0-9]/.test(password);
+  const caracter = /[!@#$%^&*(),.?":{}|<>]/;
+
+
+  if (password === '') {
+    return { invalidRequired: true}
+  }
+  if (!caracter.test(password)) {
+    return { invalidCaracter: true}
+  }
+
+  if (!mayuscula) {
+    return { invalidMayuscula: true };
+  }
+
+  if (!minuscula) {
+    return { invalidMinuscula: true}
+ 
+  }
+
+  if (!numero) {
+    return { invalidNumber: true}
+  }
+
+  if (password.length < 8) {
+    return { invalidLength: true}
+  }
+  return null;
+}
+
+function confirmarContraseñaValidator(){
+
+  return null;
+}
+
 
 @Component({
   selector: 'app-registro',
@@ -96,9 +139,11 @@ export class RegistroPage implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this.registroForm = this.formBuilder.group({
       nombre: ['', [Validators.required, nombreValidator,]],
-      apellido: ['', Validators.required, apellidoValidator],
+      apellido: ['', Validators.required, apellidoValidator,],
       rut: ['', [Validators.required, rutValidator]],
       telefono: ['', [Validators.required, telefonoValidator]],
+      contraseña:['',[Validators.required, contraseñaValidator]],
+      confclave:['',[Validators.required, confirmarContraseñaValidator ]]
     });
   }
   ngOnInit() {
