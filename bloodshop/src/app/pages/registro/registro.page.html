@@ -58,70 +58,86 @@
 
 <ion-content [fullscreen]="true">
 
-  
+
   <ion-card>
     <ion-card-content>
       <div class="ion-padding">
         <h1 class="ion-text-center">BLOODSHOP</h1>
         <h2 class="ion-text-center">REGISTRARSE</h2>
       </div>
-      <ion-item>
-        <ion-label>Nombre:</ion-label>
-        <ion-input type="text" name="nombre" placeholder="Nombre"></ion-input>
-        <ion-icon name="person-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Apellido:</ion-label>
-        <ion-input type="text" name="apellido" placeholder="Apellido"></ion-input>
-        <ion-icon name="person-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Rut:</ion-label>
-        <ion-input type="text" name="rut" placeholder="12345678-9"></ion-input>
-        <ion-icon name="person-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Fecha de nacimiento:</ion-label>
-        <ion-input style="text-transform: uppercase;" type="date" name="fechnac" placeholder="Fecha de Nacimiento"></ion-input>
+      <form [formGroup]="registroForm">
+        <ion-item>
+          <ion-label for="name">Nombre:</ion-label>
+          <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>
+          <ion-icon name="person-outline"></ion-icon>  
+        </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('required') && registroForm.get('nombre')?.touched"> Complete este campo <ion-icon name="close"></ion-icon></div> 
         
-      </ion-item>
-      <ion-item>
-        <ion-label>Telefono:</ion-label>
-        <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
-        <ion-icon name="call-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Correo:</ion-label>
-        <ion-input style="text-transform: uppercase;" type="text" name="email" placeholder="blood@shop.cl"></ion-input>
-        <ion-icon name="mail-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Confirmar Correo:</ion-label>
-        <ion-input style="text-transform: uppercase;" type="text" name="confemail" placeholder="blood@shop.cl"></ion-input>
-        <ion-icon name="mail-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Contraseña:</ion-label>
-        <ion-input type="text" name="clave" placeholder="Contraseña"></ion-input>
-        <ion-icon name="lock-closed-outline"></ion-icon>
-      </ion-item>
-      <ion-item>
-        <ion-label>Confirmar Contraseña:</ion-label>
-        <ion-input type="text" name="confclave" placeholder="Confirmar Contraseña"></ion-input>
-        <ion-icon name="lock-closed-outline"></ion-icon>
-      </ion-item>
-      
+        <ion-item>
+          <ion-label>Apellido:</ion-label>
+          <ion-input type="text" id="apellido" placeholder="Apellido" formControlName="apellido"></ion-input>
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.dirty"> Complete este campo <ion-icon name="close"></ion-icon></div>
+        
 
-      <ion-row>
-        <ion-col class="ion-padding">
-          <div class="ion-text-center">
-            <ion-button shape="round" size="default" [routerLink]="['/home']">Registrarme</ion-button>
-            <br>
-            <ion-button shape="round" size="small" [routerLink]="['/home']" style="--background: rgb(102, 102, 102);">Volver</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
+        <ion-item>
+          <ion-label>Rut:</ion-label>
+          <ion-input type="text" name="rut" placeholder="12345678-9"></ion-input>
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-item>
+        
 
+        <ion-item>
+          <ion-label>Fecha de nacimiento:</ion-label>
+          <ion-input style="text-transform: uppercase;" type="date" name="fechnac" placeholder="Fecha de Nacimiento"></ion-input>
+        </ion-item>
+        
+        
+        <ion-item>
+          <ion-label>Telefono:</ion-label>
+          <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-item>
+        
+
+        <ion-item>
+          <ion-label>Correo:</ion-label>
+          <ion-input style="text-transform: uppercase;" type="text" name="email"
+            placeholder="blood@shop.cl"></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        
+        
+        <ion-item>
+          <ion-label>Confirmar Correo:</ion-label>
+          <ion-input style="text-transform: uppercase;" type="text" name="confemail"
+            placeholder="blood@shop.cl"></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-label>Contraseña:</ion-label>
+          <ion-input type="text" name="clave" placeholder="Contraseña"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-label>Confirmar Contraseña:</ion-label>
+          <ion-input type="text" name="confclave" placeholder="Confirmar Contraseña"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+
+
+        <ion-row>
+          <ion-col class="ion-padding">
+            <div class="ion-text-center">
+              <ion-button type="submit" shape="round" size="default" [disabled]="!registroForm.valid" >Registrarme</ion-button>
+              <br>
+              <ion-button shape="round" size="small" [routerLink]="['/home']"
+                style="--background: rgb(102, 102, 102);">Volver</ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
+      </form>
       
     </ion-card-content>
   </ion-card>
