@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AnimationController, IonCard } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,14 +8,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChildren('h1Element') h1Elements!: QueryList<ElementRef>;
+  animations: any[] = [];
+
   loginForm: FormGroup; // Declarar el formulario FormGroup
-  
-  constructor(private formBuilder: FormBuilder) {
+
+  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController) {
     // Inicializa el formulario y agrega validaciones
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-  }
 
+
+  }
+  ngAfterViewInit() {
+    this.h1Elements.forEach(h1Element => {
+        const animation = this.animationCtrl
+            .create()
+            .addElement(h1Element.nativeElement)
+            .duration(1500)
+            .iterations(Infinity)
+            .direction('alternate')
+            .fromTo('background', 'blue', 'var(--background)');
+        this.animations.push(animation);
+    });
+
+    this.playAll();
+}
+
+playAll() {
+    this.animations.forEach(animation => {
+        if (animation) {
+            animation.play();
+        }
+    });
+}
 }
