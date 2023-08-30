@@ -8,7 +8,7 @@ import { AnimationController, IonCard } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  @ViewChildren('h1Element') h1Elements!: QueryList<ElementRef>;
+  @ViewChildren('card1') elementsToAnimate!: QueryList<ElementRef>;
   animations: any[] = [];
 
   loginForm: FormGroup; // Declarar el formulario FormGroup
@@ -23,14 +23,15 @@ export class HomePage {
 
   }
   ngAfterViewInit() {
-    this.h1Elements.forEach(h1Element => {
+    this.elementsToAnimate.forEach(element => {
         const animation = this.animationCtrl
             .create()
-            .addElement(h1Element.nativeElement)
+            .addElement(element.nativeElement)
             .duration(1500)
             .iterations(Infinity)
             .direction('alternate')
             .fromTo('background', 'blue', 'var(--background)');
+        
         this.animations.push(animation);
     });
 

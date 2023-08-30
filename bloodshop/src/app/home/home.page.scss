@@ -63,17 +63,16 @@ ion-col ion-button{
 div ion-button{
   width: 80%;
 }
-h1 {
-  
-  height: 50px;
+.animate-me {
+  height: 35px;
   color: white;
   opacity: 0.5;
-  background: blue;
+  background: rgb(153, 0, 255);
   --background: red;
 }
 
 @media (prefers-color-scheme: dark) {
-  h1 {
+  .animate-me {
     --background: green;
   }
 }
