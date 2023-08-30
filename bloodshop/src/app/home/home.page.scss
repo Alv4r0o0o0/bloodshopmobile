@@ -63,3 +63,17 @@ ion-col ion-button{
 div ion-button{
   width: 80%;
 }
+h1 {
+  
+  height: 50px;
+  color: white;
+  opacity: 0.5;
+  background: blue;
+  --background: red;
+}
+
+@media (prefers-color-scheme: dark) {
+  h1 {
+    --background: green;
+  }
+}

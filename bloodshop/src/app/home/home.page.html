@@ -3,21 +3,22 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content>
-      <div class="ion-padding">
-        <h1 class="ion-text-center">BLOODSHOP</h1>
+      <div shape="round" class="ion-padding">
+        <h1 #h1Element  class="ion-text-center">BLOODSHOP</h1>
       </div>
-      <form [formGroup]="loginForm" >
+      <form [formGroup]="loginForm">
         <ion-item lines="full">
           <ion-label>Usuario: </ion-label>
           <ion-input type="text" formControlName="email"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
-      
-        <div style="color: red;" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
-          Ingrese un usuario (email).
+
+        <div style="color: red;"
+          *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          <div>Ingrese un usuario (email). </div>
         </div>
         <div style="color: red;" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
-          Debe ser un correo válido.
+          <div> Debe ser un correo válido. </div>
         </div>
 
         <ion-item lines="full">
@@ -25,14 +26,16 @@
           <ion-input type="password" formControlName="password"></ion-input>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
-        <div style="color: red;" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+        <div style="color: red;"
+          *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
           Ingrese una contraseña.
         </div>
       </form>
-      <ion-row>   
+      <ion-row>
         <ion-col class="ion-padding">
           <div class="ion-text-center">
-            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" [routerLink]="['/hombre']">Iniciar Sesión</ion-button>
+            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" [routerLink]="['/hombre']">Iniciar
+              Sesión</ion-button>
             <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
