@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-detailninos3',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Detailninos3Page implements OnInit {
 
-  constructor() { }
+  elegirForm : FormGroup;
+
+  constructor(private formBuilder: FormBuilder) { 
+    this.elegirForm = this.formBuilder.group({
+      select: ['', [Validators.required]],
+      select1: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit() {
   }

@@ -12,29 +12,44 @@
     <ion-card-subtitle>Eleva tu estilo y comodidad con nuestra zapatilla. Diseño moderno y confort excepcional para tus pasos audaces. ¡Consíguela ahora!</ion-card-subtitle>
   </ion-card-header>
 
-  <ion-list>
-    <ion-item>
-      <ion-select aria-label="fruit" placeholder="Seleccione talla">
-        <ion-select-option value="apples">10 US</ion-select-option>
-        <ion-select-option value="oranges">9.5 US</ion-select-option>
-        <ion-select-option value="bananas">9 US</ion-select-option>
-        <ion-select-option value="bananas">8.5 US</ion-select-option>
-        <ion-select-option value="bananas">8 US</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+  <form [formGroup]="elegirForm">
+    <ion-list>
+      <ion-item>
+   
+          <ion-select aria-label="fruit" placeholder="Seleccione talla" formControlName="select">
+            <ion-select-option value="apples">10 US</ion-select-option>
+            <ion-select-option value="oranges">9.5 US</ion-select-option>
+            <ion-select-option value="bananas">9 US</ion-select-option>
+            <ion-select-option value="bananas">8.5 US</ion-select-option>
+            <ion-select-option value="bananas">8 US</ion-select-option>
+          </ion-select>
+        
+      </ion-item>
+      <div style="color: red; margin-left: 10px;"  *ngIf="elegirForm.get('select')?.hasError('required') && elegirForm.get('select')?.touched">
+        Ingrese una talla
+      </div>
+    </ion-list>
 
-  <ion-list>
-    <ion-item>
-      <ion-select aria-label="fruit" placeholder="Sleccione cantidad">
-        <ion-select-option value="apples">1</ion-select-option>
-        <ion-select-option value="oranges">2</ion-select-option>
-        <ion-select-option value="bananas">3 </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-button expand="block">Comprar</ion-button> <ion-button expand="block">Añadir al carro</ion-button>
-  </ion-list>
-
+    <ion-list>
+      <ion-item>
+   
+          <ion-select aria-label="fruit" placeholder="Seleccione cantidad" formControlName="select1">
+            <ion-select-option value="apples">1</ion-select-option>
+            <ion-select-option value="oranges">2</ion-select-option>
+            <ion-select-option value="bananas">3</ion-select-option>
+            
+          </ion-select>
+        
+      </ion-item>
+      <div style="color: red; margin-left: 10px;"  *ngIf="elegirForm.get('select1')?.hasError('required') && elegirForm.get('select1')?.touched">
+        Ingrese una cantidad
+      </div>
+      
+      <ion-button expand="block" [disabled]="!elegirForm.valid">Comprar</ion-button>
+      <ion-button expand="block">Añadir al carro</ion-button>
+      
+    </ion-list>
+  </form>
   
 
 

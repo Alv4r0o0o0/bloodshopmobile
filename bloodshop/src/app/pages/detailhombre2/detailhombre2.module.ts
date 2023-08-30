@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 import { IonicModule } from '@ionic/angular';
@@ -15,7 +15,8 @@ import { Detailhombre2Page } from './detailhombre2.page';
     FormsModule,
     IonicModule,
     ComponentsModule,
-    Detailhombre2PageRoutingModule
+    Detailhombre2PageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [Detailhombre2Page]
 })
