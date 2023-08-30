@@ -12,6 +12,7 @@ export class Detailhombre1Page implements OnInit {
   constructor(private formBuilder: FormBuilder) { 
     this.elegirForm = this.formBuilder.group({
       select: ['', [Validators.required]],
+      select1: ['', [Validators.required]],
     });
   }
 

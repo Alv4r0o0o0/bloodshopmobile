@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 import { IonicModule } from '@ionic/angular';
@@ -15,7 +15,8 @@ import { Detailmujer3Page } from './detailmujer3.page';
     FormsModule,
     IonicModule,
     ComponentsModule,
-    Detailmujer3PageRoutingModule
+    Detailmujer3PageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [Detailmujer3Page]
 })

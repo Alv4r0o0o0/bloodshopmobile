@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 import { IonicModule } from '@ionic/angular';
@@ -15,7 +15,8 @@ import { Detailninos3Page } from './detailninos3.page';
     FormsModule,
     IonicModule,
     ComponentsModule,
-    Detailninos3PageRoutingModule
+    Detailninos3PageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [Detailninos3Page]
 })
