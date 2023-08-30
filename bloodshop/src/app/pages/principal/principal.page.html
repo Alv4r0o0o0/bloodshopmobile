@@ -1,0 +1,81 @@
+
+
+
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+
+  <img alt="Silhouette of mountains" src="https://thn.pe/cdn/shop/files/banner-home-gamma-force-21082023.jpg?v=1692640908&width=3840" />
+  <ion-card-header>
+    <ion-card-title>Las mejores zapatillas a tu alcanze</ion-card-title>
+    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+  </ion-card-header>
+
+
+
+
+
+  <ion-grid [fixed]="true">
+    <ion-row>
+      
+      <ion-col>
+        
+        <img [routerLink]="['/hombre']"src="https://images.pexels.com/photos/2896840/pexels-photo-2896840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  class="tamaño" alt="">
+        <ion-button [routerLink]="['/hombre']" >Haz clic aquí</ion-button>
+
+
+      </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      
+      <ion-col>
+        <img [routerLink]="['/mujer']"  src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="tamaño"  alt="">
+        <ion-button [routerLink]="['/mujer']" >Haz clic aquí</ion-button>
+        
+      </ion-col>
+     
+      
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img  [routerLink]="['/ninos']" src="https://images.pexels.com/photos/4450326/pexels-photo-4450326.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  class="tamaño" alt="">
+        <ion-button [routerLink]="['/ninos']" >Haz clic aquí</ion-button>
+      </ion-col>
+      
+      
+    </ion-row>
+  </ion-grid>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col><ion-card-content>
+          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
+          Zapatilla Nike Air Max Plus
+       </ion-card-content>
+     
+       <ion-button fill="clear" [routerLink]="['/detailhombre1']" >Comprar</ion-button>
+       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+
+
+ 
+
+
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title>Footer</ion-title>
+    </ion-toolbar>
+  </ion-footer>
+
+
+
+
+
+
+

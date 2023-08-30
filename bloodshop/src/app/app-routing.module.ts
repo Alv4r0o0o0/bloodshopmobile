@@ -86,6 +86,10 @@ const routes: Routes = [
     path: 'detailninos4',
     loadChildren: () => import('./pages/detailninos4/detailninos4.module').then( m => m.Detailninos4PageModule)
   },
+  {
+    path: 'principal',
+    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+  },
 
 ];
 
