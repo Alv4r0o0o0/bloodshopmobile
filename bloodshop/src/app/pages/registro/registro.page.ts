@@ -72,15 +72,15 @@ function apellidoValidator(control: AbstractControl): ValidationErrors | null {
   return null; // Apellido válido
 }
 
-function telefonoValidator(control: AbstractControl): ValidationErrors | null {
+function telefonoValidator(control: AbstractControl){
   const telefono = control.value;
 
   if (!telefono) {
     return null; // Si el campo está vacío, no hay error
   }
 
-  if (telefono.length !== 9) {
-    return { invalidLength: true }; // Teléfono debe tener exactamente 8 caracteres
+  if (telefono.length > 9) {
+    return { invalidLengthTel: true }; // Teléfono debe tener exactamente 8 caracteres
   }
 
   return null; // Teléfono válido
@@ -147,13 +147,6 @@ export class RegistroPage implements OnInit {
     });
   }
   ngOnInit() {
-  }
-  onSubmit() {
-    if (this.registroForm) {
-      if (this.registroForm.valid) {
-        // El formulario es válido, realizar acción
-      }
-    }
   }
 }
 

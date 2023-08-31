@@ -9,7 +9,7 @@
         <h1 class="ion-text-center">BLOODSHOP</h1>
         <h2 class="ion-text-center">REGISTRARSE</h2>
       </div>
-      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="registroForm">
         <ion-item>
           <ion-label for="name">Nombre:</ion-label>
           <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>
@@ -23,7 +23,7 @@
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('nombre')?.hasError('invalidCaracteres')"> No
           se permiten símbolos ni números en el nombre</div>
 
-          
+
         <ion-item>
           <ion-label for="apellido">Apellido:</ion-label>
           <ion-input type="text" id="apellido" placeholder="Apellido" formControlName="apellido"></ion-input>
@@ -58,13 +58,13 @@
 
         <ion-item>
           <ion-label>Telefono:</ion-label>
-          <ion-input type="text" name="telefono" placeholder="912345678"></ion-input>
+          <ion-input type="number" name="telefono" placeholder="912345678"></ion-input>
           <ion-icon name="call-outline"></ion-icon>
           <div style="color: red; margin-top: 3px;"
             *ngIf="registroForm.get('telefono')?.hasError('required') && registroForm.get('telefono')?.touched">Complete
             este campo</div>
-          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.hasError('invalidLength')">
-            El teléfono debe tener 8 caracteres <ion-icon name="close"></ion-icon>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.hasError('invalidLengthLen')">
+            El teléfono debe tener 8 números <ion-icon name="close"></ion-icon>
           </div>
         </ion-item>
 
@@ -85,36 +85,50 @@
         </ion-item>
         <ion-item>
           <ion-label>Contraseña:</ion-label>
-          <ion-input type="text" name="clave" placeholder="Contraseña" formControlName="contraseña" ></ion-input>
+          <ion-input type="password" name="clave" placeholder="Contraseña" formControlName="contraseña"></ion-input>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
         <div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('required') && registroForm.get('contraseña')?.dirty" >Complete este campo</div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidLength') && registroForm.get('contraseña')?.dirty">La contraseña debe tener minimo 8 caracteres</div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidMayuscula') && registroForm.get('contraseña')?.dirty">Añade al menos 1 mayuscula</div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidCaracter') && registroForm.get('contraseña')?.dirty">Añade al menos 1 caracter especial</div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidMinuscula') && registroForm.get('contraseña')?.dirty">Añade al menos 1 minuscula</div>
-        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidNumber') && registroForm.get('contraseña')?.dirty">Añade al menos 1 numero</div>
-      </div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('required') && registroForm.get('contraseña')?.dirty">
+            Complete este campo</div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('invalidLength') && registroForm.get('contraseña')?.dirty">
+            La contraseña debe tener minimo 8 caracteres</div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('invalidMayuscula') && registroForm.get('contraseña')?.dirty">
+            Añade al menos 1 mayuscula</div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('invalidCaracter') && registroForm.get('contraseña')?.dirty">
+            Añade al menos 1 caracter especial</div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('invalidMinuscula') && registroForm.get('contraseña')?.dirty">
+            Añade al menos 1 minuscula</div>
+          <div style="color: red; margin-top: 3px;"
+            *ngIf="registroForm.get('contraseña')?.hasError('invalidNumber') && registroForm.get('contraseña')?.dirty">
+            Añade al menos 1 numero</div>
+        </div>
 
-          <ion-item>
-            <ion-label>Confirmar Contraseña:</ion-label>
-            <ion-input type="text" name="confclave" placeholder="Confirmar Contraseña" formControlName="confclave"></ion-input>
-            <ion-icon name="lock-closed-outline"></ion-icon>
-          </ion-item>
-          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidLength')">La contraseña no coincide</div>
+        <ion-item>
+          <ion-label>Confirmar Contraseña:</ion-label>
+          <ion-input type="password" name="confclave" placeholder="Confirmar Contraseña"
+            formControlName="confclave"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('invalidLength')">La
+          contraseña no coincide</div>
 
-          <ion-row>
-            <ion-col class="ion-padding">
-              <div class="ion-text-center">
-                <ion-button type="submit" shape="round" size="default"
-                  [disabled]="!registroForm.valid">Registrarme</ion-button>
-                <br>
-                <ion-button shape="round" size="small" [routerLink]="['/home']"
-                  style="--background: rgb(102, 102, 102);">Volver</ion-button>
-              </div>
-            </ion-col>
-          </ion-row>
+        <ion-row>
+          <ion-col class="ion-padding">
+            <div class="ion-text-center">
+              <ion-button type="submit" shape="round" size="default"
+                [disabled]="!registroForm.valid">Registrarme</ion-button>
+              <br>
+              <ion-button shape="round" size="small" [routerLink]="['/home']"
+                style="--background: rgb(102, 102, 102);">Volver</ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
       </form>
 
     </ion-card-content>
