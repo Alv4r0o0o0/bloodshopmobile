@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mujer.page.scss'],
 })
 export class MujerPage implements OnInit {
-
+  myDate = new Date();
   constructor() { }
 
   ngOnInit() {

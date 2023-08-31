@@ -110,6 +110,10 @@ const routes: Routes = [
     path: 'adminninos',
     loadChildren: () => import('./pages/adminninos/adminninos.module').then( m => m.AdminninosPageModule)
   },
+  {
+    path: 'administrador',
+    loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
+  },
 
 ];
 

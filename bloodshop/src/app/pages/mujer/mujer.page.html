@@ -6,7 +6,7 @@
   <ion-card>
     <img alt="Silhouette of mountains" src="https://thn.pe/cdn/shop/files/banner-home-gamma-force-21082023.jpg?v=1692640908&width=3840" />
     <ion-card-header>
-      <ion-card-title>Las mejores zapatillas a tu alcanze</ion-card-title>
+      <ion-card-title>Las mejores zapatillas a tu alcance</ion-card-title>
       <ion-card-subtitle>Nike Puma Adidas y Jordan</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
@@ -24,15 +24,15 @@
           Nike Air Force 1 '07
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailmujer1']" >Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+       <ion-button  [routerLink]="['/detailmujer1']" >Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button> </ion-col>
         <ion-col><ion-card-content>
           <img alt="Silhouette of mountains" src="https://www.blockstore.cl/cdn/shop/products/p-38767208-11_400x400_crop_center.jpg?v=1669639141" />
            Puma Rider Fv Future
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailmujer2']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+       <ion-button  [routerLink]="['/detailmujer2']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button></ion-col>
         
       </ion-row>
       <ion-row>
@@ -41,15 +41,15 @@
           ADIDAS RACER TR21 
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailmujer3']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+       <ion-button  [routerLink]="['/detailmujer3']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button> </ion-col>
         <ion-col><ion-card-content>
           <img alt="Silhouette of mountains" src="https://falabella.scene7.com/is/image/Falabella/50106347_1" />
           Nike Air max intrlk  
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailmujer4']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+       <ion-button  [routerLink]="['/detailmujer4']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button></ion-col>
         
       </ion-row>
     </ion-grid>
@@ -57,6 +57,7 @@
 
     <ion-footer>
       <ion-toolbar>
+        <p> {{myDate | date}} </p>
         <p class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
       </ion-toolbar>
     </ion-footer>

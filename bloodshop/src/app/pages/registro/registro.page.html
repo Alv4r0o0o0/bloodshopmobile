@@ -19,6 +19,7 @@
           <div *ngIf="registroForm.get('nombre')?.hasError('required')">El nombre es obligatorio.</div>
           <div *ngIf="registroForm.get('nombre')?.hasError('maxlength')">El nombre debe tener 10 caracteres máximo.</div>
           <div *ngIf="registroForm.get('nombre')?.hasError('minlength')">El nombre debe tener 3 caracteres minimo</div>
+          <div *ngIf="registroForm.get('nombre')?.hasError('pattern')">El nombre no puede contener números</div>
         </div>
 
 
@@ -31,6 +32,7 @@
           <div *ngIf="registroForm.get('apellido')?.hasError('required')">El apellido es obligatorio.</div>
           <div *ngIf="registroForm.get('apellido')?.hasError('maxlength')">El apellido debe tener 10 caracteres máximo.</div>
           <div *ngIf="registroForm.get('apellido')?.hasError('minlength')">El apellido debe tener 3 caracteres minimo</div>
+          <div *ngIf="registroForm.get('apellido')?.hasError('pattern')">El nombre no puede contener números</div>
         </div>
 
         <ion-item>

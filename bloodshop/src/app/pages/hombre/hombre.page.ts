@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hombre.page.scss'],
 })
 export class HombrePage implements OnInit {
+  myDate = new Date();
 
   constructor() { }
 

@@ -8,7 +8,7 @@
     
     
     <ion-card-header>
-      <ion-card-title>Las mejores zapatillas a tu alcanze</ion-card-title>
+      <ion-card-title>Las mejores zapatillas a tu alcance</ion-card-title>
       <ion-card-subtitle>Nike Puma Adidas y Jordan</ion-card-subtitle>
     </ion-card-header>
   
@@ -28,8 +28,8 @@
           Zapatilla Nike Air Max Plus
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailhombre1']" >Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button> 
+       <ion-button  [routerLink]="['/detailhombre1']" >Comprar</ion-button>
+       <ion-button>Añadir al carro</ion-button> 
       
       </ion-col>
        
@@ -40,8 +40,8 @@
           Zapatillas Adidas Adi Ease
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailhombre2']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+       <ion-button  [routerLink]="['/detailhombre2']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button></ion-col>
         
       </ion-row>
       <ion-row>
@@ -50,15 +50,15 @@
           Air Jordan 4 Retro BG 
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailhombre3']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button> </ion-col>
+       <ion-button  [routerLink]="['/detailhombre3']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button> </ion-col>
         <ion-col><ion-card-content>
           <img alt="Silhouette of mountains" src="https://www.puma-mexico.com.mx/images/puma-mexico/Tenis_Puma_Roma_Basic_Summer_JR_Ni%C3%B1a_Neg-AJX958617.jpg" />
           Puma Roma Basic  
        </ion-card-content>
      
-       <ion-button fill="clear" [routerLink]="['/detailhombre4']">Comprar</ion-button>
-       <ion-button fill="clear">Añadir al carro</ion-button></ion-col>
+       <ion-button  [routerLink]="['/detailhombre4']">Comprar</ion-button>
+       <ion-button >Añadir al carro</ion-button></ion-col>
         
       </ion-row>
     </ion-grid>
@@ -67,6 +67,7 @@
     
     <ion-footer>
       <ion-toolbar>
+        <p> {{myDate | date}} </p>
         <p class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
       </ion-toolbar>
     </ion-footer>

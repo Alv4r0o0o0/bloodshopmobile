@@ -103,6 +103,7 @@ function validatePhoneNumber(control: FormControl) {
 export class RegistroPage implements OnInit {
 
   pattern = {
+    nombre: /^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/,
     telefono: /^\d{1,9}$/,
     correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
@@ -112,8 +113,8 @@ export class RegistroPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.registroForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
+      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       rut: ['', [Validators.required, this.validateRutFormat.bind(this)]],
       fechnac: ['', [Validators.required, validateBirthDate]],
       telefono: ['', [Validators.required, validatePhoneNumber]],
