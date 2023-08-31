@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsMo
 import { HomePageRoutingModule } from './home-routing.module';
 import { ComponentsModule } from '../components/components.module';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatSliderModule} from '@angular/material/slider';
     HomePageRoutingModule,
     ReactiveFormsModule,
     ComponentsModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressBarModule
   ],
   declarations: [HomePage]
 })
