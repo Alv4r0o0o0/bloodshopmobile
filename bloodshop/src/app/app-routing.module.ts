@@ -94,6 +94,22 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'adminhome',
+    loadChildren: () => import('./pages/adminhome/adminhome.module').then( m => m.AdminhomePageModule)
+  },
+  {
+    path: 'adminhombre',
+    loadChildren: () => import('./pages/adminhombre/adminhombre.module').then( m => m.AdminhombrePageModule)
+  },
+  {
+    path: 'adminmujer',
+    loadChildren: () => import('./pages/adminmujer/adminmujer.module').then( m => m.AdminmujerPageModule)
+  },
+  {
+    path: 'adminninos',
+    loadChildren: () => import('./pages/adminninos/adminninos.module').then( m => m.AdminninosPageModule)
+  },
 
 ];
 

@@ -37,6 +37,7 @@ export class EditarperfilPage implements OnInit {
     private animationCtrl: AnimationController,
     private formBuilder: FormBuilder
   ) {
+    
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.nombreRecibido = this.router.getCurrentNavigation()?.extras?.state?.['nombreEnviado'];
