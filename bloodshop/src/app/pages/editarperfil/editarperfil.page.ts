@@ -10,13 +10,13 @@ import { AnimationController, IonCard } from '@ionic/angular';
 })
 export class EditarperfilPage implements OnInit {
   @ViewChild(IonCard, { read: ElementRef }) card!: ElementRef<HTMLIonCardElement>;
-  nombreRecibido: number = 0;
-  apellidoRecibido: string = "";
-  rutRecibido: number = 0;
-  fechRecibido: string = "";
-  telefonoRecibido: number = 0;
-  emailRecibido: string = "";
-  contrasenaRecibido: string = "";
+  nombreRecibido: string = "Fabian";
+  apellidoRecibido: string = "Rojas";
+  rutRecibido: string = "12345678-9";
+  fechRecibido: string = "01/01/2000";
+  telefonoRecibido: number = 912345678;
+  emailRecibido: string = "f.rojas@gmail.com";
+  contrasenaRecibido: string = "asdfgh";
 
   private animation!: Animation;
 
@@ -26,6 +26,7 @@ export class EditarperfilPage implements OnInit {
     private animationCtrl: AnimationController,
     private formBuilder: FormBuilder
   ) {
+    
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.nombreRecibido = this.router.getCurrentNavigation()?.extras?.state?.['nombreEnviado'];
