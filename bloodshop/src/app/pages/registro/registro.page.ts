@@ -1,18 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-function validateRut(control: FormControl): ValidationErrors | null {
-  const rut = control.value;
+const RutValidator = {
+  validaRut(rutCompleto: string): boolean {
+    rutCompleto = rutCompleto.replace('‐', '-');
 
-  if (!rut) {
-    return null; // No hay error si el campo está vacío
+    if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(rutCompleto)) {
+      return false;
+    }
+
+    const tmp = rutCompleto.split('-');
+    const digv = tmp[1].toUpperCase();
+    const rut = tmp[0];
+
+    return this.dv(rut) === digv;
+  },
+  
+  dv(T: string): string {
+    let M = 0, S = 1;
+    for (let i = T.length - 1; i >= 0; i--) {
+      S = (S + parseInt(T.charAt(i)) * (9 - M++ % 6)) % 11;
+    }
+    return S ? (S - 1).toString() : 'k';
   }
+};
 
-  if (!/^(\d{1,2}(\.\d{3}){2}-[\dkK])$/.test(rut)) {
-    return { invalidRut: true }; // Error si el formato no coincide
-  }
-  return null; 
-}
 
 function validateBirthDate(control: FormControl) {
   const currentDate = new Date();
@@ -25,8 +37,47 @@ function validateBirthDate(control: FormControl) {
   if (selectedDate >= currentDate) {
     return { futureDate: true }; // Error si es una fecha futura
   }
+  // Validación de mayor de edad (18 años)
+  const minAge = 18;
+  const minAgeDate = new Date();
+  minAgeDate.setFullYear(minAgeDate.getFullYear() - minAge);
 
+  if (selectedDate > minAgeDate) {
+    return { underage: true }; // Error si es menor de edad
+  }
+
+  const maxAge = 120;
+  const maxAgeDate = new Date();
+  maxAgeDate.setFullYear(maxAgeDate.getFullYear() - maxAge);
+
+  if (selectedDate < maxAgeDate) {
+    return { over100: true }; // Error si tiene más de 100 años
+  }
   return null; // Si la fecha es válida
+}
+
+
+
+function matchPassword(control: FormControl) {
+  const contraseña = control.root.get('contraseña'); // Obtén el control de contraseña original
+  const confirmcontraseña = control.value; // Valor de confirmación de contraseña
+
+  if (contraseña && confirmcontraseña !== contraseña.value) {
+    return { mismatch: true }; // Error si las contraseñas no coinciden
+  }
+
+  return null; // Si las contraseñas coinciden
+}
+
+function matchEmail(control: FormControl) {
+  const correo = control.root.get('correo'); // Obtén el control de correo electrónico original
+  const confirmcorreo = control.value; // Valor de confirmación de correo electrónico
+
+  if (correo && confirmcorreo !== correo.value) {
+    return { mismatched: true }; // Error si los correos electrónicos no coinciden
+  }
+
+  return null; // Si los correos electrónicos coinciden
 }
 
 function validatePhoneNumber(control: FormControl) {
@@ -36,10 +87,8 @@ function validatePhoneNumber(control: FormControl) {
     return null; // No hay error si el campo está vacío
   }
 
-  // Expresión regular para validar números de teléfono en formatos comunes
-  const phonePattern = /^(?:\+\d{1,3}[- ]?)?(?:\(\d{1,4}\) ?)?\d{4,}$/;
-
-  if (!phonePattern.test(phoneNumber)) {
+  // Validar usando una expresión regular (ajusta según tus necesidades)
+  if (!/^[0-9]{9}$/.test(phoneNumber)) {
     return { invalidPhoneNumber: true }; // Error si el formato no coincide
   }
 
@@ -52,28 +101,34 @@ function validatePhoneNumber(control: FormControl) {
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-  
-pattern={
-  nombre: /^(?=.*[A-Z])/,
-  rut: /^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/,
-  telefono: /^\d{1,9}$/,
-  correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-  contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
 
-}
-  
+  pattern = {
+    telefono: /^\d{1,9}$/,
+    correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+  }
+
   registroForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.registroForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
-      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],  
-      rut: ['', [Validators.required, Validators.pattern(this.pattern.rut), validateRut]],
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      rut: ['', [Validators.required, this.validateRutFormat.bind(this)]],
       fechnac: ['', [Validators.required, validateBirthDate]],
-      telefono: ['', [Validators.required, Validators.pattern(this.pattern.telefono), validatePhoneNumber]],
+      telefono: ['', [Validators.required, validatePhoneNumber]],
       correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]],
-      contraseña:['',[Validators.required, Validators.minLength(8), Validators.pattern(this.pattern.contraseña)]],
+      confcorreo: ['', [Validators.required, matchEmail]],
+      contraseña: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.pattern.contraseña)]],
+      confcontraseña: ['', [Validators.required, matchPassword]],
     });
+  }
+  validateRutFormat(control: FormControl) {
+    const rut = control.value;
+    if (!RutValidator.validaRut(rut)) {
+      return { invalidRut: true };
+    }
+    return null;
   }
   ngOnInit() {
   }

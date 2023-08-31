@@ -40,8 +40,7 @@
         </ion-item>
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('rut')?.invalid && (registroForm.get('rut')?.dirty || registroForm.get('rut')?.touched)">
           <div *ngIf="registroForm.get('rut')?.hasError('required')">El RUT es obligatorio.</div>
-          <div *ngIf="registroForm.get('rut')?.hasError('invalidRut')">El RUT no es valido.</div>
-          <div *ngIf="registroForm.get('rut')?.hasError('pattern')">El formato del RUT no es valido.</div>
+          <div *ngIf="registroForm.get('rut')?.hasError('invalidRut')">El RUT es invalido.</div>
         </div>
 
         <ion-item>
@@ -51,7 +50,10 @@
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('fechnac')?.invalid && (registroForm.get('fechnac')?.dirty || registroForm.get('fechnac')?.touched)">
           <div *ngIf="registroForm.get('fechnac')?.hasError('required')">La fecha de nacimiento es obligatorio.</div>
           <div *ngIf="registroForm.get('fechnac')?.hasError('invalidDate')">La fecha de nacimiento no es valido.</div>
+          <div *ngIf="registroForm.get('fechnac')?.hasError('over100')">Tienes más de 120 años.</div>
           <div *ngIf="registroForm.get('fechnac')?.hasError('futureDate')">La fecha de nacimiento no puede ser del futuro.</div>
+          <div *ngIf="registroForm.get('fechnac')?.hasError('underage')">Debes ser mayor de 18 años</div>
+
         </div>
 
 
@@ -63,7 +65,6 @@
         </ion-item>
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.invalid && (registroForm.get('telefono')?.dirty || registroForm.get('telefono')?.touched)">
           <div *ngIf="registroForm.get('telefono')?.hasError('required')">El telefono es obligatorio.</div>
-          <div *ngIf="registroForm.get('telefono')?.hasError('pattern')">El telefono debe tener maximo 9 digitos.</div>
           <div *ngIf="registroForm.get('telefono')?.hasError('invalidPhoneNumber')">El telefono no es valido.</div>
         </div>
 
@@ -81,10 +82,13 @@
 
         <ion-item>
           <ion-label>Confirmar Correo:</ion-label>
-          <ion-input style="text-transform: uppercase;" type="text" name="confemail"
-            placeholder="blood@shop.cl"></ion-input>
+          <ion-input style="text-transform: uppercase;" type="text" name="confcorreo" formControlName="confcorreo" placeholder="blood@shop.cl"></ion-input>
           <ion-icon name="mail-outline"></ion-icon>
         </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcorreo')?.invalid && (registroForm.get('confcorreo')?.dirty || registroForm.get('confcorreo')?.touched)">
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcorreo')?.hasError('required')">Confirma tu correo.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcorreo')?.hasError('mismatched')">La correo no coincide.</div>
+        </div>
 
         <ion-item>
           <ion-label>Contraseña:</ion-label>
@@ -92,18 +96,21 @@
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.invalid && (registroForm.get('contraseña')?.dirty || registroForm.get('contraseña')?.touched)">
-          <div *ngIf="registroForm.get('contraseña')?.hasError('required')">La contraseña es obligatorio.</div>
-          <div *ngIf="registroForm.get('contraseña')?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</div>
-          <div *ngIf="registroForm.get('contraseña')?.hasError('pattern')">La contraseña debe tener al menos una mayúscula, una minúscula, un número y un caracter especial.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('required')">La contraseña es requerida.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('contraseña')?.hasError('pattern')">La contraseña debe tener al menos 1 mayuscula, 1 minuscula, 1 numero y 1 caracter especial.</div>
         </div>
 
 
         <ion-item>
           <ion-label>Confirmar Contraseña:</ion-label>
-          <ion-input type="password" name="confclave" placeholder="Confirmar Contraseña"
-            formControlName="confclave"></ion-input>
+          <ion-input type="password" name="confclave" placeholder="Confirmar Contraseña" formControlName="confcontraseña"></ion-input>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcontraseña')?.invalid && (registroForm.get('confcontraseña')?.dirty || registroForm.get('confcontraseña')?.touched)">
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcontraseña')?.hasError('required')">Confirma tu contraseña.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('confcontraseña')?.hasError('mismatch')">La contraseña no coincide.</div>
+        </div>
 
         <ion-row>
           <ion-col class="ion-padding">
