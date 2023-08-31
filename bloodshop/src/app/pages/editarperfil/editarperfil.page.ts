@@ -17,6 +17,17 @@ export class EditarperfilPage implements OnInit {
   telefonoRecibido: number = 0;
   emailRecibido: string = "";
   contrasenaRecibido: string = "";
+  lista: any = [
+    {
+      nombre: "",
+      apellido:"",
+      rut:"",
+      fecha:"",
+      telefono:"",
+      email:"",
+      contraseña:"",
+    }
+  ];
 
   private animation!: Animation;
 
