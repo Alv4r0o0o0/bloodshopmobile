@@ -63,7 +63,7 @@
         </ion-item>
         <div style="color: red; margin-top: 3px;" *ngIf="registroForm.get('telefono')?.invalid && (registroForm.get('telefono')?.dirty || registroForm.get('telefono')?.touched)">
           <div *ngIf="registroForm.get('telefono')?.hasError('required')">El telefono es obligatorio.</div>
-          <div *ngIf="registroForm.get('telefono')?.hasError('max')">El telefono debe tener maximo 9 digitos.</div>
+          <div *ngIf="registroForm.get('telefono')?.hasError('pattern')">El telefono debe tener maximo 9 digitos.</div>
           <div *ngIf="registroForm.get('telefono')?.hasError('invalidPhoneNumber')">El telefono no es valido.</div>
         </div>
 
