@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,6 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./detailhombre1.page.scss'],
 })
 export class Detailhombre1Page implements OnInit {
+  
+  myDate = new Date();
+  
+  
+  
   elegirForm : FormGroup;
 
   constructor(private formBuilder: FormBuilder) { 
@@ -15,6 +21,7 @@ export class Detailhombre1Page implements OnInit {
       select1: ['', [Validators.required]],
     });
   }
+
 
 
   ngOnInit() {
