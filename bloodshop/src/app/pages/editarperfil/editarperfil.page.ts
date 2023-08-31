@@ -10,13 +10,24 @@ import { AnimationController, IonCard } from '@ionic/angular';
 })
 export class EditarperfilPage implements OnInit {
   @ViewChild(IonCard, { read: ElementRef }) card!: ElementRef<HTMLIonCardElement>;
-  nombreRecibido: string = "Fabian";
-  apellidoRecibido: string = "Rojas";
-  rutRecibido: string = "12345678-9";
-  fechRecibido: string = "01/01/2000";
-  telefonoRecibido: number = 912345678;
-  emailRecibido: string = "f.rojas@gmail.com";
-  contrasenaRecibido: string = "asdfgh";
+  nombreRecibido: number = 0;
+  apellidoRecibido: string = "";
+  rutRecibido: number = 0;
+  fechRecibido: string = "";
+  telefonoRecibido: number = 0;
+  emailRecibido: string = "";
+  contrasenaRecibido: string = "";
+  lista: any = [
+    {
+      nombre: "",
+      apellido:"",
+      rut:"",
+      fecha:"",
+      telefono:"",
+      email:"",
+      contraseña:"",
+    }
+  ];
 
   private animation!: Animation;
 

@@ -1,130 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-function rutValidator(control: AbstractControl): ValidationErrors | null {
+function validateRut(control: FormControl): ValidationErrors | null {
   const rut = control.value;
 
   if (!rut) {
-    return null; // Si el campo está vacío, no hay error
+    return null; // No hay error si el campo está vacío
   }
 
-  const cleanRut = rut.replace(/[^0-9kK]/g, ''); // Remover caracteres no válidos
-
-  if (cleanRut.length !== 9) {
-    return { invalidLength: true }; // RUT debe tener 9 dígitos
+  if (!/^(\d{1,2}(\.\d{3}){2}-[\dkK])$/.test(rut)) {
+    return { invalidRut: true }; // Error si el formato no coincide
   }
-
-  const rutDigits = cleanRut.slice(0, -1);
-  const rutVerifier = cleanRut.slice(-1).toUpperCase();
-
-  const verifierCalc = (11 - (parseInt(rutDigits) % 11)) % 11;
-  const verifier = verifierCalc === 10 ? 'K' : verifierCalc.toString();
-
-  if (verifier !== rutVerifier) {
-    return { invalidRut: false };
-  }
-
-  return null; // RUT válido
+  return null; 
 }
 
+function validateBirthDate(control: FormControl) {
+  const currentDate = new Date();
+  const selectedDate = new Date(control.value);
 
-function nombreValidator(control: AbstractControl): ValidationErrors | null {
-  const nombre = control.value;
-  const regex = /^[a-zA-Z0-9\s]+$/;
-  if (!nombre) {
-    return null; // Si el campo está vacío, no hay error
+  if (isNaN(selectedDate.getTime())) {
+    return { invalidDate: true }; // Error si no es una fecha válida
   }
 
-  if(!regex.test(nombre)){
-    return { invalidCaracteres: true };
+  if (selectedDate >= currentDate) {
+    return { futureDate: true }; // Error si es una fecha futura
   }
 
-  const nombreval = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); // Remover caracteres no válidos
-
-  if (nombreval.length < 3 || nombreval.length > 15) {
-    return { invalidLength: true }; // Nombre debe tener entre 4 y 15 letras
-  }
-
-  if (nombre !== nombreval) {
-    return { invalidCharacters: true }; // Nombre contiene caracteres no válidos
-  }
-
-  return null; // Nombre válido
+  return null; // Si la fecha es válida
 }
 
-function apellidoValidator(control: AbstractControl): ValidationErrors | null {
-  const apellido = control.value;
+function validatePhoneNumber(control: FormControl) {
+  const phoneNumber = control.value;
 
-  if (!apellido) {
-    return null; // Si el campo está vacío, no hay error
+  if (!phoneNumber) {
+    return null; // No hay error si el campo está vacío
   }
 
-  const apellidoval = apellido.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); // Remover caracteres no válidos
+  // Expresión regular para validar números de teléfono en formatos comunes
+  const phonePattern = /^(?:\+\d{1,3}[- ]?)?(?:\(\d{1,4}\) ?)?\d{4,}$/;
 
-  if (apellidoval.length < 4 || apellidoval.length > 15) {
-    return { invalidLength: true }; // Apellido debe tener entre 4 y 15 letras
+  if (!phonePattern.test(phoneNumber)) {
+    return { invalidPhoneNumber: true }; // Error si el formato no coincide
   }
 
-  if (apellido !== apellidoval) {
-    return { invalidCharacters: true }; // Apellido contiene caracteres no válidos
-  }
-
-  return null; // Apellido válido
+  return null; // Si el número de teléfono es válido
 }
-
-function telefonoValidator(control: AbstractControl){
-  const telefono = control.value;
-
-  if (!telefono) {
-    return null; // Si el campo está vacío, no hay error
-  }
-
-  if (telefono.length > 9) {
-    return { invalidLengthTel: true }; // Teléfono debe tener exactamente 8 caracteres
-  }
-
-  return null; // Teléfono válido
-}
-
-function contraseñaValidator(control: AbstractControl){
-  const password = control.value;
-  const mayuscula = /[A-Z]/.test(password);
-  const minuscula = /[a-z]/.test(password);
-  const numero = /[0-9]/.test(password);
-  const caracter = /[!@#$%^&*(),.?":{}|<>]/;
-
-
-  if (password === '') {
-    return { invalidRequired: true}
-  }
-  if (!caracter.test(password)) {
-    return { invalidCaracter: true}
-  }
-
-  if (!mayuscula) {
-    return { invalidMayuscula: true };
-  }
-
-  if (!minuscula) {
-    return { invalidMinuscula: true}
- 
-  }
-
-  if (!numero) {
-    return { invalidNumber: true}
-  }
-
-  if (password.length < 8) {
-    return { invalidLength: true}
-  }
-  return null;
-}
-
-function confirmarContraseñaValidator(){
-
-  return null;
-}
-
 
 @Component({
   selector: 'app-registro',
@@ -132,18 +52,27 @@ function confirmarContraseñaValidator(){
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
+  
+pattern={
+  nombre: /^(?=.*[A-Z])/,
+  rut: /^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/,
+  telefono: /^\d{10}$/,
+  correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+  contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
 
+}
   
   registroForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.registroForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, nombreValidator,]],
-      apellido: ['', Validators.required, apellidoValidator,],
-      rut: ['', [Validators.required, rutValidator]],
-      telefono: ['', [Validators.required, telefonoValidator]],
-      contraseña:['',[Validators.required, contraseñaValidator]],
-      confclave:['',[Validators.required, confirmarContraseñaValidator ]]
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
+      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],  
+      rut: ['', [Validators.required, Validators.pattern(this.pattern.rut), validateRut]],
+      fechnac: ['', [Validators.required, validateBirthDate]],
+      telefono: ['', [Validators.required, Validators.min(9), Validators.max(9),  validatePhoneNumber]],
+      correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]],
+      contraseña:['',[Validators.required, Validators.minLength(8), Validators.pattern(this.pattern.contraseña)]],
     });
   }
   ngOnInit() {
