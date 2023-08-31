@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
 import { HomePageRoutingModule } from './home-routing.module';
 import { ComponentsModule } from '../components/components.module';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ComponentsModule } from '../components/components.module';
     IonicModule,
     HomePageRoutingModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    MatSliderModule
   ],
   declarations: [HomePage]
 })

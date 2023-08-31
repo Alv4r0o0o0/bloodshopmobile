@@ -6,6 +6,7 @@
       <div shape="round" class="ion-padding">
         <div class="animate-me" #card1>
           <h1 class="ion-text-center">BLOODSHOP</h1>
+          
         </div>
       </div>
       <form [formGroup]="loginForm">
@@ -43,9 +44,12 @@
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
             <ion-button shape="round" size="small" [routerLink]="['/olvidarclave']"
               style="--background: rgb(102, 102, 102);">¿Olvidaste tu contraseña?</ion-button>
+              <mat-slider min="1" max="100" step="1" value="100"></mat-slider>
           </div>
         </ion-col>
       </ion-row>
     </ion-card-content>
+    
   </ion-card>
+  
 </ion-content>
