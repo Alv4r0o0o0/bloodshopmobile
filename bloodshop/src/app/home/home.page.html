@@ -6,10 +6,10 @@
       <div shape="round" class="ion-padding">
         <div class="animate-me" #card1>
           <h1 class="ion-text-center">BLOODSHOP</h1>
-          
+
         </div>
       </div>
-      <form [formGroup]="loginForm">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <ion-item lines="full">
           <ion-label>Usuario: </ion-label>
           <ion-input type="text" formControlName="email"></ion-input>
@@ -33,24 +33,27 @@
           *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
           Ingrese una contraseña.
         </div>
+        <div class="ion-text-center">
+          <ion-text style="color: red;" name="mensajeError">{{ mensajeError }}</ion-text>
+        </div>
       </form>
       <ion-row>
         <ion-col class="ion-padding">
           <div class="ion-text-center">
-            <ion-button shape="round" size="default" [disabled]="!loginForm.valid" [routerLink]="['/hombre']">Iniciar
+            <ion-button shape="round" size="default" type="submit" (click)="login()"
+              [disabled]="!loginForm.valid">Iniciar
               Sesión</ion-button>
             <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
             <ion-button shape="round" size="small" [routerLink]="['/olvidarclave']"
               style="--background: rgb(102, 102, 102);">¿Olvidaste tu contraseña?</ion-button>
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 
           </div>
         </ion-col>
       </ion-row>
     </ion-card-content>
-    
+
   </ion-card>
-  
+
 </ion-content>

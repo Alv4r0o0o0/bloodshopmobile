@@ -1,75 +1,93 @@
 <app-header></app-header>
 
 
-<ion-content [fullscreen]="true"> 
-  
+<ion-content [fullscreen]="true">
+
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://es.aw-lab.com/on/demandware.static/-/Library-Sites-awlab-content-global/default/dw31069217/2022/week24/SU22_NIKE_BLAZER_BRAND%20PAGE_BANNER_1440x500_V2.jpg" />
-    
-    
+    <img alt="Silhouette of mountains"
+      src="https://es.aw-lab.com/on/demandware.static/-/Library-Sites-awlab-content-global/default/dw31069217/2022/week24/SU22_NIKE_BLAZER_BRAND%20PAGE_BANNER_1440x500_V2.jpg" />
+
+
     <ion-card-header>
       <ion-card-title>Las mejores zapatillas a tu alcance</ion-card-title>
-      <ion-card-subtitle>Nike Puma Adidas y Jordan</ion-card-subtitle>
+      <ion-card-subtitle>Nike Puma Adidas y Jordan </ion-card-subtitle>
     </ion-card-header>
-  
-   
+
+
   </ion-card>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title>Nike Puma Adidas y Jordan</ion-card-title>
+      <p> {{myDate | date}} </p>
       <ion-card-subtitle> </ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-    <ion-grid [fixed]="true">
-      <ion-row>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <ion-card-content>
+          <img alt="Silhouette of mountains"
+            src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
           Zapatilla Nike Air Max Plus
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailhombre1']" >Comprar</ion-button>
-       <ion-button>Añadir al carro</ion-button> 
-      
+        </ion-card-content>
+        <div class="ion-text-center">
+        <ion-button expand="full" size="small" [routerLink]="['/detailhombre1']">Comprar</ion-button>
+        <ion-button expand="full" size="small">Añadir al carro</ion-button>
+        </div>
+
       </ion-col>
-       
 
-       
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://www.blockstore.cl/cdn/shop/products/p-HQ6432-1_400x400_crop_center.jpg?v=1681845093" />
+
+
+      <ion-col>
+        <ion-card-content>
+          <img alt="Silhouette of mountains"
+            src="https://www.blockstore.cl/cdn/shop/products/p-HQ6432-1_400x400_crop_center.jpg?v=1681845093" />
           Zapatillas Adidas Adi Ease
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailhombre2']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button></ion-col>
+        </ion-card-content>
+        <div class="ion-text-center">
+          <ion-button expand="full" size="small" [routerLink]="['/detailhombre2']">Comprar</ion-button>
+          <ion-button expand="full" size="small">Añadir al carro</ion-button>
+        </div>
+      </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card-content>
+          <img alt="Silhouette of mountains"
+            src="https://nikeclprod.vteximg.com.br/arquivos/ids/703893-1000-1000/408452_017_A_PREM.jpg?v=638181213190300000" />
+          Air Jordan 4 Retro BG
+        </ion-card-content>
+        <div class="ion-text-center">
+          <ion-button expand="full" size="small" [routerLink]="['/detailhombre3']">Comprar</ion-button>
+          <ion-button expand="full" size="small">Añadir al carro</ion-button>
+        </div> 
+        </ion-col>
         
-      </ion-row>
-      <ion-row>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://nikeclprod.vteximg.com.br/arquivos/ids/703893-1000-1000/408452_017_A_PREM.jpg?v=638181213190300000" />
-          Air Jordan 4 Retro BG 
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailhombre3']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button> </ion-col>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://www.puma-mexico.com.mx/images/puma-mexico/Tenis_Puma_Roma_Basic_Summer_JR_Ni%C3%B1a_Neg-AJX958617.jpg" />
-          Puma Roma Basic  
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailhombre4']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button></ion-col>
-        
-      </ion-row>
-    </ion-grid>
+      <ion-col>
+        <ion-card-content>
+          <img alt="Silhouette of mountains"
+            src="https://www.puma-mexico.com.mx/images/puma-mexico/Tenis_Puma_Roma_Basic_Summer_JR_Ni%C3%B1a_Neg-AJX958617.jpg" />
+          Puma Roma Basic
+        </ion-card-content>
+        <div class="ion-text-center">
+          <ion-button expand="full" size="small" [routerLink]="['/detailhombre4']">Comprar</ion-button>
+          <ion-button expand="full" size="small">Añadir al carro</ion-button>
+        </div>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
 
 
-    
-    <ion-footer>
-      <ion-toolbar>
-        <p> {{myDate | date}} </p>
-        <p class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
-      </ion-toolbar>
-    </ion-footer>
-  
+
+  <ion-footer class="ion-text-center">
+    <ion-toolbar>
+      
+      <p style="font-size: 15px;" class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
+    </ion-toolbar>
+  </ion-footer>
+
 </ion-content>

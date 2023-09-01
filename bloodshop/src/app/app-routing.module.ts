@@ -38,7 +38,8 @@ const routes: Routes = [
   {
     path: 'olvidarclave',
     loadChildren: () => import('./pages/olvidarclave/olvidarclave.module').then( m => m.OlvidarclavePageModule)
-  },  {
+  },
+  {
     path: 'detailhombre1',
     loadChildren: () => import('./pages/detailhombre1/detailhombre1.module').then( m => m.Detailhombre1PageModule)
   },
