@@ -1,6 +1,7 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detailhombre1',
@@ -15,13 +16,25 @@ export class Detailhombre1Page implements OnInit {
   
   elegirForm : FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController) { 
     this.elegirForm = this.formBuilder.group({
       select: ['', [Validators.required]],
       select1: ['', [Validators.required]],
     });
+    
+  }
+  
+  irASeccion1() {
+    this.navCtrl.navigateForward('/home');
   }
 
+  irASeccion2() {
+    this.navCtrl.navigateForward('/seccion2');
+  }
+
+  irASeccion3() {
+    this.navCtrl.navigateForward('/seccion3');
+  }
 
 
   ngOnInit() {

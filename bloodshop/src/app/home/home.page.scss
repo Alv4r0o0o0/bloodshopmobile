@@ -77,3 +77,10 @@ div ion-button{
     --background: green;
   }
 }
+ion-loading{
+  border-radius: 10px;
+  --background: #ffffff;
+  --spinner-color: #5454548c;
+  font-weight: 700;
+  color: #000000;
+}

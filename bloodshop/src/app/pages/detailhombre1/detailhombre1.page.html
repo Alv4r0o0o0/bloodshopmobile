@@ -1,14 +1,19 @@
-<app-header></app-header>
+<app-header>
+  <ion-menu-button></ion-menu-button>
+</app-header>
 
 
 <ion-content [fullscreen]="true">
+
   <ion-card>
-    <button class="back">
-      <ion-icon style="margin-left: -20px;" size="large" name="close-sharp" [routerLink]="['/hombre']"></ion-icon>
+    <button style="position: absolute; top: 10px; right: 10px;">
+      <ion-icon size="large" name="close-sharp" [routerLink]="['/hombre']"></ion-icon>
     </button>
+    <div class="ion-text-center">
     <img alt="Silhouette of mountains"
       src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
-    <ion-card-header>
+    </div>
+      <ion-card-header>
 
       <ion-card-title>Nike Air Max Plus</ion-card-title>
       <ion-card-title>180.000 $</ion-card-title>
@@ -64,8 +69,16 @@
   </ion-card>
   <ion-footer>
     <ion-toolbar>
-      <p class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
-      <p> {{myDate | date}} </p>
+      <ion-toolbar>
+        <ion-buttons slot="center"> <!-- Botones en la parte izquierda del toolbar -->
+          <ion-button (click)="irASeccion1()">Sección 1</ion-button>
+        </ion-buttons>
+    
+        <ion-buttons slot="end"> <!-- Botones en la parte derecha del toolbar -->
+          <ion-button (click)="irASeccion2()">Sección 2</ion-button>
+          <ion-button (click)="irASeccion3()">Sección 3</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
     </ion-toolbar>
   </ion-footer>
 

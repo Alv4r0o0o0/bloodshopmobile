@@ -1,6 +1,6 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AnimationController, IonCard, NavController } from '@ionic/angular';
+import { AnimationController, IonCard, LoadingController, NavController } from '@ionic/angular';
 
 
 @Component({
@@ -17,10 +17,11 @@ export class HomePage {
 
   loginForm!: FormGroup; // Declarar el formulario FormGroup
 
-  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController, private navCtrl: NavController) {
+  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController, private navCtrl: NavController, private loadingCtrl: LoadingController) {
     // Inicializa el formulario y agrega validaciones
 
   }
+
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -58,7 +59,7 @@ export class HomePage {
   }
 
   // Esta es la nueva función login que gestiona la redirección
-  login() {   
+  async login() {   
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
@@ -69,4 +70,5 @@ export class HomePage {
        this.mensajeError =("Las credenciales son incorrectas")
     }
   }
+  
 }

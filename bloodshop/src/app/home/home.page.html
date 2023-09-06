@@ -11,9 +11,9 @@
       </div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <ion-item lines="full">
-          <ion-label>Usuario: </ion-label>
+          <ion-label position="floating">Usuario <ion-icon name="person-outline"></ion-icon></ion-label>
           <ion-input type="text" formControlName="email"></ion-input>
-          <ion-icon name="person-outline"></ion-icon>
+
         </ion-item>
 
         <div style="color: red;"
@@ -25,9 +25,9 @@
         </div>
 
         <ion-item lines="full">
-          <ion-label>Contraseña:</ion-label>
+          <ion-label position="floating">Contraseña <ion-icon name="lock-closed-outline"></ion-icon></ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
-          <ion-icon name="lock-closed-outline"></ion-icon>
+
         </ion-item>
         <div style="color: red;"
           *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
@@ -40,9 +40,11 @@
       <ion-row>
         <ion-col class="ion-padding">
           <div class="ion-text-center">
-            <ion-button shape="round" size="default" type="submit" (click)="login()"
+            <ion-button id="open-loading" shape="round" size="default" type="submit" (click)="login()"
               [disabled]="!loginForm.valid">Iniciar
               Sesión</ion-button>
+            <ion-loading trigger="open-loading" message="Espere un momento..." [duration]="3000"
+              spinner="circular"></ion-loading>
             <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
