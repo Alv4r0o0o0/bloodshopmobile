@@ -114,7 +114,15 @@ const routes: Routes = [
   {
     path: 'administrador',
     loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
+  },  {
+    path: 'agregarzapatilla',
+    loadChildren: () => import('./pages/agregarzapatilla/agregarzapatilla.module').then( m => m.AgregarzapatillaPageModule)
   },
+  {
+    path: 'tablazapatilla',
+    loadChildren: () => import('./pages/tablazapatilla/tablazapatilla.module').then( m => m.TablazapatillaPageModule)
+  },
+
 
 ];
 

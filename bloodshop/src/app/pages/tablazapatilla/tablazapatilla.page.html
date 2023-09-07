@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+    <ion-grid>
+      <ion-row style="font-weight: 700;">
+        <ion-col>Nombre</ion-col>
+        <ion-col>Marca</ion-col>
+        <ion-col>Descripción</ion-col>
+        <ion-col>Foto</ion-col>
+        <ion-col>Precio</ion-col>
+        <ion-col>Tallas</ion-col>
+      </ion-row>
+    </ion-grid>
+    <br>
+    
+    <ion-grid *ngFor="let zapatilla of zapatillas">
+      <ion-row style="font-size: 10px;" >
+        <ion-col>{{ zapatilla.nombre}}</ion-col>
+        <ion-col>{{ zapatilla.marca }}</ion-col>
+        <ion-col>{{ zapatilla.descripcion }}</ion-col>
+        <ion-col><img [src]="getImageUrl(zapatilla.imagen)" alt="Zapatilla"></ion-col>
+        <ion-col>{{ zapatilla.precio }}</ion-col>
+        <ion-col>{{ zapatilla.tallas }}</ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-col>
+      <ion-button expand="full" [routerLink]="['/agregarzapatilla']">Agregar Zapatilla</ion-button>
+    </ion-col>
+</ion-content>

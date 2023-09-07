@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-list>
+      <form (ngSubmit)="agregarZapatilla()">
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input [(ngModel)]="nombre" name="nombre" type="text" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Marca</ion-label>
+          <ion-select [(ngModel)]="marca" name="marca">
+            <ion-select-option>Jordan</ion-select-option>
+            <ion-select-option>Nike</ion-select-option>
+            <ion-select-option>Adidas</ion-select-option>
+            <ion-select-option>Puma</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea [(ngModel)]="descripcion" name="descripcion" ></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label for="imageInput">Foto</ion-label>
+          <br>
+          <ion-input style="font-size: 12px;" id="imageInput" type="file" (change)="onImageChange($event)" accept="image/*"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input [(ngModel)]="precio" name="precio" type="number" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Tallas</ion-label>
+          <ion-select [(ngModel)]="tallas" name="tallas" multiple="true">
+            <ion-select-option>7 US</ion-select-option>
+            <ion-select-option>7.5 US</ion-select-option>
+            <ion-select-option>8 US</ion-select-option>
+            <ion-select-option>8.5 US</ion-select-option>
+            <ion-select-option>9 US</ion-select-option>
+            <ion-select-option>9.5 US</ion-select-option>
+            <ion-select-option>10 US</ion-select-option>
+            <ion-select-option>10.5 US</ion-select-option>
+            <ion-select-option>11 US</ion-select-option>
+            <ion-select-option>11.5 US</ion-select-option>
+            <ion-select-option>12 US</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="full" type="submit">Agregar Zapatilla</ion-button>
+      </form>
+    </ion-list>
+  </ion-card>
+</ion-content>
