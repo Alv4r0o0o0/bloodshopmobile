@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { BdserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-agregarzapatilla',
@@ -9,43 +8,26 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./agregarzapatilla.page.scss'],
 })
 export class AgregarzapatillaPage implements OnInit {
-  nombre: String = "";
-  marca: String = "";
-  descripcion: String = "";
-  selectedImage: File | null = null;
-  precio: Number = 0;
-  tallas: String = "";
+  nombre : string = "";
+  marca: number = 0;  // Asumiendo que vamos a trabajar con el ID de la marca directamente.
+  descripcion = "";
+  foto = ""; // Podría ser un enlace o un path hacia una foto.
+  precio: number = 0;
+  tallas = "7us-12us";  // Asumiendo un valor predeterminado, pero esto puede cambiar.
+  cantidad: number = 0;
 
-  zapatillas: any[] = [];
+  constructor(public router: Router, private db: BdserviceService) { }
 
-  constructor(private router: Router) {
-
-  }
-
-  agregarZapatilla() {
-    const newShoes = {
-      nombre: this.nombre,
-      marca: this.marca,
-      descripcion: this.descripcion,
-      imagen: this.selectedImage,
-      precio: this.precio,
-      tallas: this.tallas,
-    };
-    this.zapatillas.push(newShoes);
-
-    this.nombre = '';
-    this.marca = '';
-    this.descripcion = '';
-    this.selectedImage = null;
-    this.precio = 0;
-    this.router.navigate(['/tablazapatilla'], { state: { zapatillas: this.zapatillas } });
-  }
-  onImageChange(event: any) {
-    if (event.target.files.length > 0) {
-      this.selectedImage = event.target.files[0];
-    }
-  }
   ngOnInit() {
   }
+  onImageChange(event: any) {
+    const file = event.target.files[0];
+    // Aquí puedes manejar el archivo. Por ejemplo, leerlo, cargarlo, etc.
 }
 
+  insertar() {
+    this.db.agregar(this.nombre, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
+    this.db.presentAlert("Registro Realizado");
+    this.router.navigate(['/tablazapatilla']);
+  }
+}

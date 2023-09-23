@@ -3,10 +3,9 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-list>
-      <form (ngSubmit)="agregarZapatilla()">
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input [(ngModel)]="nombre" name="nombre" type="text" ></ion-input>
+          <ion-input [(ngModel)]="nombre" name="nombre" ></ion-input>
         </ion-item>
 
         <ion-item>
@@ -51,8 +50,13 @@
             <ion-select-option>12 US</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-button expand="full" type="submit">Agregar Zapatilla</ion-button>
-      </form>
+
+        <ion-item>
+          <ion-label position="floating">Cantidad</ion-label>
+          <ion-input [(ngModel)]="cantidad" name="cantidad" type="number" ></ion-input>
+        </ion-item>
+
+        <ion-button expand="full" type="submit" (click)="insertar()">Agregar Zapatilla</ion-button>
     </ion-list>
   </ion-card>
 </ion-content>

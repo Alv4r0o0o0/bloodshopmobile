@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-tablazapatilla',
@@ -7,21 +8,51 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./tablazapatilla.page.scss'],
 })
 export class TablazapatillaPage implements OnInit {
-  zapatillas: any[] = [];
 
-  constructor(private route: ActivatedRoute) { }
+  arregloZapatillas: any = [
+    {
+      id: '',
+      nombre: '',
+      marca: 0,
+      descripcion: '',
+      foto: '',
+      precio: 0,
+      tallas: '',
+      cantidad: 0
+    }
+  ]
+
+  constructor(private router: Router, private bd: BdserviceService) { }
 
   ngOnInit() {
-    this.zapatillas = history.state.zapatillas || [];
-  }
-  getImageUrl(image: File | null): string {
-    if (image) {
-      // Crea una URL temporal para la imagen
-      return URL.createObjectURL(image);
-    } else {
-      // Proporciona una URL predeterminada en caso de que no haya imagen
-      return 'assets/default-image.jpg'; // Cambia 'assets/default-image.jpg' a tu imagen predeterminada
-    }
+    this.bd.dbState().subscribe(res => {
+      if (res) {
+        this.bd.fetchZapatillas().subscribe(item => {
+          this.arregloZapatillas = item;
+        })
+      }
+    })
   }
 
+  modificar(x: any) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        idEnviado: x.id,
+        nombrezapatillaEnviado: x.nombre,
+        marcaEnviado: x.marca,
+        descripcionEnviado: x.descripcion,
+        fotoEnviado: x.foto,
+        precioEnviado: x.precio,
+        tallasEnviado: x.tallas,
+        cantidadEnviado: x.cantidad
+      }
+    }
+    this.router.navigate(['/modificar'], navigationExtras);
+  }
+
+  eliminar(x: any) {
+    this.bd.eliminar(x.id);
+    this.bd.presentAlert("Zapatilla Eliminada");
+  }
 }
+

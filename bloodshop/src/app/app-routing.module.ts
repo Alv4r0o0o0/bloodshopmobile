@@ -122,6 +122,10 @@ const routes: Routes = [
     path: 'tablazapatilla',
     loadChildren: () => import('./pages/tablazapatilla/tablazapatilla.module').then( m => m.TablazapatillaPageModule)
   },
+  {
+    path: 'editarzapatilla',
+    loadChildren: () => import('./pages/editarzapatilla/editarzapatilla.module').then( m => m.EditarzapatillaPageModule)
+  },
 
 
 ];
