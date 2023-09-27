@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
   },
   {
-    path: 'nombre',
-    loadChildren: () => import('./pages/nombre/nombre.module').then( m => m.NombrePageModule)
-  },
-  {
     path: 'hombre',
     loadChildren: () => import('./pages/hombre/hombre.module').then( m => m.HombrePageModule)
   },
@@ -92,29 +88,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
   },
   {
-    path: 'admin',
-    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
-  },
-  {
-    path: 'adminhome',
-    loadChildren: () => import('./pages/adminhome/adminhome.module').then( m => m.AdminhomePageModule)
-  },
-  {
-    path: 'adminhombre',
-    loadChildren: () => import('./pages/adminhombre/adminhombre.module').then( m => m.AdminhombrePageModule)
-  },
-  {
-    path: 'adminmujer',
-    loadChildren: () => import('./pages/adminmujer/adminmujer.module').then( m => m.AdminmujerPageModule)
-  },
-  {
-    path: 'adminninos',
-    loadChildren: () => import('./pages/adminninos/adminninos.module').then( m => m.AdminninosPageModule)
-  },
-  {
     path: 'administrador',
     loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
-  },  {
+  },
+  {
     path: 'agregarzapatilla',
     loadChildren: () => import('./pages/agregarzapatilla/agregarzapatilla.module').then( m => m.AgregarzapatillaPageModule)
   },
@@ -125,7 +102,11 @@ const routes: Routes = [
   {
     path: 'editarzapatilla',
     loadChildren: () => import('./pages/editarzapatilla/editarzapatilla.module').then( m => m.EditarzapatillaPageModule)
+  },  {
+    path: 'editarshoes',
+    loadChildren: () => import('./pages/editarshoes/editarshoes.module').then( m => m.EditarshoesPageModule)
   },
+
 
 
 ];

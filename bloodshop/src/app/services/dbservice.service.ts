@@ -79,7 +79,7 @@ export class BdserviceService {
         this.database = db;
         this.crearTablas();
       }).catch(e => {
-        this.presentAlert("Error en crear BD: " + e);
+        this.presentAlertN("Error en crear BD: " + e);
       });
     });
   }
@@ -92,13 +92,21 @@ export class BdserviceService {
       this.isDBReady.next(true);
       this.buscarZapatillas();
     } catch (e) {
-      this.presentAlert("Error en crear Tabla: " + e);
+      this.presentAlertN("Error en crear Tabla: " + e);
     }
   }
 
-  async presentAlert(msj: string) {
+  async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
       header: 'Error en Servicio',
+      message: msj,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+  async presentAlertP(msj: string) {
+    const alert = await this.alertController.create({
+      header: 'Mensaje',
       message: msj,
       buttons: ['OK'],
     });

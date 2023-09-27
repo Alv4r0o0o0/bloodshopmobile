@@ -1,18 +1,21 @@
-<app-header></app-header>
-
 
 <ion-content [fullscreen]="true">
-    <div class="ion-text-center">
-      <ion-col>
-        <ion-button expand="full" size="default" [routerLink]="['/hombre']">Página principal</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button expand="full" size="default" [routerLink]="['/agregarzapatilla']">Agregar Zapatilla</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button expand="full" size="default" [routerLink]="['/tablazapatilla']">Tabla Zapatillas</ion-button>
-      </ion-col>
-    </div>
+  <ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+  <div class="ion-text-center">
+    <ion-col>
+      <ion-button expand="full" size="default" [routerLink]="['/hombre']">Página principal</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full" size="default" [routerLink]="['/agregarzapatilla']">Agregar Zapatilla</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full" size="default" [routerLink]="['/tablazapatilla']">Tabla Zapatillas</ion-button>
+    </ion-col>
+  </div>
 
 
 </ion-content>

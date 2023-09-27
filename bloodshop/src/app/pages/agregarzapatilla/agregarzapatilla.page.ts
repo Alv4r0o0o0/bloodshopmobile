@@ -8,7 +8,7 @@ import { BdserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['./agregarzapatilla.page.scss'],
 })
 export class AgregarzapatillaPage implements OnInit {
-  nombre : string = "";
+  nombrezapatilla : string = "";
   marca: number = 0;  // Asumiendo que vamos a trabajar con el ID de la marca directamente.
   descripcion = "";
   foto = ""; // Podría ser un enlace o un path hacia una foto.
@@ -26,8 +26,8 @@ export class AgregarzapatillaPage implements OnInit {
 }
 
   insertar() {
-    this.db.agregar(this.nombre, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
-    this.db.presentAlert("Registro Realizado");
+    this.db.agregar(this.nombrezapatilla, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
+    this.db.presentAlertP("Registro Realizado");
     this.router.navigate(['/tablazapatilla']);
   }
 }

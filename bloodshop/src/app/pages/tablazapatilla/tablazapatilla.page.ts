@@ -12,8 +12,8 @@ export class TablazapatillaPage implements OnInit {
   arregloZapatillas: any = [
     {
       id: '',
-      nombre: '',
-      marca: 0,
+      nombrezapatilla: '',
+      marca: '',
       descripcion: '',
       foto: '',
       precio: 0,
@@ -38,7 +38,7 @@ export class TablazapatillaPage implements OnInit {
     let navigationExtras: NavigationExtras = {
       state: {
         idEnviado: x.id,
-        nombrezapatillaEnviado: x.nombre,
+        nombreEnviado: x.nombrezapatilla,
         marcaEnviado: x.marca,
         descripcionEnviado: x.descripcion,
         fotoEnviado: x.foto,
@@ -47,12 +47,12 @@ export class TablazapatillaPage implements OnInit {
         cantidadEnviado: x.cantidad
       }
     }
-    this.router.navigate(['/modificar'], navigationExtras);
+    this.router.navigate(['/editarshoes'], navigationExtras);
   }
 
   eliminar(x: any) {
     this.bd.eliminar(x.id);
-    this.bd.presentAlert("Zapatilla Eliminada");
+    this.bd.presentAlertN("Zapatilla eliminada");
   }
 }
 
