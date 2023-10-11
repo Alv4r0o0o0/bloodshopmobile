@@ -11,8 +11,8 @@ export class BdserviceService {
   public database!: SQLiteObject;
 
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
+  //TABLA DE ZAPATILLA
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
-
   registroZapatilla: string = "INSERT or IGNORE INTO zapatilla(id, nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad) VALUES (1,'Modelo X', 1, 'Descripción del modelo X', 'linkFoto', 100.50, '7us-12us', 100);";
 
   listaZapatillas = new BehaviorSubject([]);
@@ -27,7 +27,7 @@ export class BdserviceService {
     return this.isDBReady.asObservable();
   }
 
-  fetchZapatillas(): Observable<Zapatilla[]> {
+  fetchZapatillas(): Observable<Zapatilla[]>{
     return this.listaZapatillas.asObservable();
   }
 

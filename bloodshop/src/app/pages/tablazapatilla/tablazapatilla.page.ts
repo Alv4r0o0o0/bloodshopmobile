@@ -29,9 +29,17 @@ export class TablazapatillaPage implements OnInit {
       if (res) {
         this.bd.fetchZapatillas().subscribe(item => {
           this.arregloZapatillas = item;
-        })
+          
+          // Luego de obtener las zapatillas, se recuperan las imágenes desde el LocalStorage
+          const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
+          this.arregloZapatillas.forEach((zapatilla:any) => {
+            if (zapatillasImages[zapatilla.id]) { // Aseguramos que la imagen exista para esa zapatilla
+              zapatilla.foto = zapatillasImages[zapatilla.id];
+            }
+          });
+        });
       }
-    })
+    });
   }
 
   modificar(x: any) {
@@ -53,6 +61,12 @@ export class TablazapatillaPage implements OnInit {
   eliminar(x: any) {
     this.bd.eliminar(x.id);
     this.bd.presentAlertN("Zapatilla eliminada");
+    
+    const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
+    if (zapatillasImages[x.id]) {
+      delete zapatillasImages[x.id];
+      localStorage.setItem('zapatillasImages', JSON.stringify(zapatillasImages));
+    }
   }
 }
 

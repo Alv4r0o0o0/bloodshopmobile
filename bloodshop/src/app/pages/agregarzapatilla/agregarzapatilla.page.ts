@@ -8,13 +8,15 @@ import { BdserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['./agregarzapatilla.page.scss'],
 })
 export class AgregarzapatillaPage implements OnInit {
-  nombrezapatilla : string = "";
-  marca: number = 0;  // Asumiendo que vamos a trabajar con el ID de la marca directamente.
+  nombrezapatilla = "";
+  marca = 0;  // Asumiendo que vamos a trabajar con el ID de la marca directamente.
   descripcion = "";
   foto = ""; // Podría ser un enlace o un path hacia una foto.
-  precio: number = 0;
+  precio = 0;
   tallas = "7us-12us";  // Asumiendo un valor predeterminado, pero esto puede cambiar.
-  cantidad: number = 0;
+  cantidad = 0;
+  base64Image: string = ''; 
+  imageToShow: any = ''; 
 
   constructor(public router: Router, private db: BdserviceService) { }
 
@@ -22,11 +24,20 @@ export class AgregarzapatillaPage implements OnInit {
   }
   onImageChange(event: any) {
     const file = event.target.files[0];
-    // Aquí puedes manejar el archivo. Por ejemplo, leerlo, cargarlo, etc.
+    const reader = new FileReader();
+    
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.foto = reader.result as string;
+    };
 }
 
   insertar() {
     this.db.agregar(this.nombrezapatilla, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
+    const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
+    zapatillasImages[this.nombrezapatilla] = this.foto; // asumiendo que 'this.id' es único para cada zapatilla
+    localStorage.setItem('zapatillasImages', JSON.stringify(zapatillasImages));
+    
     this.db.presentAlertP("Registro Realizado");
     this.router.navigate(['/tablazapatilla']);
   }

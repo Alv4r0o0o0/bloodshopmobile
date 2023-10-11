@@ -7,18 +7,18 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let x of arregloZapatillas">      
+  <ion-list *ngFor="let x of arregloZapatillas">
+    <ion-item-sliding >      
       <ion-item>
         <ion-label>
-          <h2>{{ x.id }}</h2>
-          <h4>{{ x.nombrezapatilla }}</h4>
-          <p>{{ x.marca }}</p> <!-- Esto mostrará el ID de la marca. Puede necesitar otro arreglo para mostrar el nombre real de la marca -->
-          <p>{{ x.descripcion }}</p>
-          <p>{{ x.precio }}</p>
-          <p>{{ x.tallas }}</p>
-          <p>{{ x.cantidad }}</p>
-          <img [src]="x.foto" alt="Foto de la zapatilla">
+          <p>ID: {{ x.id }}</p>
+          <p>NOMBRE: {{ x.nombrezapatilla }}</p>
+          <p>MARCA: {{ x.marca }}</p> <!-- Esto mostrará el ID de la marca. Puede necesitar otro arreglo para mostrar el nombre real de la marca -->
+          <p>DESCRIPCION: {{ x.descripcion }}</p>
+          <p>PRECIO: {{ x.precio }}</p>
+          <p>TALLAS: {{ x.tallas }}</p>
+          <p>CANTIDAD: {{ x.cantidad }}</p>
+          <img style="max-width: 250px;" [src]="x.foto" alt="Foto de la zapatilla">
         </ion-label>
       </ion-item>
   

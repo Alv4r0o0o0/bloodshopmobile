@@ -31,6 +31,7 @@
           <br>
           <ion-input style="font-size: 12px;" id="imageInput" type="file" (change)="onImageChange($event)" accept="image/*"></ion-input>
         </ion-item>
+        <img [src]="imageToShow" *ngIf="imageToShow"/>
 
         <ion-item>
           <ion-label position="floating">Precio</ion-label>

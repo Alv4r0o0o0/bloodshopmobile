@@ -28,20 +28,29 @@ export class EditarshoesPage implements OnInit {
         this.precio = this.router.getCurrentNavigation()?.extras?.state?.['precioEnviado'];
         this.tallas = this.router.getCurrentNavigation()?.extras?.state?.['tallasEnviado'];
         this.cantidad = this.router.getCurrentNavigation()?.extras?.state?.['cantidadEnviado'];
-
       }
     })
    }
   editar(){
     this.bd.modificar(this.id,this.nombrezapatilla, this.marca, this.descripcion,this.foto,this.precio,this.tallas,this.cantidad);
+    const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
+    zapatillasImages[this.id] = this.foto;
+    localStorage.setItem('zapatillasImages', JSON.stringify(zapatillasImages));
+    
     this.bd.presentAlertP("Registro Modificado");
     this.router.navigate(['/tablazapatilla']);
   }
   ngOnInit() {
   }
+  
   onImageChange(event: any) {
     const file = event.target.files[0];
-    // Aquí puedes manejar el archivo. Por ejemplo, leerlo, cargarlo, etc.
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.foto = reader.result as string;
+    };
   }
 
 }
