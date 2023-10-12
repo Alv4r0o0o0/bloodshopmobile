@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { BdserviceService } from 'src/app/services/dbservice.service';
 
 const RutValidator = {
   validaRut(rutCompleto: string): boolean {
@@ -111,7 +114,7 @@ export class RegistroPage implements OnInit {
 
   registroForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService, private router: Router) {
     this.registroForm = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
@@ -131,7 +134,17 @@ export class RegistroPage implements OnInit {
     }
     return null;
   }
+  submitForm() {
+    if (this.registroForm.valid) {
+      const formValue = this.registroForm.value;
+      this.db.registrarUsuario(formValue.nombre, formValue.apellido, formValue.fechnac, formValue.rut, formValue.correo, formValue.telefono, formValue.contraseña);
+      this.navCtrl.navigateForward('/home');
+    }
+
+  }
+
   ngOnInit() {
   }
+  
 }
 

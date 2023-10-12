@@ -3,6 +3,8 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Zapatilla } from './zapatilla';
+import { Usuario } from './usuario';
+import { Rol } from './rol';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +15,14 @@ export class BdserviceService {
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   //TABLA DE ZAPATILLA
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
-  registroZapatilla: string = "INSERT or IGNORE INTO zapatilla(id, nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad) VALUES (1,'Modelo X', 1, 'Descripción del modelo X', 'linkFoto', 100.50, '7us-12us', 100);";
+  //TABLAS DE USUARIOS
+  tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
+  tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios(id INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
 
+  registroZapatilla: string = "INSERT or IGNORE INTO zapatilla(id, nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad) VALUES (1,'Modelo X', 1, 'Descripción del modelo X', 'linkFoto', 100.50, '7us-12us', 100);";
   listaZapatillas = new BehaviorSubject([]);
+  listaUsuarios = new BehaviorSubject([]);
+  listaRoles = new BehaviorSubject([]);
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -27,9 +34,17 @@ export class BdserviceService {
     return this.isDBReady.asObservable();
   }
 
-  fetchZapatillas(): Observable<Zapatilla[]>{
+  fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
   }
+  fetchUsuarios(): Observable<Usuario[]> {
+    return this.listaUsuarios.asObservable();
+  }
+  fetchRoles(): Observable<Rol[]> {
+    return this.listaRoles.asObservable();
+  }
+
+
 
   buscarZapatillas() {
     return this.database.executeSql('SELECT * FROM zapatilla', []).then(res => {
@@ -70,6 +85,75 @@ export class BdserviceService {
     });
   }
 
+
+  //SERVICIOS DE USUARIOS
+obtenerPerfilPorToken(token: string): Usuario | undefined {
+  const usuarios: Usuario[] = this.listaUsuarios.value;
+  return usuarios.find(user => user.token === token);
+}
+  
+
+  buscarUsuarios() {
+    return this.database.executeSql('SELECT * FROM usuarios', []).then(res => {
+      let items: any[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre,
+            apellido: res.rows.item(i).apellido,
+            fechanacimiento: res.rows.item(i).fechanacimiento,
+            rut: res.rows.item(i).rut,
+            correo: res.rows.item(i).correo,
+            telefono: res.rows.item(i).telefono,
+            clave: res.rows.item(i).clave,
+            token: res.rows.item(i).token,
+            id_rol: res.rows.item(i).id_rol
+          });
+        }
+      }
+      this.listaUsuarios.next(items as any);
+    });
+  }
+  registrarUsuario(nombre: string, apellido: string, fechanacimiento: string, rut: string, correo: string, telefono: string, clave: string) {
+    const id_rolPredeterminado = 1; // Usuario
+    this.database.executeSql('INSERT INTO usuarios (nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rolPredeterminado]).then(() => {
+      this.buscarUsuarios();
+      this.presentAlertP("Usuario creado exitosamente");
+    }).catch(e => {
+      if (e.message.includes('UNIQUE constraint failed')) {
+        this.presentAlertN("El RUT o correo ya está registrado");
+      } else {
+        this.presentAlertN("Error al registrar el usuario: " + e.message);
+      }
+    });
+  }
+  iniciarSesion(correo: string, clave: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
+        if (res.rows.length > 0) {
+          this.presentAlertP("Inicio de sesión exitoso");
+          resolve(true);
+        } else {
+          this.presentAlertN("Correo o clave incorrectos");
+          resolve(false);
+        }
+      }).catch(e => {
+        this.presentAlertN("Error al iniciar sesión:" + e);
+        resolve(false);
+      });
+    });
+  }
+
+  modificarPerfil(id: any, correo: any, nombre: any, apellido: any, telefono: any, clave: any) {
+    return this.database.executeSql('UPDATE usuarios SET correo=?, nombre=?, apellido=?, telefono=?, clave=? WHERE id=?', [correo, nombre, apellido, telefono, clave, id]).then(res => {
+      this.buscarUsuarios();
+    });
+  }
+
+
+
+
   crearBD() {
     this.platform.ready().then(() => {
       this.sqlite.create({
@@ -78,10 +162,20 @@ export class BdserviceService {
       }).then((db: SQLiteObject) => {
         this.database = db;
         this.crearTablas();
+        this.inicializarRoles();
       }).catch(e => {
         this.presentAlertN("Error en crear BD: " + e);
       });
     });
+  }
+
+  async inicializarRoles() {
+    try {
+      await this.database.executeSql('INSERT OR IGNORE INTO rol (id_rol, nombre) VALUES (1, "usuario")', []);
+      await this.database.executeSql('INSERT OR IGNORE INTO rol (id_rol, nombre) VALUES (2, "admin")', []);
+    } catch (e) {
+      this.presentAlertN("Error al inicializar roles: " + e);
+    }
   }
 
   async crearTablas() {
@@ -89,8 +183,13 @@ export class BdserviceService {
       await this.database.executeSql(this.tablaMarca, []);
       await this.database.executeSql(this.tablaZapatilla, []);
       await this.database.executeSql(this.registroZapatilla, []);
+
+      await this.database.executeSql(this.tablaRoles, []);
+      await this.database.executeSql(this.tablaUsuarios, []);
+
       this.isDBReady.next(true);
       this.buscarZapatillas();
+      this.buscarUsuarios();
     } catch (e) {
       this.presentAlertN("Error en crear Tabla: " + e);
     }
@@ -98,7 +197,7 @@ export class BdserviceService {
 
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
-      header: 'Error en Servicio',
+      header: 'Error en Servicio!',
       message: msj,
       buttons: ['OK'],
     });
@@ -106,7 +205,7 @@ export class BdserviceService {
   }
   async presentAlertP(msj: string) {
     const alert = await this.alertController.create({
-      header: 'Mensaje',
+      header: '¡MENSAJE EXITOSO!',
       message: msj,
       buttons: ['OK'],
     });

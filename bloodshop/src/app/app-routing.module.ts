@@ -106,6 +106,10 @@ const routes: Routes = [
     path: 'editarshoes',
     loadChildren: () => import('./pages/editarshoes/editarshoes.module').then( m => m.EditarshoesPageModule)
   },
+  {
+    path: 'editarperfil',
+    loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+  },
 
 
 

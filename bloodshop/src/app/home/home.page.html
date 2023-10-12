@@ -46,9 +46,6 @@
             <ion-button id="open-loading" shape="round" size="default" type="submit" (click)="login()"
               [disabled]="!loginForm.valid">Iniciar
               Sesión</ion-button>
-            <ion-loading trigger="open-loading" message="Espere un momento..." [duration]="3000"
-              spinner="circular"></ion-loading>
-            <br>
             <ion-button shape="round" size="small" [routerLink]="['/registro']"
               style="--background: rgb(102, 102, 102);">Registrate</ion-button>
             <ion-button shape="round" size="small" [routerLink]="['/olvidarclave']"
