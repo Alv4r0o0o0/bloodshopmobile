@@ -60,7 +60,7 @@ export class TablazapatillaPage implements OnInit {
 
   eliminar(x: any) {
     this.bd.eliminar(x.id);
-    this.bd.presentAlertN("Zapatilla eliminada");
+    this.bd.presentAlertP("Zapatilla eliminada");
     
     const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
     if (zapatillasImages[x.id]) {

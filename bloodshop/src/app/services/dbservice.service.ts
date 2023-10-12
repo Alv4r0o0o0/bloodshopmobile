@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Zapatilla } from './zapatilla';
 import { Usuario } from './usuario';
@@ -26,7 +26,7 @@ export class BdserviceService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform) {
+  constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform, private navCtrl: NavController,) {
     this.crearBD();
   }
 
@@ -122,60 +122,34 @@ export class BdserviceService {
       }
     });
   }
-  iniciarSesion(correo: string, clave: string): Promise<{ token: string } | boolean> {
+  iniciarSesion(correo: string, clave: string): Promise<Usuario | false> {
     return new Promise((resolve, reject) => {
-      this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
-        if (res.rows.length > 0) {
-          const token = res.rows.item(0).token; // Obteniendo el token del primer resultado
-          this.presentAlertP("Inicio de sesión exitoso");
-          resolve({ token: token });  // Devuelve el token
-        } else {
-          this.presentAlertN("Correo o clave incorrectos");
-          resolve(false);  // Devuelve false en caso de fallo
-        }
-      }).catch(e => {
-        this.presentAlertN("Error al iniciar sesión:" + e);
-        reject(false);  // Utiliza reject en lugar de resolve para errores
-      });
-    });
-  }
-  
-  obtenerPerfilPorToken(token: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.database.executeSql('SELECT * FROM usuarios WHERE token = ?', [token]).then(res => {
-        if (res.rows.length > 0) {
-          let perfil = {
-            id: res.rows.item(0).id,
-            nombre: res.rows.item(0).nombre,
-            apellido: res.rows.item(0).apellido,
-            fechanacimiento: res.rows.item(0).fechanacimiento,
-            rut: res.rows.item(0).rut,
-            correo: res.rows.item(0).correo,
-            telefono: res.rows.item(0).telefono,
-            clave: res.rows.item(0).clave,
-            token: res.rows.item(0).token,
-            id_rol: res.rows.item(0).id_rol
-          };
-          resolve(perfil);
-        } else {
-          reject('No se encontró un usuario con ese token.');
-        }
-      }).catch(e => {
-        reject('Error al obtener el perfil: ' + e);
-      });
-    });
-  }
-  
-
-  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any, clave: any): Promise<void> {
-    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?', 
-    [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id]).then(res => {
-      this.buscarUsuarios();  // Actualizar la lista de usuarios en caso de que tengas una.
+        this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
+            if (res.rows.length > 0) {
+                const usuario: Usuario = {
+                    id: res.rows.item(0).id,
+                    nombre: res.rows.item(0).nombre,
+                    apellido: res.rows.item(0).apellido,
+                    fechanacimiento: res.rows.item(0).fechanacimiento,
+                    rut: res.rows.item(0).rut,
+                    correo: res.rows.item(0).correo,
+                    telefono: res.rows.item(0).telefono,
+                    clave: res.rows.item(0).clave,
+                    token: res.rows.item(0).token,
+                    id_rol: res.rows.item(0).id_rol
+                };
+                this.presentAlertP("Inicio de sesión exitoso");
+                resolve(usuario);
+            } else {
+                this.presentAlertN("Correo o clave incorrectos");
+                resolve(false);
+            }
+        }).catch(e => {
+            this.presentAlertN("Error al iniciar sesión:" + e);
+            resolve(false);  // Nota: Puedes decidir usar reject(e) si consideras el error como una situación de rechazo.
+        });
     });
 }
-
-
-
 
 
   crearBD() {
@@ -221,7 +195,7 @@ export class BdserviceService {
 
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
-      header: 'Error en Servicio!',
+      header: 'Error!',
       message: msj,
       buttons: ['OK'],
     });
@@ -229,12 +203,51 @@ export class BdserviceService {
   }
   async presentAlertP(msj: string) {
     const alert = await this.alertController.create({
-      header: '¡MENSAJE EXITOSO!',
+      header: 'Exito!',
       message: msj,
       buttons: ['OK'],
     });
     await alert.present();
   }
+
+  obtenerPerfilPorToken(token: string): Promise<Usuario> {
+    return new Promise((resolve, reject) => {
+      this.database.executeSql('SELECT * FROM usuarios WHERE token = ?', [token]).then((res) => {
+        if (res.rows.length > 0) {
+          const usuario: Usuario = {
+            id: res.rows.item(0).id,
+            nombre: res.rows.item(0).nombre,
+            apellido: res.rows.item(0).apellido,
+            fechanacimiento: res.rows.item(0).fechanacimiento,
+            rut: res.rows.item(0).rut,
+            correo: res.rows.item(0).correo,
+            telefono: res.rows.item(0).telefono,
+            clave: res.rows.item(0).clave,
+            token: res.rows.item(0).token,
+            id_rol: res.rows.item(0).id_rol
+          };
+          resolve(usuario);
+        } else {
+          reject("No se encontró el usuario.");
+        }
+      }).catch(e => reject(e));
+    });
+  }
+  actualizarPerfil(usuario: Usuario, nuevaClave?: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let query = 'UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=? WHERE id=?';
+      let valores = [usuario.nombre, usuario.apellido, usuario.fechanacimiento, usuario.rut, usuario.correo, usuario.telefono, usuario.id];
+  
+      if (nuevaClave) {
+        query = 'UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?';
+        valores.push(nuevaClave);
+      }
+  
+      this.database.executeSql(query, valores).then(() => resolve()).catch(e => reject(e));
+    });
+  }
+  
 }
+
 
 

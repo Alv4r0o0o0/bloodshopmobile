@@ -123,20 +123,6 @@ export class EditarperfilPage implements OnInit {
   editarForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private activatedRouter: ActivatedRoute, private navCtrl: NavController, private db: BdserviceService, private router: Router) { 
-    this.iniciarFormulario();
-  }
-  validateRutFormat(control: FormControl) {
-    const rut = control.value;
-    if (!RutValidator.validaRut(rut)) {
-      return { invalidRut: true };
-    }
-    return null;
-  }
-
-  ngOnInit() {
-    this.cargarDatosActuales();
-  }
-  iniciarFormulario() {
     this.editarForm = this.formBuilder.group({
       nombre: [this.nombre, [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       apellido: [this.apellido, [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
@@ -149,7 +135,16 @@ export class EditarperfilPage implements OnInit {
       confcontraseña: ['', [Validators.required, matchPassword]],
     });
   }
+  validateRutFormat(control: FormControl) {
+    const rut = control.value;
+    if (!RutValidator.validaRut(rut)) {
+      return { invalidRut: true };
+    }
+    return null;
+  }
 
+  ngOnInit() {
+  }
   cargarDatosActuales() {
     const tokenGuardado = localStorage.getItem('tokenActual');
     if (tokenGuardado) {
@@ -159,11 +154,11 @@ export class EditarperfilPage implements OnInit {
             nombre: perfil.nombre,
             apellido: perfil.apellido,
             telefono: perfil.telefono,
-            fechanac: perfil.fechanacimiento,
+            fechnac: perfil.fechanacimiento,
             rut: perfil.rut,
             correo: perfil.correo,
-            clave: perfil.clave,
-            // y otros campos que tengas...
+            contraseña: '', // La contraseña debe ser ingresada por el usuario
+            confcontraseña: '',
           });
         })
         .catch(error => {
@@ -171,26 +166,26 @@ export class EditarperfilPage implements OnInit {
         });
     }
   }
-  guardarCambios() {
+  
+  async guardarCambios() {
     if (this.editarForm.valid) {
-      const perfilActualizado = this.editarForm.value;
-      this.db.modificarPerfil(
-        perfilActualizado.id,
-        perfilActualizado.nombre,
-        perfilActualizado.apellido,
-        perfilActualizado.fechanacimiento,
-        perfilActualizado.rut,
-        perfilActualizado.telefono,
-        perfilActualizado.correo,
-        perfilActualizado.contraseña,
-      ).then(() => {
-        this.navCtrl.navigateBack('/hombre'); // Ajusta esto a la ruta donde quieras redirigir después de editar.
-      })
-      .catch(error => {
-        console.error("Error al actualizar el perfil:", error);
-      });
-    } else {
-      // Puedes mostrar un mensaje de error aquí si el formulario no es válido.
+      const formValues = this.editarForm.value;
+      const usuarioActualizado: Usuario = {
+        id: /* Aquí necesitas obtener el ID del usuario actual. */,
+        nombre: formValues.nombre,
+        apellido: formValues.apellido,
+        fechanacimiento: formValues.fechnac,
+        rut: formValues.rut,
+        correo: formValues.correo,
+        telefono: formValues.telefono,
+        clave: formValues.contraseña,
+        token: localStorage.getItem('tokenActual'),
+        id_rol: /* Aquí necesitas obtener el rol del usuario actual. */
+      };
+  
+      this.db.actualizarPerfil(usuarioActualizado, formValues.contraseña)
+        .then(() => this.db.presentAlertP("Perfil actualizado exitosamente."))
+        .catch(error => this.db.presentAlertN("Error al actualizar el perfil: " + error));
     }
   }
 }

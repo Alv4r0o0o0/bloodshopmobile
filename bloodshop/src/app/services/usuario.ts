@@ -2,7 +2,6 @@ export class Usuario {
     id: number;
     nombre: string;
     apellido: number;
-    descripcion: string;
     fechanacimiento: string;
     rut: number;
     correo: string; 
@@ -15,7 +14,6 @@ export class Usuario {
         id: number,
         nombre: string,
         apellido: number,
-        descripcion: string,
         fechanacimiento: string,
         rut: number,
         correo: string,
@@ -27,7 +25,6 @@ export class Usuario {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.descripcion = descripcion;
         this.fechanacimiento = fechanacimiento;
         this.rut = rut;
         this.correo = correo;
