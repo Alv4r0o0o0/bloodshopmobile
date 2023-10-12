@@ -87,12 +87,6 @@ export class BdserviceService {
 
 
   //SERVICIOS DE USUARIOS
-obtenerPerfilPorToken(token: string): Usuario | undefined {
-  const usuarios: Usuario[] = this.listaUsuarios.value;
-  return usuarios.find(user => user.token === token);
-}
-  
-
   buscarUsuarios() {
     return this.database.executeSql('SELECT * FROM usuarios', []).then(res => {
       let items: any[] = [];
@@ -128,28 +122,58 @@ obtenerPerfilPorToken(token: string): Usuario | undefined {
       }
     });
   }
-  iniciarSesion(correo: string, clave: string): Promise<boolean> {
-    return new Promise((resolve) => {
+  iniciarSesion(correo: string, clave: string): Promise<{ token: string } | boolean> {
+    return new Promise((resolve, reject) => {
       this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
         if (res.rows.length > 0) {
+          const token = res.rows.item(0).token; // Obteniendo el token del primer resultado
           this.presentAlertP("Inicio de sesión exitoso");
-          resolve(true);
+          resolve({ token: token });  // Devuelve el token
         } else {
           this.presentAlertN("Correo o clave incorrectos");
-          resolve(false);
+          resolve(false);  // Devuelve false en caso de fallo
         }
       }).catch(e => {
         this.presentAlertN("Error al iniciar sesión:" + e);
-        resolve(false);
+        reject(false);  // Utiliza reject en lugar de resolve para errores
       });
     });
   }
-
-  modificarPerfil(id: any, correo: any, nombre: any, apellido: any, telefono: any, clave: any) {
-    return this.database.executeSql('UPDATE usuarios SET correo=?, nombre=?, apellido=?, telefono=?, clave=? WHERE id=?', [correo, nombre, apellido, telefono, clave, id]).then(res => {
-      this.buscarUsuarios();
+  
+  obtenerPerfilPorToken(token: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.database.executeSql('SELECT * FROM usuarios WHERE token = ?', [token]).then(res => {
+        if (res.rows.length > 0) {
+          let perfil = {
+            id: res.rows.item(0).id,
+            nombre: res.rows.item(0).nombre,
+            apellido: res.rows.item(0).apellido,
+            fechanacimiento: res.rows.item(0).fechanacimiento,
+            rut: res.rows.item(0).rut,
+            correo: res.rows.item(0).correo,
+            telefono: res.rows.item(0).telefono,
+            clave: res.rows.item(0).clave,
+            token: res.rows.item(0).token,
+            id_rol: res.rows.item(0).id_rol
+          };
+          resolve(perfil);
+        } else {
+          reject('No se encontró un usuario con ese token.');
+        }
+      }).catch(e => {
+        reject('Error al obtener el perfil: ' + e);
+      });
     });
   }
+  
+
+  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any, clave: any): Promise<void> {
+    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?', 
+    [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id]).then(res => {
+      this.buscarUsuarios();  // Actualizar la lista de usuarios en caso de que tengas una.
+    });
+}
+
 
 
 

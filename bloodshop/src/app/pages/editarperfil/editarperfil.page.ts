@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/dbservice.service';
 
@@ -104,6 +104,14 @@ function validatePhoneNumber(control: FormControl) {
   styleUrls: ['./editarperfil.page.scss'],
 })
 export class EditarperfilPage implements OnInit {
+  id = "";
+  nombre = "";
+  apellido = "";
+  fechanacimiento = "";
+  rut = "";
+  correo = "";
+  telefono = "";
+  clave = "";
 
   pattern = {
     nombre: /^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$/,
@@ -114,7 +122,9 @@ export class EditarperfilPage implements OnInit {
 
   editarForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private activatedRouter: ActivatedRoute, private navCtrl: NavController, private db: BdserviceService, private router: Router) { 
+    this.iniciarFormulario();
+  }
   validateRutFormat(control: FormControl) {
     const rut = control.value;
     if (!RutValidator.validaRut(rut)) {
@@ -122,65 +132,65 @@ export class EditarperfilPage implements OnInit {
     }
     return null;
   }
-  submitForm() {
-    const perfilActualizado = this.editarForm.value;
-    const tokenGuardado = localStorage.getItem('tokenActual');
-    if (tokenGuardado) {
-      const perfil = this.db.obtenerPerfilPorToken(tokenGuardado);
-      if (perfil) {
-        this.db.modificarPerfil(
-          perfil.id, // Asegurándonos de que el perfil obtenido tenga un 'id'
-          perfilActualizado.correo,
-          perfilActualizado.nombre,
-          perfilActualizado.apellido,
-          perfilActualizado.telefono,
-          perfilActualizado.contraseña
-        )
-          .then(() => {
-            this.db.presentAlertP("Perfil Modificado");
-            this.navCtrl.navigateBack('/hombre');  // Adaptar a la ruta donde desees regresar
-          });
-      }
-    }
-  }
 
   ngOnInit() {
-    this.initForm();
     this.cargarDatosActuales();
   }
-
-  initForm() {
+  iniciarFormulario() {
     this.editarForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
-      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
-      rut: ['', [Validators.required, this.validateRutFormat.bind(this)]],
-      fechnac: ['', [Validators.required, validateBirthDate]],
-      telefono: ['', [Validators.required, validatePhoneNumber]],
-      correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]],
+      nombre: [this.nombre, [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
+      apellido: [this.apellido, [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
+      rut: [this.rut, [Validators.required, this.validateRutFormat.bind(this)]],
+      fechnac: [this.fechanacimiento, [Validators.required, validateBirthDate]],
+      telefono: [this.telefono, [Validators.required, validatePhoneNumber]],
+      correo: [this.correo, [Validators.required, Validators.pattern(this.pattern.correo)]],
       confcorreo: ['', [Validators.required, matchEmail]],
-      contraseña: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.pattern.contraseña)]],
+      contraseña: [this.clave, [Validators.required, Validators.minLength(8), Validators.pattern(this.pattern.contraseña)]],
       confcontraseña: ['', [Validators.required, matchPassword]],
     });
-    this.cargarDatosActuales();
-
   }
 
   cargarDatosActuales() {
     const tokenGuardado = localStorage.getItem('tokenActual');
     if (tokenGuardado) {
-      const perfil = this.db.obtenerPerfilPorToken(tokenGuardado);
-      if (perfil) {
-        this.editarForm.setValue({
-          nombre: perfil.nombre,
-          apellido: perfil.apellido,
-          telefono: perfil.telefono,
-          fechanac: perfil.fechanacimiento,
-          rut: perfil.rut,
-          correo: perfil.correo,
-          clave: perfil.clave,
+      this.db.obtenerPerfilPorToken(tokenGuardado)
+        .then(perfil => {
+          this.editarForm.setValue({
+            nombre: perfil.nombre,
+            apellido: perfil.apellido,
+            telefono: perfil.telefono,
+            fechanac: perfil.fechanacimiento,
+            rut: perfil.rut,
+            correo: perfil.correo,
+            clave: perfil.clave,
+            // y otros campos que tengas...
+          });
+        })
+        .catch(error => {
+          console.error("Error al cargar el perfil:", error);
         });
-      }
     }
   }
-
+  guardarCambios() {
+    if (this.editarForm.valid) {
+      const perfilActualizado = this.editarForm.value;
+      this.db.modificarPerfil(
+        perfilActualizado.id,
+        perfilActualizado.nombre,
+        perfilActualizado.apellido,
+        perfilActualizado.fechanacimiento,
+        perfilActualizado.rut,
+        perfilActualizado.telefono,
+        perfilActualizado.correo,
+        perfilActualizado.contraseña,
+      ).then(() => {
+        this.navCtrl.navigateBack('/hombre'); // Ajusta esto a la ruta donde quieras redirigir después de editar.
+      })
+      .catch(error => {
+        console.error("Error al actualizar el perfil:", error);
+      });
+    } else {
+      // Puedes mostrar un mensaje de error aquí si el formulario no es válido.
+    }
+  }
 }

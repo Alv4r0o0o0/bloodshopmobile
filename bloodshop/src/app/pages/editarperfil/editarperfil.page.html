@@ -13,7 +13,7 @@
         <h1 class="ion-text-center">BLOODSHOP</h1>
         <h2 class="ion-text-center">EDITAR PERFIL</h2>
       </div>
-      <form [formGroup]="editarForm" (ngSubmit)="submitForm()">
+      <form [formGroup]="editarForm" (ngSubmit)="guardarCambios()">
         <ion-item>
           <ion-label for="name">Nombre:</ion-label>
           <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>

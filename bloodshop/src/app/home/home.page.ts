@@ -36,18 +36,18 @@ export class HomePage {
   async login() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-    // Si las credenciales corresponden al usuario administrador
+
     if (email === 'admin@admin.cl' && password === 'admin') {
       this.navCtrl.navigateForward('/hombre');
     } else {
-      // Si no, verifica en la base de datos
-      const result = await this.db.iniciarSesion(email, password);
-      if (result) {
+      const result: any = await this.db.iniciarSesion(email, password);
+      if (result && result.token) {
+        localStorage.setItem('userToken', result.token);
         this.navCtrl.navigateForward('/hombre');
       } else {
         this.mensajeError = "Las credenciales son incorrectas";
-        
       }
     }
   }
+
 }
