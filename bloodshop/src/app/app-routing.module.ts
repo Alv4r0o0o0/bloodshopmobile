@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/olvidarclave/olvidarclave.module').then( m => m.OlvidarclavePageModule)
   },
   {
-    path: 'detailhombre1',
+    path: 'detailhombre1/:id',
     loadChildren: () => import('./pages/detailhombre1/detailhombre1.module').then( m => m.Detailhombre1PageModule)
   },
   {
@@ -102,13 +102,18 @@ const routes: Routes = [
   {
     path: 'editarzapatilla',
     loadChildren: () => import('./pages/editarzapatilla/editarzapatilla.module').then( m => m.EditarzapatillaPageModule)
-  },  {
+  },
+  {
     path: 'editarshoes',
     loadChildren: () => import('./pages/editarshoes/editarshoes.module').then( m => m.EditarshoesPageModule)
   },
   {
     path: 'editarperfil',
     loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+  },
+  {
+    path: 'carrito',
+    loadChildren: () => import('./pages/carrito/carrito.module').then( m => m.CarritoPageModule)
   },
 
 

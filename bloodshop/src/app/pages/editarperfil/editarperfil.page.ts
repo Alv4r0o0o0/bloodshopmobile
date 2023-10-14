@@ -145,47 +145,7 @@ export class EditarperfilPage implements OnInit {
 
   ngOnInit() {
   }
-  cargarDatosActuales() {
-    const tokenGuardado = localStorage.getItem('tokenActual');
-    if (tokenGuardado) {
-      this.db.obtenerPerfilPorToken(tokenGuardado)
-        .then(perfil => {
-          this.editarForm.setValue({
-            nombre: perfil.nombre,
-            apellido: perfil.apellido,
-            telefono: perfil.telefono,
-            fechnac: perfil.fechanacimiento,
-            rut: perfil.rut,
-            correo: perfil.correo,
-            contraseña: '', // La contraseña debe ser ingresada por el usuario
-            confcontraseña: '',
-          });
-        })
-        .catch(error => {
-          console.error("Error al cargar el perfil:", error);
-        });
-    }
-  }
-  
-  async guardarCambios() {
-    if (this.editarForm.valid) {
-      const formValues = this.editarForm.value;
-      const usuarioActualizado: Usuario = {
-        id: /* Aquí necesitas obtener el ID del usuario actual. */,
-        nombre: formValues.nombre,
-        apellido: formValues.apellido,
-        fechanacimiento: formValues.fechnac,
-        rut: formValues.rut,
-        correo: formValues.correo,
-        telefono: formValues.telefono,
-        clave: formValues.contraseña,
-        token: localStorage.getItem('tokenActual'),
-        id_rol: /* Aquí necesitas obtener el rol del usuario actual. */
-      };
-  
-      this.db.actualizarPerfil(usuarioActualizado, formValues.contraseña)
-        .then(() => this.db.presentAlertP("Perfil actualizado exitosamente."))
-        .catch(error => this.db.presentAlertN("Error al actualizar el perfil: " + error));
-    }
+  guardarCambios(){
+
   }
 }

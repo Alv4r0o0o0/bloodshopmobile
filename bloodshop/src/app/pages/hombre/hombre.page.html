@@ -1,9 +1,9 @@
-<app-header auto-hide="false">
-  <ion-menu-button auto-hide="false">asdsadsadasds</ion-menu-button>
-</app-header>
-
-
 <ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-card>
     <img alt="Silhouette of mountains"
@@ -23,59 +23,14 @@
   </ion-card>
   <ion-grid [fixed]="true">
     <ion-row>
-      <ion-col>
+      <ion-card *ngFor="let zapatilla of zapatillas">
         <ion-card-content>
-          <img alt="Silhouette of mountains"
-            src="https://static.nike.com/a/images/t_default/7a095b1d-22b2-4ce4-960b-732b4cbef613/air-max-plus-zapatillas-5K87R3.png" />
-          Nike Air Max TN
+          <img [src]="zapatilla.foto" />
+          <p>{{ zapatilla.nombrezapatilla }}</p>
+          <p>Precio: ${{ zapatilla.precio }}</p>
+          <ion-button expand="full" size="small" [routerLink]="['/detailhombre1', zapatilla.id]">Comprar</ion-button>
         </ion-card-content>
-        <div class="ion-text-center">
-        <ion-button expand="full" size="small" [routerLink]="['/detailhombre1']">Comprar</ion-button>
-        <ion-button expand="full" size="small">Añadir al carro</ion-button>
-        </div>
-
-      </ion-col>
-
-
-
-      <ion-col>
-        <ion-card-content>
-          <img alt="Silhouette of mountains"
-            src="https://www.blockstore.cl/cdn/shop/products/p-HQ6432-1_400x400_crop_center.jpg?v=1681845093" />
-          Adidas Adi Ease
-        </ion-card-content>
-        <div class="ion-text-center">
-          <ion-button expand="full" size="small" [routerLink]="['/detailhombre2']">Comprar</ion-button>
-          <ion-button expand="full" size="small">Añadir al carro</ion-button>
-        </div>
-      </ion-col>
-      
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card-content>
-          <img alt="Silhouette of mountains"
-            src="https://nikeclprod.vteximg.com.br/arquivos/ids/703893-1000-1000/408452_017_A_PREM.jpg?v=638181213190300000" />
-          Air Jordan 4 Retro BG
-        </ion-card-content>
-        <div class="ion-text-center">
-          <ion-button expand="full" size="small" [routerLink]="['/detailhombre3']">Comprar</ion-button>
-          <ion-button expand="full" size="small">Añadir al carro</ion-button>
-        </div> 
-        </ion-col>
-        
-      <ion-col>
-        <ion-card-content>
-          <img alt="Silhouette of mountains"
-            src="https://www.puma-mexico.com.mx/images/puma-mexico/Tenis_Puma_Roma_Basic_Summer_JR_Ni%C3%B1a_Neg-AJX958617.jpg" />
-          Puma Roma Basic
-        </ion-card-content>
-        <div class="ion-text-center">
-          <ion-button expand="full" size="small" [routerLink]="['/detailhombre4']">Comprar</ion-button>
-          <ion-button expand="full" size="small">Añadir al carro</ion-button>
-        </div>
-      </ion-col>
-      
+      </ion-card>
     </ion-row>
   </ion-grid>
 

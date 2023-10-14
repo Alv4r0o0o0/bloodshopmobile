@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BdserviceService } from 'src/app/services/dbservice.service';  // Reemplaza 'ruta-de-tu-servicio' con la ubicación correcta
 
 @Component({
   selector: 'app-hombre',
@@ -7,10 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HombrePage implements OnInit {
   myDate = new Date();
+  zapatillas: any[] = [];
+  cart: any[] = [];
 
-  constructor() { }
+  constructor(private bdService: BdserviceService) {}
 
   ngOnInit() {
+    this.bdService.dbState().subscribe((res) => {
+      if (res) {
+        this.loadZapatillas();
+      }
+    });
   }
 
+  loadZapatillas() {
+    this.bdService.fetchZapatillas().subscribe((zapatillas) => {
+      this.zapatillas = zapatillas;
+    });
+  }
 }

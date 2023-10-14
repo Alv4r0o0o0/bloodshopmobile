@@ -10,6 +10,7 @@ import { Rol } from './rol';
   providedIn: 'root'
 })
 export class BdserviceService {
+  carrito: any[] = [];
   public database!: SQLiteObject;
 
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
@@ -193,6 +194,87 @@ export class BdserviceService {
     }
   }
 
+  addToCart(zapatilla: Zapatilla, talla: string, cantidad: number) {
+    this.isStockAvailable(zapatilla, talla, cantidad)
+      .then((isAvailable) => {
+        if (isAvailable) {
+          // Implementa la lógica para agregar al carrito aquí
+          // Puedes almacenar la información en LocalStorage o en una propiedad del servicio
+          // Por ejemplo, podrías tener un array "carrito" donde agregas los productos
+          // junto con la talla y cantidad seleccionadas.
+          const productoEnCarrito = {
+            zapatilla,
+            talla,
+            cantidad
+          };
+  
+          // Agrega el producto al carrito
+          this.carrito.push(productoEnCarrito);
+        } else {
+          this.presentAlertN('No hay suficiente stock disponible para la talla y cantidad seleccionadas.');
+        }
+      })
+      .catch((error) => {
+        // Manejar errores al verificar el stock
+        this.presentAlertN('Error al verificar el stock: ' + error);
+      });
+  }
+
+  fetchZapatillaDetails(id: string): Observable<Zapatilla> {
+    return new Observable<Zapatilla>((observer) => {
+      this.database.executeSql('SELECT * FROM zapatilla WHERE id = ?', [id]).then(res => {
+        if (res.rows.length > 0) {
+          const zapatilla: Zapatilla = {
+            id: res.rows.item(0).id,
+            nombrezapatilla: res.rows.item(0).nombrezapatilla,
+            marca: res.rows.item(0).marca,
+            descripcion: res.rows.item(0).descripcion,
+            foto: res.rows.item(0).foto,
+            precio: res.rows.item(0).precio,
+            tallas: res.rows.item(0).tallas,
+            cantidad: res.rows.item(0).cantidad
+          };
+          observer.next(zapatilla);
+          observer.complete();
+        } else {
+          this.presentAlertN('No se encontró la zapatilla con el ID proporcionado.');
+          observer.error('No se encontró la zapatilla con el ID proporcionado.');
+        }
+      }).catch(e => {
+        this.presentAlertN('Error al buscar detalles de la zapatilla: ' + e);
+        observer.error(e);
+      });
+    });
+  }
+
+  private async isStockAvailable(zapatilla: Zapatilla, talla: string, cantidad: number): Promise<boolean> {
+    const zapatillaId = zapatilla.id;
+  
+    try {
+      // Buscar el stock disponible en la base de datos
+      const res = await this.database.executeSql(
+        'SELECT cantidad FROM stock WHERE zapatilla_id = ? AND talla = ?',
+        [zapatillaId, talla]
+      );
+  
+      if (res.rows.length > 0) {
+        const stockDisponible = res.rows.item(0).cantidad;
+        // Comparar el stock disponible con la cantidad deseada
+        return stockDisponible >= cantidad;
+      } else {
+        // Si no se encuentra información de stock, asumir que no hay stock
+        return false;
+      }
+    } catch (e) {
+      this.presentAlertN('Error al verificar el stock: ' + e);
+      return false;
+    }
+  }
+
+
+
+
+
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
       header: 'Error!',
@@ -210,42 +292,6 @@ export class BdserviceService {
     await alert.present();
   }
 
-  obtenerPerfilPorToken(token: string): Promise<Usuario> {
-    return new Promise((resolve, reject) => {
-      this.database.executeSql('SELECT * FROM usuarios WHERE token = ?', [token]).then((res) => {
-        if (res.rows.length > 0) {
-          const usuario: Usuario = {
-            id: res.rows.item(0).id,
-            nombre: res.rows.item(0).nombre,
-            apellido: res.rows.item(0).apellido,
-            fechanacimiento: res.rows.item(0).fechanacimiento,
-            rut: res.rows.item(0).rut,
-            correo: res.rows.item(0).correo,
-            telefono: res.rows.item(0).telefono,
-            clave: res.rows.item(0).clave,
-            token: res.rows.item(0).token,
-            id_rol: res.rows.item(0).id_rol
-          };
-          resolve(usuario);
-        } else {
-          reject("No se encontró el usuario.");
-        }
-      }).catch(e => reject(e));
-    });
-  }
-  actualizarPerfil(usuario: Usuario, nuevaClave?: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      let query = 'UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=? WHERE id=?';
-      let valores = [usuario.nombre, usuario.apellido, usuario.fechanacimiento, usuario.rut, usuario.correo, usuario.telefono, usuario.id];
-  
-      if (nuevaClave) {
-        query = 'UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?';
-        valores.push(nuevaClave);
-      }
-  
-      this.database.executeSql(query, valores).then(() => resolve()).catch(e => reject(e));
-    });
-  }
   
 }
 

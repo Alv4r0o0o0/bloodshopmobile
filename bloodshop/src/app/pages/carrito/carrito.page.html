@@ -1,0 +1,31 @@
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <ion-list *ngIf="carrito.length > 0">
+    <ion-item *ngFor="let item of carrito">
+      <ion-thumbnail slot="start">
+        <img [src]="item.zapatilla.foto" alt="Zapatilla" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.zapatilla.nombrezapatilla }}</h2>
+        <p>Talla: {{ item.talla }}</p>
+        <p>Cantidad: {{ item.cantidad }}</p>
+        <p>Precio: ${{ item.zapatilla.precio }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-text *ngIf="carrito.length === 0" class="ion-text-center">El carrito está vacío.</ion-text>
+  <ion-button expand="full" (click)="realizarCompra()">Realizar Compra</ion-button>
+
+  <ion-footer  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);" class="ion-text-center">
+    <ion-toolbar  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);">
+      
+      <p style="font-size: 15px; color: white;" class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

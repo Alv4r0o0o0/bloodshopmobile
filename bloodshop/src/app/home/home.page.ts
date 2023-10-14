@@ -45,7 +45,6 @@ export class HomePage {
     if (result && 'token' in result) {
       localStorage.setItem('tokenActual', result.token);
       this.navCtrl.navigateForward('/hombre');
-      this.db.presentAlertP("Has abierto sesión exitosamente!");
     } else {
       this.db.presentAlertN("Error al iniciar sesión. Por favor, verifica tus credenciales.");
     }
