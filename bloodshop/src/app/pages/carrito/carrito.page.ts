@@ -11,7 +11,7 @@ export class CarritoPage {
 
   constructor(private bdService: BdserviceService) {
     // Recupera el carrito desde el servicio (puedes implementar esto)
-    this.carrito = bdService.carrito;
+    this.carrito = this.bdService.getCarrito();
   }
   ngOnInit() {
   }
@@ -20,7 +20,7 @@ export class CarritoPage {
     // Implementa la lógica para finalizar la compra aquí
     // Puedes procesar el pedido y realizar otras acciones necesarias
     // Una vez que la compra se haya realizado con éxito, puedes limpiar el carrito
-    this.bdService.carrito = []; // Por ejemplo, si usas una propiedad para almacenar el carrito en el servicio
+   // Por ejemplo, si usas una propiedad para almacenar el carrito en el servicio
     // También puedes redirigir al usuario a una página de confirmación o agradecimiento.
   }
 }

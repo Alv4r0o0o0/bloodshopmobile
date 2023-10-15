@@ -5,6 +5,12 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>BLOODSHOP</ion-title>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/carrito']">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span class="cart-badge">{{ numProductosEnCarrito }}</span>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 

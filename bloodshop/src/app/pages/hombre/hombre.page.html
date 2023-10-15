@@ -23,14 +23,16 @@
   </ion-card>
   <ion-grid [fixed]="true">
     <ion-row>
-      <ion-card *ngFor="let zapatilla of zapatillas">
-        <ion-card-content>
-          <img [src]="zapatilla.foto" />
-          <p>{{ zapatilla.nombrezapatilla }}</p>
-          <p>Precio: ${{ zapatilla.precio }}</p>
-          <ion-button expand="full" size="small" [routerLink]="['/detailhombre1', zapatilla.id]">Comprar</ion-button>
-        </ion-card-content>
-      </ion-card>
+      <ion-col size="6" *ngFor="let zapatilla of zapatillas"> <!-- Dividir en 2 columnas (size="6") -->
+        <ion-card>
+          <ion-card-content>
+            <img [src]="zapatilla.foto" />
+            <p>{{ zapatilla.nombrezapatilla }}</p>
+            <p>Precio: ${{ zapatilla.precio }}</p>
+            <ion-button expand="full" size="small" [routerLink]="['/detailhombre1', zapatilla.id]">Comprar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
     </ion-row>
   </ion-grid>
 

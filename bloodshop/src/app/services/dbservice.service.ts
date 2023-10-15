@@ -12,6 +12,7 @@ import { Rol } from './rol';
 export class BdserviceService {
   carrito: any[] = [];
   public database!: SQLiteObject;
+  private carritoKey = 'carrito';
 
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   //TABLA DE ZAPATILLA
@@ -24,11 +25,16 @@ export class BdserviceService {
   listaZapatillas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
+  private carritoSource: BehaviorSubject<Zapatilla[]> = new BehaviorSubject<Zapatilla[]>([]);
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform, private navCtrl: NavController,) {
     this.crearBD();
+    const storedCarrito = localStorage.getItem(this.carritoKey);
+    if (storedCarrito) {
+      this.carrito = JSON.parse(storedCarrito);
+    }
   }
 
   dbState() {
@@ -38,6 +44,7 @@ export class BdserviceService {
   fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
   }
+  carrito$: Observable<Zapatilla[]> = this.carritoSource.asObservable();
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
   }
@@ -194,31 +201,22 @@ export class BdserviceService {
     }
   }
 
-  addToCart(zapatilla: Zapatilla, talla: string, cantidad: number) {
-    this.isStockAvailable(zapatilla, talla, cantidad)
-      .then((isAvailable) => {
-        if (isAvailable) {
-          // Implementa la lógica para agregar al carrito aquí
-          // Puedes almacenar la información en LocalStorage o en una propiedad del servicio
-          // Por ejemplo, podrías tener un array "carrito" donde agregas los productos
-          // junto con la talla y cantidad seleccionadas.
-          const productoEnCarrito = {
-            zapatilla,
-            talla,
-            cantidad
-          };
-  
-          // Agrega el producto al carrito
-          this.carrito.push(productoEnCarrito);
-        } else {
-          this.presentAlertN('No hay suficiente stock disponible para la talla y cantidad seleccionadas.');
-        }
-      })
-      .catch((error) => {
-        // Manejar errores al verificar el stock
-        this.presentAlertN('Error al verificar el stock: ' + error);
-      });
+  addToCart(zapatilla: any, talla: string, cantidad: number) {
+    const productoEnCarrito = {
+      zapatilla,
+      talla,
+      cantidad
+    };
+
+    // Agrega el producto al carrito
+    this.carrito.push(productoEnCarrito);
   }
+
+  getCarrito() {
+    return this.carrito;
+  }
+
+
 
   fetchZapatillaDetails(id: string): Observable<Zapatilla> {
     return new Observable<Zapatilla>((observer) => {
@@ -246,34 +244,6 @@ export class BdserviceService {
       });
     });
   }
-
-  private async isStockAvailable(zapatilla: Zapatilla, talla: string, cantidad: number): Promise<boolean> {
-    const zapatillaId = zapatilla.id;
-  
-    try {
-      // Buscar el stock disponible en la base de datos
-      const res = await this.database.executeSql(
-        'SELECT cantidad FROM stock WHERE zapatilla_id = ? AND talla = ?',
-        [zapatillaId, talla]
-      );
-  
-      if (res.rows.length > 0) {
-        const stockDisponible = res.rows.item(0).cantidad;
-        // Comparar el stock disponible con la cantidad deseada
-        return stockDisponible >= cantidad;
-      } else {
-        // Si no se encuentra información de stock, asumir que no hay stock
-        return false;
-      }
-    } catch (e) {
-      this.presentAlertN('Error al verificar el stock: ' + e);
-      return false;
-    }
-  }
-
-
-
-
 
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({

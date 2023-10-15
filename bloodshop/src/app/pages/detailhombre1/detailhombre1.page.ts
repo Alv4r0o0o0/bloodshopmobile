@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BdserviceService } from 'src/app/services/dbservice.service'; // Reemplaza 'ruta-de-tu-servicio' con la ubicación correcta
+import { BdserviceService } from 'src/app/services/dbservice.service';// Reemplaza 'ruta-de-tu-servicio' con la ubicación correcta
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 
@@ -46,20 +46,18 @@ export class Detailhombre1Page implements OnInit {
 
   addToCart() {
     if (this.selectedTalla && this.selectedCantidad > 0) {
-      // Agregar la zapatilla al carrito con la talla y cantidad seleccionadas
-      // Debes implementar esta función en tu servicio BdserviceService
       this.bdService.addToCart(this.zapatilla, this.selectedTalla, this.selectedCantidad);
-      this.navCtrl.navigateForward(['/carrito']);
       this.bdService.presentAlertP("Añadiste un producto al carrito");
+      this.navCtrl.navigateForward('/carrito');
     }
   }
 
   goToCart() {
     if (this.selectedTalla && this.selectedCantidad > 0) {
-      // Agregar la zapatilla al carrito con la talla y cantidad seleccionadas
-      // Debes implementar esta función en tu servicio BdserviceService
       this.bdService.addToCart(this.zapatilla, this.selectedTalla, this.selectedCantidad);
-      this.navCtrl.navigateForward(['/carrito']);
+
+      // Redirigir al usuario a la página del carrito
+      this.navCtrl.navigateForward('/carrito');
     }
   }
 }
