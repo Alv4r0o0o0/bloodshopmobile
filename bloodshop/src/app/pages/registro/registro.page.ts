@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/dbservice.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 const RutValidator = {
   validaRut(rutCompleto: string): boolean {
@@ -113,6 +114,8 @@ export class RegistroPage implements OnInit {
   }
 
   registroForm: FormGroup;
+  capturedImage: string | null = null;
+
 
   constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService, private router: Router) {
     this.registroForm = this.formBuilder.group({
@@ -141,6 +144,21 @@ export class RegistroPage implements OnInit {
       this.navCtrl.navigateForward('/home');
     }
 
+  }
+  async takePhoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+      });
+  
+      if (image && image.dataUrl) {
+        this.capturedImage = image.dataUrl; // Asigna el Data URL a la propiedad capturedImage
+      }
+    } catch (error) {
+      console.error('Error al capturar la imagen:', error);
+    }
   }
 
   ngOnInit() {

@@ -14,6 +14,14 @@
         <h2 class="ion-text-center">REGISTRARSE</h2>
       </div>
       <form [formGroup]="registroForm" (ngSubmit)="submitForm()">
+        <p class="ion-text-center">
+          <img style="max-width: 100px;" [src]="capturedImage" *ngIf="capturedImage" alt="Imagen Capturada">
+        </p>
+        <p>
+          <ion-button shape="round" size="small" expand="block" (click)="takePhoto()">Selecciona o Toma una foto de perfil</ion-button>
+        </p>
+        
+
         <ion-item>
           <ion-label for="name">Nombre:</ion-label>
           <ion-input type="text" id="nombre" placeholder="Nombre" formControlName="nombre"></ion-input>

@@ -20,8 +20,6 @@ export class BdserviceService {
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios(id INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
-
-  registroZapatilla: string = "INSERT or IGNORE INTO zapatilla(id, nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad) VALUES (1,'Modelo X', 1, 'Descripción del modelo X', 'linkFoto', 100.50, '7us-12us', 100);";
   listaZapatillas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
@@ -188,7 +186,6 @@ export class BdserviceService {
     try {
       await this.database.executeSql(this.tablaMarca, []);
       await this.database.executeSql(this.tablaZapatilla, []);
-      await this.database.executeSql(this.registroZapatilla, []);
 
       await this.database.executeSql(this.tablaRoles, []);
       await this.database.executeSql(this.tablaUsuarios, []);
