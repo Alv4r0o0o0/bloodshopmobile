@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BdserviceService } from 'src/app/services/dbservice.service';
+import { Zapatilla } from 'src/app/services/zapatilla';
 
 @Component({
   selector: 'app-carrito',
@@ -7,20 +8,21 @@ import { BdserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['carrito.page.scss']
 })
 export class CarritoPage {
-  carrito: any[] = [];
+  zapatillasEnCarrito: Zapatilla[] = [];
 
   constructor(private bdService: BdserviceService) {
-    // Recupera el carrito desde el servicio (puedes implementar esto)
-    this.carrito = this.bdService.getCarrito();
+    this.zapatillasEnCarrito = bdService.obtenerCarrito();
+
+  }
+  eliminarZapatilla(zapatilla: any) {
+    // Eliminar la zapatilla del carrito
+    this.bdService.eliminarDelCarrito(zapatilla);
+    // Actualizar la lista de zapatillas en el carrito
+    this.zapatillasEnCarrito = this.bdService.obtenerCarrito();
   }
   ngOnInit() {
   }
 
   realizarCompra() {
-    // Implementa la lógica para finalizar la compra aquí
-    // Puedes procesar el pedido y realizar otras acciones necesarias
-    // Una vez que la compra se haya realizado con éxito, puedes limpiar el carrito
-   // Por ejemplo, si usas una propiedad para almacenar el carrito en el servicio
-    // También puedes redirigir al usuario a una página de confirmación o agradecimiento.
   }
 }

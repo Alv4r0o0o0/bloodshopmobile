@@ -10,29 +10,22 @@ import { Rol } from './rol';
   providedIn: 'root'
 })
 export class BdserviceService {
-  carrito: any[] = [];
   public database!: SQLiteObject;
-  private carritoKey = 'carrito';
-
-  tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
+  carrito: Zapatilla[] = [];
   //TABLA DE ZAPATILLA
+  tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios(id INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
   listaZapatillas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
-  private carritoSource: BehaviorSubject<Zapatilla[]> = new BehaviorSubject<Zapatilla[]>([]);
-
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform, private navCtrl: NavController,) {
     this.crearBD();
-    const storedCarrito = localStorage.getItem(this.carritoKey);
-    if (storedCarrito) {
-      this.carrito = JSON.parse(storedCarrito);
-    }
   }
 
   dbState() {
@@ -42,7 +35,7 @@ export class BdserviceService {
   fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
   }
-  carrito$: Observable<Zapatilla[]> = this.carritoSource.asObservable();
+  
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
   }
@@ -198,23 +191,6 @@ export class BdserviceService {
     }
   }
 
-  addToCart(zapatilla: any, talla: string, cantidad: number) {
-    const productoEnCarrito = {
-      zapatilla,
-      talla,
-      cantidad
-    };
-
-    // Agrega el producto al carrito
-    this.carrito.push(productoEnCarrito);
-  }
-
-  getCarrito() {
-    return this.carrito;
-  }
-
-
-
   fetchZapatillaDetails(id: string): Observable<Zapatilla> {
     return new Observable<Zapatilla>((observer) => {
       this.database.executeSql('SELECT * FROM zapatilla WHERE id = ?', [id]).then(res => {
@@ -258,6 +234,22 @@ export class BdserviceService {
     });
     await alert.present();
   }
+
+  
+  //CARRITO DE COMPRAS
+  agregarAlCarrito(zapatilla: Zapatilla) {
+    this.carrito.push(zapatilla);
+  }
+  obtenerCarrito() {
+    return this.carrito;
+  }
+  eliminarDelCarrito(zapatilla: Zapatilla) {
+    const index = this.carrito.findIndex((item) => item.id === zapatilla.id);
+    if (index !== -1) {
+      this.carrito.splice(index, 1);
+    }
+  }
+
 
   
 }

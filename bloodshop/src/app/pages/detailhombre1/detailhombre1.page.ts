@@ -16,6 +16,8 @@ export class Detailhombre1Page implements OnInit {
   selectedCantidad: number = 0;
   cantidadOptions: number[] = [];
   elegirForm: FormGroup;
+  numProductosEnCarrito: number = 0;
+  cantidadSeleccionada: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,25 +41,23 @@ export class Detailhombre1Page implements OnInit {
     if (id) {
       this.bdService.fetchZapatillaDetails(id).subscribe((zapatilla) => {
         this.zapatilla = zapatilla;
-        this.tallas = zapatilla.tallas.split('-');
+        const todasLasTallas = zapatilla.tallas.split('-');
+        this.tallas = todasLasTallas.filter((talla) => talla.trim() !== '' && talla.trim() !== '0');
       });
     }
   }
 
   addToCart() {
-    if (this.selectedTalla && this.selectedCantidad > 0) {
-      this.bdService.addToCart(this.zapatilla, this.selectedTalla, this.selectedCantidad);
-      this.bdService.presentAlertP("Añadiste un producto al carrito");
-      this.navCtrl.navigateForward('/carrito');
+    if (this.cantidadSeleccionada > this.zapatilla.cantidad) {
+      this.bdService.presentAlertN("No hay suficiente stock de esta talla.");
+      return; // No se agrega al carrito si no hay suficiente stock.
     }
+    this.zapatilla.cantidadSeleccionada = this.cantidadSeleccionada;
+    this.bdService.agregarAlCarrito(this.zapatilla);
+  }
+  goToCart(){
+
   }
 
-  goToCart() {
-    if (this.selectedTalla && this.selectedCantidad > 0) {
-      this.bdService.addToCart(this.zapatilla, this.selectedTalla, this.selectedCantidad);
 
-      // Redirigir al usuario a la página del carrito
-      this.navCtrl.navigateForward('/carrito');
-    }
-  }
 }

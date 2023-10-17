@@ -7,8 +7,10 @@
 
   <ion-card>
     <ion-card-content>
+      <div class="ion-text-center">
+      <h2>{{ zapatilla.nombrezapatilla }}</h2>
+      </div>
       <img [src]="zapatilla.foto" />
-      <p>{{ zapatilla.nombrezapatilla }}</p>
       <p>{{ zapatilla.descripcion }}</p>
       <p>Precio: ${{ zapatilla.precio }}</p>
       <p>Stock disponible: {{ zapatilla.cantidad }}</p>
@@ -26,7 +28,7 @@
 
         <ion-item>
           <ion-label>Cantidad:</ion-label>
-          <ion-select formControlName="select1">
+          <ion-select formControlName="select1" [(ngModel)]="cantidadSeleccionada">
             <ion-select-option *ngFor="let i of cantidadOptions" [value]="i">{{ i }}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -39,7 +41,8 @@
       </form>
     </ion-card-content>
   </ion-card>
-  <ion-footer  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);" class="ion-text-center">
+
+  <ion-footer style="color: rgb(194, 129, 255); --background: rgb(34,0,67);" class="ion-text-center">
     <ion-toolbar  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);">
       
       <p style="font-size: 15px; color: white;" class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>

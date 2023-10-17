@@ -8,7 +8,7 @@
       <ion-buttons slot="end">
         <ion-button [routerLink]="['/carrito']">
           <ion-icon name="cart-outline"></ion-icon>
-          <span class="cart-badge">{{ numProductosEnCarrito }}</span>
+          <span>{{obtenerNumeroCarrito()}}</span>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>

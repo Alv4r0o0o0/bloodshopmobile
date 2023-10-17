@@ -7,12 +7,10 @@ import { BdserviceService } from './services/dbservice.service'; // Asegúrate d
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  numProductosEnCarrito: number = 0;
 
   constructor(private bdService: BdserviceService) {
-    // Suscribe a cambios en el carrito y actualiza numProductosEnCarrito
-    this.bdService.carrito$.subscribe((productosEnCarrito) => {
-      this.numProductosEnCarrito = productosEnCarrito.length;
-    });
+  }
+  obtenerNumeroCarrito(): number {
+    return this.bdService.obtenerCarrito().length;
   }
 }
