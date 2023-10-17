@@ -7,6 +7,7 @@ export class Zapatilla {
     precio: number;
     tallas: string; // Esto representa las tallas disponibles. Podrías considerar usar un array o una estructura diferente si quieres manejar las tallas de manera más específica.
     cantidad: number;
+    
 
     constructor(
         id: number,

@@ -12,6 +12,7 @@ import { Rol } from './rol';
 export class BdserviceService {
   public database!: SQLiteObject;
   carrito: Zapatilla[] = [];
+  cantidadSeleccionada: number[] = []; 
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
@@ -237,17 +238,22 @@ export class BdserviceService {
 
   
   //CARRITO DE COMPRAS
-  agregarAlCarrito(zapatilla: Zapatilla) {
+  agregarAlCarrito(zapatilla: Zapatilla, cantidadSeleccionada: number) {
     this.carrito.push(zapatilla);
+    this.cantidadSeleccionada.push(cantidadSeleccionada);
   }
   obtenerCarrito() {
     return this.carrito;
   }
-  eliminarDelCarrito(zapatilla: Zapatilla) {
-    const index = this.carrito.findIndex((item) => item.id === zapatilla.id);
-    if (index !== -1) {
-      this.carrito.splice(index, 1);
+  eliminarDelCarrito(zapatilla: Zapatilla, index: number) {
+    const indexEnCarrito = this.carrito.findIndex((item) => item.id === zapatilla.id);
+    if (indexEnCarrito !== -1) {
+      this.carrito.splice(indexEnCarrito, 1);
+      this.cantidadSeleccionada.splice(index, 1); // Elimina la cantidad seleccionada correspondiente al índice
     }
+  }
+    obtenerCantidadSeleccionada(index: number) {
+    return this.cantidadSeleccionada[index];
   }
 
 

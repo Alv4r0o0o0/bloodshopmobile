@@ -10,15 +10,16 @@ import { Zapatilla } from 'src/app/services/zapatilla';
 export class CarritoPage {
   zapatillasEnCarrito: Zapatilla[] = [];
 
-  constructor(private bdService: BdserviceService) {
+  constructor(public bdService: BdserviceService) {
     this.zapatillasEnCarrito = bdService.obtenerCarrito();
 
   }
-  eliminarZapatilla(zapatilla: any) {
+  eliminarZapatilla(zapatilla: any, index: number) {
     // Eliminar la zapatilla del carrito
-    this.bdService.eliminarDelCarrito(zapatilla);
+    this.bdService.eliminarDelCarrito(zapatilla, index);
     // Actualizar la lista de zapatillas en el carrito
     this.zapatillasEnCarrito = this.bdService.obtenerCarrito();
+    this.bdService.presentAlertP("Se ha eliminado la zapatilla correctamente");
   }
   ngOnInit() {
   }

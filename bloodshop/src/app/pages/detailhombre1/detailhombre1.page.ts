@@ -34,7 +34,7 @@ export class Detailhombre1Page implements OnInit {
   ngOnInit() {
     const zapatillaId = this.route.snapshot.paramMap.get('id');
     this.loadZapatillaDetails(zapatillaId);
-    this.cantidadOptions = Array.from({ length: 10 }, (_, i) => i + 1); // Opciones de cantidad
+    this.cantidadOptions = Array.from({ length: 3 }, (_, i) => i + 1); // Opciones de cantidad
   }
 
   loadZapatillaDetails(id: string | null) {
@@ -52,8 +52,7 @@ export class Detailhombre1Page implements OnInit {
       this.bdService.presentAlertN("No hay suficiente stock de esta talla.");
       return; // No se agrega al carrito si no hay suficiente stock.
     }
-    this.zapatilla.cantidadSeleccionada = this.cantidadSeleccionada;
-    this.bdService.agregarAlCarrito(this.zapatilla);
+    this.bdService.agregarAlCarrito(this.zapatilla, this.cantidadSeleccionada);
   }
   goToCart(){
 
