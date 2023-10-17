@@ -9,19 +9,22 @@ import { Zapatilla } from 'src/app/services/zapatilla';
 })
 export class CarritoPage {
   zapatillasEnCarrito: Zapatilla[] = [];
+  carritoVacio: boolean = true;
 
-  constructor(public bdService: BdserviceService) {
-    this.zapatillasEnCarrito = bdService.obtenerCarrito();
+  constructor(public bdService: BdserviceService) {}
 
-  }
   eliminarZapatilla(zapatilla: any, index: number) {
+    this.carritoVacio = this.zapatillasEnCarrito.length === 0;
     // Eliminar la zapatilla del carrito
     this.bdService.eliminarDelCarrito(zapatilla, index);
     // Actualizar la lista de zapatillas en el carrito
-    this.zapatillasEnCarrito = this.bdService.obtenerCarrito();
     this.bdService.presentAlertP("Se ha eliminado la zapatilla correctamente");
+    this.zapatillasEnCarrito = this.bdService.obtenerCarrito();
   }
   ngOnInit() {
+    this.zapatillasEnCarrito = this.bdService.obtenerCarrito();
+    this.carritoVacio = this.zapatillasEnCarrito.length === 0;
+    
   }
 
   realizarCompra() {
