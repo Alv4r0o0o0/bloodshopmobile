@@ -10,9 +10,12 @@ import { Rol } from './rol';
   providedIn: 'root'
 })
 export class BdserviceService {
+  //VARIABLES
   public database!: SQLiteObject;
   carrito: Zapatilla[] = [];
-  cantidadSeleccionada: number[] = []; 
+  cantidadSeleccionada: number[] = [];
+  private rolActual: number = 1;
+  private sesionIniciada: boolean = false;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
@@ -20,13 +23,16 @@ export class BdserviceService {
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios(id INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
+  //LISTAS
   listaZapatillas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
+
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform, private navCtrl: NavController,) {
     this.crearBD();
+    
   }
 
   dbState() {
@@ -36,7 +42,7 @@ export class BdserviceService {
   fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
   }
-  
+
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
   }
@@ -124,32 +130,59 @@ export class BdserviceService {
   }
   iniciarSesion(correo: string, clave: string): Promise<Usuario | false> {
     return new Promise((resolve, reject) => {
-        this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
-            if (res.rows.length > 0) {
-                const usuario: Usuario = {
-                    id: res.rows.item(0).id,
-                    nombre: res.rows.item(0).nombre,
-                    apellido: res.rows.item(0).apellido,
-                    fechanacimiento: res.rows.item(0).fechanacimiento,
-                    rut: res.rows.item(0).rut,
-                    correo: res.rows.item(0).correo,
-                    telefono: res.rows.item(0).telefono,
-                    clave: res.rows.item(0).clave,
-                    token: res.rows.item(0).token,
-                    id_rol: res.rows.item(0).id_rol
-                };
-                this.presentAlertP("Inicio de sesión exitoso");
-                resolve(usuario);
-            } else {
-                this.presentAlertN("Correo o clave incorrectos");
-                resolve(false);
-            }
-        }).catch(e => {
-            this.presentAlertN("Error al iniciar sesión:" + e);
-            resolve(false);  // Nota: Puedes decidir usar reject(e) si consideras el error como una situación de rechazo.
-        });
+      this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
+        if (res.rows.length > 0) {
+          const usuario: Usuario = {
+            id: res.rows.item(0).id,
+            nombre: res.rows.item(0).nombre,
+            apellido: res.rows.item(0).apellido,
+            fechanacimiento: res.rows.item(0).fechanacimiento,
+            rut: res.rows.item(0).rut,
+            correo: res.rows.item(0).correo,
+            telefono: res.rows.item(0).telefono,
+            clave: res.rows.item(0).clave,
+            token: res.rows.item(0).token,
+            id_rol: res.rows.item(0).id_rol
+          };
+
+          if (correo === 'admin@admin.cl' && clave === 'admin') {
+            // Usuario administrador
+            usuario.id_rol = 2; // 2 es el ID del rol de administrador
+          } else {
+            // Usuario normal
+            usuario.id_rol = 1; // 1 es el ID del rol de usuario
+          }
+
+          this.presentAlertP("Inicio de sesión exitoso");
+          resolve(usuario);
+        } else {
+          this.presentAlertN("Correo o clave incorrectos");
+          resolve(false);
+        }
+      }).catch(e => {
+        this.presentAlertN("Error al iniciar sesión:" + e);
+        resolve(false);
+      });
     });
-}
+  }
+  
+  cerrarSesion(): void{
+    this.setSesionIniciada(false);
+  }
+
+  setRolActual(rol: number): void {
+    this.rolActual = rol;
+  }
+  getRolActual(): number {
+    return this.rolActual;
+  }
+
+  setSesionIniciada(value: boolean): void {
+    this.sesionIniciada = value;
+  }
+  getSesionIniciada(): boolean {
+    return this.sesionIniciada;
+  }
 
 
   crearBD() {
@@ -160,20 +193,10 @@ export class BdserviceService {
       }).then((db: SQLiteObject) => {
         this.database = db;
         this.crearTablas();
-        this.inicializarRoles();
       }).catch(e => {
         this.presentAlertN("Error en crear BD: " + e);
       });
     });
-  }
-
-  async inicializarRoles() {
-    try {
-      await this.database.executeSql('INSERT OR IGNORE INTO rol (id_rol, nombre) VALUES (1, "usuario")', []);
-      await this.database.executeSql('INSERT OR IGNORE INTO rol (id_rol, nombre) VALUES (2, "admin")', []);
-    } catch (e) {
-      this.presentAlertN("Error al inicializar roles: " + e);
-    }
   }
 
   async crearTablas() {
@@ -236,7 +259,7 @@ export class BdserviceService {
     await alert.present();
   }
 
-  
+
   //CARRITO DE COMPRAS
   agregarAlCarrito(zapatilla: Zapatilla, cantidadSeleccionada: number) {
     this.carrito.push(zapatilla);
@@ -252,12 +275,12 @@ export class BdserviceService {
       this.cantidadSeleccionada.splice(index, 1); // Elimina la cantidad seleccionada correspondiente al índice
     }
   }
-    obtenerCantidadSeleccionada(index: number) {
+  obtenerCantidadSeleccionada(index: number) {
     return this.cantidadSeleccionada[index];
   }
 
 
-  
+
 }
 
 

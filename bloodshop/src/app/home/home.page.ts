@@ -15,7 +15,7 @@ export class HomePage {
 
   loginForm!: FormGroup; // Declarar el formulario FormGroup
 
-  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController, private navCtrl: NavController, private loadingCtrl: LoadingController, private db: BdserviceService) {}
+  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController, private navCtrl: NavController, private loadingCtrl: LoadingController, private db: BdserviceService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -35,20 +35,22 @@ export class HomePage {
 
     // Caso de administrador
     if (email === 'admin@admin.cl' && password === 'admin') {
-        this.navCtrl.navigateForward('/hombre');
-        this.db.presentAlertP("Has abierto sesión exitosamente!");
-        return;  // Finaliza el método aquí
+      this.db.setRolActual(2);
+      this.navCtrl.navigateForward('/hombre');
+      this.db.presentAlertP("Has abierto sesión exitosamente!");
+      return;  // Finaliza el método aquí
     }
 
     // Caso de usuario normal
     const result = await this.db.iniciarSesion(email, password);
     if (result && 'token' in result) {
       localStorage.setItem('tokenActual', result.token);
+      this.db.setRolActual(1);
       this.navCtrl.navigateForward('/hombre');
     } else {
       this.db.presentAlertN("Error al iniciar sesión. Por favor, verifica tus credenciales.");
     }
-    
+
   }
 
 

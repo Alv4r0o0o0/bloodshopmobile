@@ -8,9 +8,16 @@ import { BdserviceService } from './services/dbservice.service'; // Asegúrate d
 })
 export class AppComponent {
 
-  constructor(private bdService: BdserviceService) {
+  constructor(public bdService: BdserviceService) {
   }
   obtenerNumeroCarrito(): number {
     return this.bdService.obtenerCarrito().length;
+  }
+  esAdministrador(): boolean {
+    // Verifica si el usuario actual tiene un rol de administrador
+    return this.bdService.getRolActual() === 2; // Asumiendo que el ID del rol de administrador es 2
+  }
+  cerrarSesion(){
+    this.bdService.cerrarSesion();
   }
 }
