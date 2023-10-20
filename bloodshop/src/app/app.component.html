@@ -21,7 +21,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-row *ngIf="!bdService.getRolActual()"> 
+      <ion-row *ngIf="!estaLogueado()"> 
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/home']">Iniciar Sesión <ion-icon
@@ -29,10 +29,10 @@
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="bdService.getRolActual()">
+      <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
-            <ion-button expand="full" [routerLink]="['/home']">Cerrar Sesión <ion-icon
+            <ion-button expand="full" (click)="cerrarSesion()">Cerrar Sesión <ion-icon
                 name="person-outline"></ion-icon></ion-button>
           </ion-menu-toggle>
         </ion-col>

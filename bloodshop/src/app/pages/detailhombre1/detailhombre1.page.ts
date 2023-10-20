@@ -54,6 +54,7 @@ export class Detailhombre1Page implements OnInit {
     }
     this.bdService.agregarAlCarrito(this.zapatilla, this.cantidadSeleccionada);
   }
+  
   goToCart(){
 
   }

@@ -14,8 +14,8 @@ export class BdserviceService {
   public database!: SQLiteObject;
   carrito: Zapatilla[] = [];
   cantidadSeleccionada: number[] = [];
-  private rolActual: number = 1;
-  private sesionIniciada: boolean = false;
+  private rolActual: number = 0;
+  logueado: number = 0;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
@@ -148,11 +148,12 @@ export class BdserviceService {
           if (correo === 'admin@admin.cl' && clave === 'admin') {
             // Usuario administrador
             usuario.id_rol = 2; // 2 es el ID del rol de administrador
+            this.logueado = 2;
           } else {
             // Usuario normal
             usuario.id_rol = 1; // 1 es el ID del rol de usuario
+            this.logueado = 1;
           }
-
           this.presentAlertP("Inicio de sesión exitoso");
           resolve(usuario);
         } else {
@@ -165,23 +166,12 @@ export class BdserviceService {
       });
     });
   }
-  
-  cerrarSesion(): void{
-    this.setSesionIniciada(false);
-  }
 
   setRolActual(rol: number): void {
     this.rolActual = rol;
   }
   getRolActual(): number {
     return this.rolActual;
-  }
-
-  setSesionIniciada(value: boolean): void {
-    this.sesionIniciada = value;
-  }
-  getSesionIniciada(): boolean {
-    return this.sesionIniciada;
   }
 
 

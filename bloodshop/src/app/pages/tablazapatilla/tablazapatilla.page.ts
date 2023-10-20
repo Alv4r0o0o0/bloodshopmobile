@@ -57,6 +57,7 @@ export class TablazapatillaPage implements OnInit {
     }
     this.router.navigate(['/editarshoes'], navigationExtras);
   }
+  
 
   eliminar(x: any) {
     this.bd.eliminar(x.id);

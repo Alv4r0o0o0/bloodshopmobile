@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BdserviceService } from './services/dbservice.service'; // Asegúrate de importar el servicio correcto
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,17 +8,25 @@ import { BdserviceService } from './services/dbservice.service'; // Asegúrate d
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-
-  constructor(public bdService: BdserviceService) {
+  logueado: number = 0;
+  constructor(private bdService: BdserviceService, private navCtrl: NavController) {
   }
   obtenerNumeroCarrito(): number {
     return this.bdService.obtenerCarrito().length;
   }
+  estaLogueado(): boolean{
+    const rolActual = this.bdService.getRolActual();
+    return rolActual === 1 || rolActual === 2;
+  }
+  
+
   esAdministrador(): boolean {
-    // Verifica si el usuario actual tiene un rol de administrador
     return this.bdService.getRolActual() === 2; // Asumiendo que el ID del rol de administrador es 2
   }
   cerrarSesion(){
-    this.bdService.cerrarSesion();
+    this.logueado = 0;
+    this.bdService.setRolActual(0);
+    this.navCtrl.navigateForward('/home');
+    this.bdService.presentAlertP("Has cerrado sesión con exito!");
   }
 }

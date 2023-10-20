@@ -20,7 +20,9 @@ export class HombrePage implements OnInit {
       }
     });
   }
-
+  formatPrice(price: number): string {
+    return "$" + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
   loadZapatillas() {
     this.bdService.fetchZapatillas().subscribe((zapatillas) => {
       this.zapatillas = zapatillas;

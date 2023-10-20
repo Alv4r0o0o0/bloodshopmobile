@@ -12,7 +12,7 @@
       </div>
       <img [src]="zapatilla.foto" />
       <p>{{ zapatilla.descripcion }}</p>
-      <p>Precio: ${{ zapatilla.precio }}</p>
+      <p>Precio: ${{ zapatilla.precio | number:'1.0-0'}}</p>
       <p>Stock disponible: {{ zapatilla.cantidad }}</p>
       
       <form [formGroup]="elegirForm">
