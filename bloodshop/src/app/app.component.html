@@ -37,7 +37,7 @@
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/editarperfil']">Editar Perfil <ion-icon
@@ -46,21 +46,21 @@
         </ion-col>
       </ion-row>
       <br>
-      <ion-row>
+      <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/hombre']">Hombre</ion-button>
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/mujer']">Mujer</ion-button>
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/ninos']">Niños</ion-button>

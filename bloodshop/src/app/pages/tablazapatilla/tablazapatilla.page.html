@@ -15,7 +15,7 @@
           <p>NOMBRE: {{ x.nombrezapatilla }}</p>
           <p>MARCA: {{ x.marca }}</p> <!-- Esto mostrará el ID de la marca. Puede necesitar otro arreglo para mostrar el nombre real de la marca -->
           <p>DESCRIPCION: {{ x.descripcion }}</p>
-          <p>PRECIO: {{ x.precio | number:'1.0-0' }}</p>
+          <p>PRECIO: ${{ x.precio | number:'1.0-0' }}</p>
           <p>TALLAS: {{ x.tallas }}</p>
           <p>CANTIDAD: {{ x.cantidad }}</p>
           <img style="max-width: 250px;" [src]="x.foto" alt="Foto de la zapatilla">

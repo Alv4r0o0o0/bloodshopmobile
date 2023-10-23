@@ -34,7 +34,6 @@ export class AgregarzapatillaPage implements OnInit {
 
   insertar() {
     this.db.agregar(this.nombrezapatilla, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
-    
     const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
     zapatillasImages[this.nombrezapatilla] = this.foto; // asumiendo que 'this.id' es único para cada zapatilla
     localStorage.setItem('zapatillasImages', JSON.stringify(zapatillasImages));

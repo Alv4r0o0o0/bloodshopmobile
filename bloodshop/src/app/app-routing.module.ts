@@ -100,10 +100,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tablazapatilla/tablazapatilla.module').then( m => m.TablazapatillaPageModule)
   },
   {
-    path: 'editarzapatilla',
-    loadChildren: () => import('./pages/editarzapatilla/editarzapatilla.module').then( m => m.EditarzapatillaPageModule)
-  },
-  {
     path: 'editarshoes',
     loadChildren: () => import('./pages/editarshoes/editarshoes.module').then( m => m.EditarshoesPageModule)
   },
