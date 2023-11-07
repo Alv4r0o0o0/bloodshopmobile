@@ -5,11 +5,11 @@ describe('AdministradorPage', () => {
   let component: AdministradorPage;
   let fixture: ComponentFixture<AdministradorPage>;
 
-  beforeEach(async(() => {
+  beforeEach(async() => {
     fixture = TestBed.createComponent(AdministradorPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

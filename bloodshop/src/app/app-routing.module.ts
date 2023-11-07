@@ -40,54 +40,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detailhombre1/detailhombre1.module').then( m => m.Detailhombre1PageModule)
   },
   {
-    path: 'detailhombre2',
-    loadChildren: () => import('./pages/detailhombre2/detailhombre2.module').then( m => m.Detailhombre2PageModule)
-  },
-  {
-    path: 'detailhombre3',
-    loadChildren: () => import('./pages/detailhombre3/detailhombre3.module').then( m => m.Detailhombre3PageModule)
-  },
-  {
-    path: 'detailhombre4',
-    loadChildren: () => import('./pages/detailhombre4/detailhombre4.module').then( m => m.Detailhombre4PageModule)
-  },
-  {
-    path: 'detailmujer1',
-    loadChildren: () => import('./pages/detailmujer1/detailmujer1.module').then( m => m.Detailmujer1PageModule)
-  },
-  {
-    path: 'detailmujer2',
-    loadChildren: () => import('./pages/detailmujer2/detailmujer2.module').then( m => m.Detailmujer2PageModule)
-  },
-  {
-    path: 'detailmujer3',
-    loadChildren: () => import('./pages/detailmujer3/detailmujer3.module').then( m => m.Detailmujer3PageModule)
-  },
-  {
-    path: 'detailmujer4',
-    loadChildren: () => import('./pages/detailmujer4/detailmujer4.module').then( m => m.Detailmujer4PageModule)
-  },
-  {
-    path: 'detailninos1',
-    loadChildren: () => import('./pages/detailninos1/detailninos1.module').then( m => m.Detailninos1PageModule)
-  },
-  {
-    path: 'detailninos2',
-    loadChildren: () => import('./pages/detailninos2/detailninos2.module').then( m => m.Detailninos2PageModule)
-  },
-  {
-    path: 'detailninos3',
-    loadChildren: () => import('./pages/detailninos3/detailninos3.module').then( m => m.Detailninos3PageModule)
-  },
-  {
-    path: 'detailninos4',
-    loadChildren: () => import('./pages/detailninos4/detailninos4.module').then( m => m.Detailninos4PageModule)
-  },
-  {
-    path: 'principal',
-    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
-  },
-  {
     path: 'administrador',
     loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
   },
@@ -110,9 +62,6 @@ const routes: Routes = [
   {
     path: 'carrito',
     loadChildren: () => import('./pages/carrito/carrito.module').then( m => m.CarritoPageModule)
-  },  {
-    path: 'editarperfil1',
-    loadChildren: () => import('./pages/editarperfil1/editarperfil1.module').then( m => m.Editarperfil1PageModule)
   },
 
 

@@ -20,15 +20,11 @@ export class Detailhombre1Page implements OnInit {
   cantidadSeleccionada: number = 1;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private bdService: BdserviceService,
-    private formBuilder: FormBuilder, private navCtrl: NavController,
-  ) {
-    this.elegirForm = this.formBuilder.group({
-      select: ['', [Validators.required]],
-      select1: ['', [Validators.required]],
-    });
+    private route: ActivatedRoute, private bdService: BdserviceService, private formBuilder: FormBuilder, private navCtrl: NavController){
+      this.elegirForm = this.formBuilder.group({
+        select: ['', [Validators.required]],
+        select1: ['', [Validators.required]],
+      });
   }
 
   ngOnInit() {
