@@ -13,16 +13,17 @@ export class HomePage {
 
   mensajeError: String = '';
 
-  loginForm!: FormGroup; // Declarar el formulario FormGroup
+  loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private animationCtrl: AnimationController, private navCtrl: NavController, private loadingCtrl: LoadingController, private db: BdserviceService) { 
-  }
-
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService) { 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+  }
+
+  ngOnInit() {
+
   }
   
 
