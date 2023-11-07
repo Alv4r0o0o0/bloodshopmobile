@@ -72,13 +72,12 @@ function validatePhoneNumber(control: FormControl) {
 
   return null; // Si el número de teléfono es válido
 }
-
 @Component({
-  selector: 'app-editarperfil',
-  templateUrl: './editarperfil.page.html',
-  styleUrls: ['./editarperfil.page.scss'],
+  selector: 'app-editarperfil1',
+  templateUrl: './editarperfil1.page.html',
+  styleUrls: ['./editarperfil1.page.scss'],
 })
-export class EditarperfilPage implements OnInit {
+export class Editarperfil1Page implements OnInit {
   usuario: any;
 
   pattern = {
@@ -99,13 +98,15 @@ export class EditarperfilPage implements OnInit {
       telefono: [''],
       correo: [''],
     });
+    
+  }
+  ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       if (params && params['usuario']) {
         this.usuario = params['usuario'];
         this.inicializarFormulario();
       }
     });
-    
   }
 
   validateRutFormat(control: FormControl) {
@@ -116,8 +117,6 @@ export class EditarperfilPage implements OnInit {
     return null;
   }
 
-  ngOnInit() {
-  }
 
   inicializarFormulario() {
     this.editarForm = this.formBuilder.group({
@@ -138,4 +137,5 @@ export class EditarperfilPage implements OnInit {
       this.navCtrl.navigateBack('/perfil'); // Puedes ajustar la redirección según tus necesidades
     }
   }
+
 }

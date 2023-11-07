@@ -21,7 +21,7 @@ export class BdserviceService {
   tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
-  tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios(id INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
+  tablaUsuarios: string = `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL, foto TEXT, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol (id_rol));`;
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
   //LISTAS
   listaZapatillas = new BehaviorSubject([]);
@@ -32,7 +32,7 @@ export class BdserviceService {
 
   constructor(private alertController: AlertController, public sqlite: SQLite, private platform: Platform, private navCtrl: NavController,) {
     this.crearBD();
-    
+
   }
 
   dbState() {
@@ -88,6 +88,12 @@ export class BdserviceService {
   modificar(id: any, nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any) {
     return this.database.executeSql('UPDATE zapatilla SET nombrezapatilla=?, marca=?, descripcion=?, foto=?, precio=?, tallas=?, cantidad=? WHERE id=?', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, id]).then(res => {
       this.buscarZapatillas();
+    });
+  }
+
+  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any, clave: any = '') {
+    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?', [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id]).then(res => {
+      this.buscarUsuarios();
     });
   }
 
@@ -166,6 +172,8 @@ export class BdserviceService {
       });
     });
   }
+
+
 
   setRolActual(rol: number): void {
     this.rolActual = rol;

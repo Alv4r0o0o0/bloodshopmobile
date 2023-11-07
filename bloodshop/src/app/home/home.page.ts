@@ -33,23 +33,20 @@ export class HomePage {
   async login() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-
-    // Caso de administrador
-    if (email === 'admin@admin.cl' && password === 'admin') {
-      this.db.setRolActual(2);
-      this.navCtrl.navigateForward('/hombre');
-      this.db.presentAlertP("Has abierto sesión exitosamente!");
+  
+    const usuario = await this.db.iniciarSesion(email, password);
+    if (usuario) {
+      localStorage.setItem('tokenActual', usuario.token);
+      this.db.setRolActual(usuario.id_rol);
+  
+      // Pasa el usuario a 'hombre.ts' con los datos del usuario
+      this.navCtrl.navigateForward('/hombre', {
+        state: {
+          usuario: usuario // Pasa el objeto 'usuario'
+        }
+      });
+  
       this.loginForm.reset();
-    } else {
-      // Caso de usuario normal
-      const result = await this.db.iniciarSesion(email, password);
-      if (result && 'token' in result) {
-        localStorage.setItem('tokenActual', result.token);
-        this.db.setRolActual(1);
-        this.navCtrl.navigateForward('/hombre');
-        this.loginForm.reset();
-      }
     }
-    
   }
 }

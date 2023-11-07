@@ -4,11 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EditarperfilPageRoutingModule } from './editarperfil-routing.module';
+import { Editarperfil1PageRoutingModule } from './editarperfil1-routing.module';
 
-import { EditarperfilPage } from './editarperfil.page';
+import { Editarperfil1Page } from './editarperfil1.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -17,8 +16,8 @@ import { RouterModule } from '@angular/router';
     ComponentsModule,
     ReactiveFormsModule,
     IonicModule,
-    EditarperfilPageRoutingModule,
+    Editarperfil1PageRoutingModule
   ],
-  declarations: [EditarperfilPage]
+  declarations: [Editarperfil1Page]
 })
-export class EditarperfilPageModule {}
+export class Editarperfil1PageModule {}

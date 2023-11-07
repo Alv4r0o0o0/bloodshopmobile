@@ -8,8 +8,13 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  usuario: any; 
   logueado: number = 0;
   constructor(private bdService: BdserviceService, private navCtrl: NavController) {
+    this.usuario = {};
+  }
+  editarPerfil() {
+    this.navCtrl.navigateForward('/editarperfil1');
   }
   obtenerNumeroCarrito(): number {
     return this.bdService.obtenerCarrito().length;
@@ -18,7 +23,6 @@ export class AppComponent {
     const rolActual = this.bdService.getRolActual();
     return rolActual === 1 || rolActual === 2;
   }
-  
 
   esAdministrador(): boolean {
     return this.bdService.getRolActual() === 2; // Asumiendo que el ID del rol de administrador es 2

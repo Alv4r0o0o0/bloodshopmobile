@@ -115,7 +115,7 @@ export class RegistroPage implements OnInit {
 
   registroForm: FormGroup;
   capturedImage: string | null = null;
-
+  
 
   constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService, private router: Router) {
     this.registroForm = this.formBuilder.group({

@@ -40,7 +40,7 @@
       <ion-row *ngIf="estaLogueado()">
         <ion-col>
           <ion-menu-toggle>
-            <ion-button expand="full" [routerLink]="['/editarperfil']">Editar Perfil <ion-icon
+            <ion-button expand="full" (click)="editarPerfil()">Editar Perfil <ion-icon
                 name="person-outline"></ion-icon></ion-button>
           </ion-menu-toggle>
         </ion-col>

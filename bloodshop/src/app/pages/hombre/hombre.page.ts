@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/dbservice.service';  // Reemplaza 'ruta-de-tu-servicio' con la ubicación correcta
 
 @Component({
@@ -10,8 +11,9 @@ export class HombrePage implements OnInit {
   myDate = new Date();
   zapatillas: any[] = [];
   cart: any[] = [];
+  usuario: any;
 
-  constructor(private bdService: BdserviceService) {}
+  constructor(private navCtrl: NavController,private bdService: BdserviceService) {}
 
   ngOnInit() {
     this.bdService.dbState().subscribe((res) => {
@@ -20,6 +22,7 @@ export class HombrePage implements OnInit {
       }
     });
   }
+
   formatPrice(price: number): string {
     return "$" + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
