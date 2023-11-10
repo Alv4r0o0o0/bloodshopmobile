@@ -13,9 +13,6 @@ export class AppComponent {
   constructor(private bdService: BdserviceService, private navCtrl: NavController) {
     this.usuario = {};
   }
-  editarPerfil() {
-    this.navCtrl.navigateForward('/editarperfil1');
-  }
   obtenerNumeroCarrito(): number {
     return this.bdService.obtenerCarrito().length;
   }

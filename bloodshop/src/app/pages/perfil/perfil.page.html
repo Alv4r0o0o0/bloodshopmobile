@@ -1,0 +1,41 @@
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title class="ion-text-center">PERFIL DE USUARIO</ion-card-title>
+      <ion-list lines="full" *ngIf="usuario">
+        <ion-item>
+          <ion-label>Nombre</ion-label>
+          <ion-text>{{ usuario.nombre }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Apellido</ion-label>
+          <ion-text>{{ usuario.apellido }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de Nacimiento</ion-label>
+          <ion-text>{{ usuario.fechanacimiento }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>RUT</ion-label>
+          <ion-text>{{ usuario.rut }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Correo Electrónico</ion-label>
+          <ion-text>{{ usuario.correo }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Teléfono</ion-label>
+          <ion-text>{{ usuario.telefono }}</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
+</ion-content>

@@ -37,16 +37,7 @@ export class HomePage {
   
     const usuario = await this.db.iniciarSesion(email, password);
     if (usuario) {
-      localStorage.setItem('tokenActual', usuario.token);
       this.db.setRolActual(usuario.id_rol);
-  
-      // Pasa el usuario a 'hombre.ts' con los datos del usuario
-      this.navCtrl.navigateForward('/hombre', {
-        state: {
-          usuario: usuario // Pasa el objeto 'usuario'
-        }
-      });
-  
       this.loginForm.reset();
     }
   }
