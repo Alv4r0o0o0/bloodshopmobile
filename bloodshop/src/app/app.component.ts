@@ -24,6 +24,9 @@ export class AppComponent {
   esAdministrador(): boolean {
     return this.bdService.getRolActual() === 2; // Asumiendo que el ID del rol de administrador es 2
   }
+  esUsuario(): boolean{
+    return this.bdService.getRolActual() === 1;
+  }
   cerrarSesion(){
     this.logueado = 0;
     this.bdService.setRolActual(0);

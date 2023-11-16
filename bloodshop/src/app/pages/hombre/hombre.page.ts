@@ -12,6 +12,7 @@ export class HombrePage implements OnInit {
   zapatillas: any[] = [];
   cart: any[] = [];
   usuario: any;
+  seccion: string = "hombre";
 
   constructor(private navCtrl: NavController,private bdService: BdserviceService) {}
 
@@ -28,7 +29,8 @@ export class HombrePage implements OnInit {
   }
   loadZapatillas() {
     this.bdService.fetchZapatillas().subscribe((zapatillas) => {
-      this.zapatillas = zapatillas;
+      // Filtrar zapatillas según la sección
+      this.zapatillas = zapatillas.filter(z => z.seccion === this.seccion);
     });
   }
 }

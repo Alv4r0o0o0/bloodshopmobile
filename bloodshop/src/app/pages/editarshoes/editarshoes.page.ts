@@ -16,6 +16,7 @@ export class EditarshoesPage implements OnInit {
   precio = 0;
   tallas = "";
   cantidad = 0;
+  seccion = "";
   
   constructor(private router: Router, private activedRouter: ActivatedRoute, private bd: BdserviceService) {
     this.activedRouter.queryParams.subscribe(param=>{
@@ -28,11 +29,12 @@ export class EditarshoesPage implements OnInit {
         this.precio = this.router.getCurrentNavigation()?.extras?.state?.['precioEnviado'];
         this.tallas = this.router.getCurrentNavigation()?.extras?.state?.['tallasEnviado'];
         this.cantidad = this.router.getCurrentNavigation()?.extras?.state?.['cantidadEnviado'];
+        this.seccion = this.router.getCurrentNavigation()?.extras?.state?.['seccionEnviado'];
       }
     })
    }
   editar(){
-    this.bd.modificar(this.id,this.nombrezapatilla, this.marca, this.descripcion,this.foto,this.precio,this.tallas,this.cantidad);
+    this.bd.modificar(this.id,this.nombrezapatilla, this.marca, this.descripcion,this.foto,this.precio,this.tallas,this.cantidad,this.seccion);
     const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
     zapatillasImages[this.id] = this.foto;
     localStorage.setItem('zapatillasImages', JSON.stringify(zapatillasImages));

@@ -15,7 +15,7 @@ export class HomePage {
 
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService) { 
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -25,7 +25,7 @@ export class HomePage {
   ngOnInit() {
 
   }
-  
+
 
   onSubmit() {
 
@@ -36,9 +36,26 @@ export class HomePage {
     const password = this.loginForm.value.password;
   
     const usuario = await this.db.iniciarSesion(email, password);
-    if (usuario) {
-      this.db.setRolActual(usuario.id_rol);
+    if (email === 'admin@admin.cl' && password === 'admin') {
+      // Usuario administrador
+      this.db.setRolActual(2); // 2 es el ID del rol de administrador
+      this.db.logueado = 2;
       this.loginForm.reset();
+      this.navCtrl.navigateForward('/hombre');
+      this.db.presentAlertP("Has iniciado sesión con exito!");
+    } else {
+      if (usuario) {
+        // Usuario normal
+        this.db.setRolActual(1); // 1 es el ID del rol de usuario
+        this.db.logueado = 1;
+        this.loginForm.reset();
+        this.navCtrl.navigateForward('/hombre');
+        this.db.presentAlertP("Has iniciado sesión con exito!");
+      } else {
+        // Usuario incorrecto
+        this.db.presentAlertN("Usuario incorrecto");
+        this.loginForm.reset();
+      }
     }
   }
 }

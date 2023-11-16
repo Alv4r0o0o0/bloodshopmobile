@@ -15,6 +15,7 @@ export class AgregarzapatillaPage implements OnInit {
   precio = 0;
   tallas = "7us-12us";  // Asumiendo un valor predeterminado, pero esto puede cambiar.
   cantidad = 0;
+  seccion: string = "";
   base64Image: string = ''; 
   imageToShow: any = ''; 
 
@@ -33,7 +34,7 @@ export class AgregarzapatillaPage implements OnInit {
 }
 
   insertar() {
-    this.db.agregar(this.nombrezapatilla, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad);
+    this.db.agregar(this.nombrezapatilla, this.marca, this.descripcion, this.foto, this.precio, this.tallas, this.cantidad, this.seccion);
     
     const zapatillasImages = JSON.parse(localStorage.getItem('zapatillasImages') || '{}');
     zapatillasImages[this.nombrezapatilla] = this.foto; // asumiendo que 'this.id' es único para cada zapatilla

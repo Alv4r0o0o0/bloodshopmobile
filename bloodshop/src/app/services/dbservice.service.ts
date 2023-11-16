@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Zapatilla } from './zapatilla';
 import { Usuario } from './usuario';
 import { Rol } from './rol';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +16,20 @@ export class BdserviceService {
   carrito: Zapatilla[] = [];
   cantidadSeleccionada: number[] = [];
   private rolActual: number = 0;
+  private usuario: any;
   logueado: number = 0;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
-  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
+  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER,seccion VARCHAR(10) NOT NULL, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
   tablaUsuarios: string = `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL, foto TEXT, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol (id_rol));`;
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
   //LISTAS
-  listaZapatillas = new BehaviorSubject([]);
+  listaZapatillas = new BehaviorSubject<Zapatilla[]>([]);
   listaUsuarios = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
+  private usuarioActual: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -42,6 +45,7 @@ export class BdserviceService {
   fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
   }
+  
 
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
@@ -65,7 +69,8 @@ export class BdserviceService {
             foto: res.rows.item(i).foto,
             precio: res.rows.item(i).precio,
             tallas: res.rows.item(i).tallas,
-            cantidad: res.rows.item(i).cantidad
+            cantidad: res.rows.item(i).cantidad,
+            seccion: res.rows.item(i).seccion,
           });
         }
       }
@@ -79,20 +84,20 @@ export class BdserviceService {
     });
   }
 
-  agregar(nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any) {
-    return this.database.executeSql('INSERT INTO zapatilla (nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad) VALUES (?,?,?,?,?,?,?)', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad]).then(res => {
+  agregar(nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any, seccion: any) {
+    return this.database.executeSql('INSERT INTO zapatilla (nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, seccion) VALUES (?,?,?,?,?,?,?,?)', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, seccion]).then(res => {
       this.buscarZapatillas();
     });
   }
 
-  modificar(id: any, nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any) {
-    return this.database.executeSql('UPDATE zapatilla SET nombrezapatilla=?, marca=?, descripcion=?, foto=?, precio=?, tallas=?, cantidad=? WHERE id=?', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, id]).then(res => {
+  modificar(id: any, nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any, seccion: any) {
+    return this.database.executeSql('UPDATE zapatilla SET nombrezapatilla=?, marca=?, descripcion=?, foto=?, precio=?, tallas=?, cantidad=?, seccion=? WHERE id=?', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, seccion, id]).then(res => {
       this.buscarZapatillas();
     });
   }
 
-  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any, clave: any = '') {
-    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, clave=? WHERE id=?', [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id]).then(res => {
+  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any) {
+    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=? WHERE id=?', [nombre, apellido, fechanacimiento, rut, correo, telefono, id]).then(res => {
       this.buscarUsuarios();
     });
   }
@@ -119,6 +124,7 @@ export class BdserviceService {
         }
       }
       this.listaUsuarios.next(items as any);
+      this.usuarioActual.next(items.length > 0 ? items[0] : null);
     });
   }
   registrarUsuario(nombre: string, apellido: string, fechanacimiento: string, rut: string, correo: string, telefono: string, clave: string) {
@@ -134,46 +140,44 @@ export class BdserviceService {
       }
     });
   }
-  iniciarSesion(correo: string, clave: string): Promise<Usuario | false> {
-    return new Promise((resolve, reject) => {
-      this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]).then((res) => {
-        if (res.rows.length > 0) {
-          const usuario: Usuario = {
-            id: res.rows.item(0).id,
-            nombre: res.rows.item(0).nombre,
-            apellido: res.rows.item(0).apellido,
-            fechanacimiento: res.rows.item(0).fechanacimiento,
-            rut: res.rows.item(0).rut,
-            correo: res.rows.item(0).correo,
-            telefono: res.rows.item(0).telefono,
-            clave: res.rows.item(0).clave,
-            token: res.rows.item(0).token,
-            id_rol: res.rows.item(0).id_rol
-          };
-
-          if (correo === 'admin@admin.cl' && clave === 'admin') {
-            // Usuario administrador
-            usuario.id_rol = 2; // 2 es el ID del rol de administrador
-            this.logueado = 2;
-          } else {
-            // Usuario normal
-            usuario.id_rol = 1; // 1 es el ID del rol de usuario
-            this.logueado = 1;
-          }
-          this.presentAlertP("Inicio de sesión exitoso");
-          resolve(usuario);
-        } else {
-          this.presentAlertN("Correo o clave incorrectos");
-          resolve(false);
-        }
-      }).catch(e => {
-        this.presentAlertN("Error al iniciar sesión:" + e);
-        resolve(false);
-      });
-    });
+  async iniciarSesion(correo: string, clave: string): Promise<Usuario | false> {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]);
+  
+      if (res.rows.length > 0) {
+        const usuario: Usuario = {
+          id: res.rows.item(0).id,
+          nombre: res.rows.item(0).nombre,
+          apellido: res.rows.item(0).apellido,
+          fechanacimiento: res.rows.item(0).fechanacimiento,
+          rut: res.rows.item(0).rut,
+          correo: res.rows.item(0).correo,
+          telefono: res.rows.item(0).telefono,
+          clave: res.rows.item(0).clave,
+          token: res.rows.item(0).token,
+          id_rol: res.rows.item(0).id_rol,
+        };
+        return usuario;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      this.presentAlertN('Error al iniciar sesión: ' + e);
+      return false;
+    }
   }
 
+  setUsuario(usuario: any) {
+    this.usuario = usuario;
+    this.buscarUsuarios();
+  }
 
+  getUsuario(): any {
+    return this.usuario;
+  }
+  getUsuarioActual(): Observable<Usuario | null> {
+    return this.usuarioActual.asObservable();
+  }
 
   setRolActual(rol: number): void {
     this.rolActual = rol;
@@ -225,7 +229,8 @@ export class BdserviceService {
             foto: res.rows.item(0).foto,
             precio: res.rows.item(0).precio,
             tallas: res.rows.item(0).tallas,
-            cantidad: res.rows.item(0).cantidad
+            cantidad: res.rows.item(0).cantidad,
+            seccion: res.rows.item(0).seccion
           };
           observer.next(zapatilla);
           observer.complete();
@@ -240,23 +245,37 @@ export class BdserviceService {
     });
   }
 
+
+
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
       header: 'Error!',
       message: msj,
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-  async presentAlertP(msj: string) {
-    const alert = await this.alertController.create({
-      header: 'Exito!',
-      message: msj,
-      buttons: ['OK'],
+      buttons: [
+      {
+        text: 'OK',
+        cssClass: 'custom-button',
+      }
+    ],
+      cssClass: 'custom-alert',
     });
     await alert.present();
   }
 
+  async presentAlertP(msj: string) {
+    const alert = await this.alertController.create({
+      header: 'Exito!',
+      message: msj,
+      buttons: [
+      {
+        text: 'OK',
+        cssClass: 'custom-button', // Agrega una clase de estilo personalizado al botón OK
+      }
+    ],
+      cssClass: 'custom-alert',
+    });
+    await alert.present();
+  }
 
   //CARRITO DE COMPRAS
   agregarAlCarrito(zapatilla: Zapatilla, cantidadSeleccionada: number) {

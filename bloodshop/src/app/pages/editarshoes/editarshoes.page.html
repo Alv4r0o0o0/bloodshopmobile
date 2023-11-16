@@ -12,6 +12,14 @@
         </ion-item>
 
         <ion-item>
+          <ion-label position="floating">Sección</ion-label>
+          <ion-segment [(ngModel)]="seccion">
+            <ion-segment-button value="hombre">Hombre</ion-segment-button>
+            <ion-segment-button value="mujer">Mujer</ion-segment-button>
+          </ion-segment>
+        </ion-item>
+
+        <ion-item>
           <ion-select label="Marca" [(ngModel)]="marca" name="marca">
             <ion-select-option>Jordan</ion-select-option>
             <ion-select-option>Nike</ion-select-option>

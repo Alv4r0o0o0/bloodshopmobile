@@ -18,7 +18,8 @@ export class TablazapatillaPage implements OnInit {
       foto: '',
       precio: 0,
       tallas: '',
-      cantidad: 0
+      cantidad: 0,
+      seccion: ''
     }
   ]
 
@@ -52,7 +53,8 @@ export class TablazapatillaPage implements OnInit {
         fotoEnviado: x.foto,
         precioEnviado: x.precio,
         tallasEnviado: x.tallas,
-        cantidadEnviado: x.cantidad
+        cantidadEnviado: x.cantidad,
+        seccionEnviado: x.seccion,
       }
     }
     this.router.navigate(['/editarshoes'], navigationExtras);

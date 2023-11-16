@@ -1,71 +1,52 @@
-
-
-
 <ion-content [fullscreen]="true">
   <ion-header>
     <ion-toolbar>
       <app-header></app-header>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://thn.pe/cdn/shop/files/banner-home-gamma-force-21082023.jpg?v=1692640908&width=3840" />
+    <img alt="Silhouette of mountains"
+      src="https://es.aw-lab.com/on/demandware.static/-/Library-Sites-awlab-content-global/default/dw31069217/2022/week24/SU22_NIKE_BLAZER_BRAND%20PAGE_BANNER_1440x500_V2.jpg" />
     <ion-card-header>
       <ion-card-title>Las mejores zapatillas a tu alcance</ion-card-title>
-      <ion-card-subtitle>Nike Puma Adidas y Jordan</ion-card-subtitle>
+      <ion-card-subtitle>Nike Puma Adidas y Jordan </ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      <ion-card-title>Nike Puma Adidas y Jordan</ion-card-title>
+      <p> {{myDate | date}} </p>
     </ion-card-header>
   </ion-card>
-    <ion-grid [fixed]="true">
-      <ion-row>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://nikeclprod.vteximg.com.br/arquivos/ids/662992-1000-1000/FD1448_664_A_PREM.jpg?v=638108646069600000" />
-          Nike Air Force 1 '07
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailmujer1']" >Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button> </ion-col>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://www.blockstore.cl/cdn/shop/products/p-38767208-11_400x400_crop_center.jpg?v=1669639141" />
-           Puma Rider Fv Future
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailmujer2']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button></ion-col>
-        
-      </ion-row>
-      <ion-row>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://www.realkicks.cl/cdn/shop/products/p-GW4417-2_400x400_crop_center.jpg?v=1680734689" />
-          ADIDAS RACER TR21 
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailmujer3']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button> </ion-col>
-        <ion-col><ion-card-content>
-          <img alt="Silhouette of mountains" src="https://falabella.scene7.com/is/image/Falabella/50106347_1" />
-          Nike Air max intrlk  
-       </ion-card-content>
-     
-       <ion-button  [routerLink]="['/detailmujer4']">Comprar</ion-button>
-       <ion-button >Añadir al carro</ion-button></ion-col>
-        
-      </ion-row>
-    </ion-grid>
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col size="6" *ngFor="let zapatilla of zapatillas"> <!-- Dividir en 2 columnas (size="6") -->
+        <ion-card>
+          <ion-card-content>
+            <div class="ion-text-center">
+              <p style="font-size: 12px; font-weight: 700;">{{ zapatilla.nombrezapatilla }}</p>
+            </div>
+            <img [src]="zapatilla.foto" />
+            <div class="ion-text-center">
+              <p style="font-weight: 700;">${{ zapatilla.precio | number:'1.0-0' }}</p>
+            </div>
+            <ion-button expand="full" size="small" [routerLink]="['/detailhombre1', zapatilla.id]">Comprar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
-    <ion-footer  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);" class="ion-text-center">
-      <ion-toolbar  style="color: rgb(194, 129, 255); --background: rgb(34,0,67);">
-        
-        <p style="font-size: 15px; color: white;" class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.</p>
-      </ion-toolbar>
-    </ion-footer>
 
-  
+  <ion-footer style="color: rgb(194, 129, 255); --background: rgb(34,0,67);" class="ion-text-center">
+    <ion-toolbar style="color: rgb(194, 129, 255); --background: rgb(34,0,67);">
+
+      <p style="font-size: 15px; color: white;" class="footer-text">© 2023 Mi Empresa. Todos los derechos reservados.
+      </p>
+    </ion-toolbar>
+  </ion-footer>
+
 </ion-content>

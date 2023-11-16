@@ -37,7 +37,7 @@
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="estaLogueado()">
+      <ion-row *ngIf="esUsuario()">
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/perfil']">Perfil <ion-icon

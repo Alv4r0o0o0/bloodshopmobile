@@ -10,32 +10,35 @@
       <ion-card-title class="ion-text-center">PERFIL DE USUARIO</ion-card-title>
       <ion-list lines="full" *ngIf="usuario">
         <ion-item>
-          <ion-label>Nombre</ion-label>
-          <ion-text>{{ usuario.nombre }}</ion-text>
+          <ion-label>Nombre:</ion-label>
+          <ion-input readonly>{{ usuario.nombre }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Apellido</ion-label>
-          <ion-text>{{ usuario.apellido }}</ion-text>
+          <ion-label>Apellido:</ion-label>
+          <ion-input readonly>{{ usuario.apellido }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Fecha de Nacimiento</ion-label>
-          <ion-text>{{ usuario.fechanacimiento }}</ion-text>
+          <ion-label>Fecha de Nacimiento:</ion-label>
+          <ion-input readonly>{{ usuario.fechanacimiento }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>RUT</ion-label>
-          <ion-text>{{ usuario.rut }}</ion-text>
+          <ion-label>RUT:</ion-label>
+          <ion-input readonly>{{ usuario.rut }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Correo Electrónico</ion-label>
-          <ion-text>{{ usuario.correo }}</ion-text>
+          <ion-label>Correo Electrónico:</ion-label>
+          <ion-input readonly>{{ usuario.correo }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Teléfono</ion-label>
-          <ion-text>{{ usuario.telefono }}</ion-text>
+          <ion-label>Teléfono:</ion-label>
+          <ion-input readonly>{{ usuario.telefono }}</ion-input>
         </ion-item>
       </ion-list>
+      <div class="ion-text-center">
+      <ion-button shape="round" size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
+    </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
+  
 </ion-content>

@@ -6,7 +6,7 @@ export class Usuario {
     rut!: number;
     correo!: string; 
     telefono!: number;
-    clave!: number;
+    clave!: string;
     token!: string;
     id_rol!: number;
 

@@ -10,20 +10,15 @@ import { BdserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  usuario: any;
+  usuario: Usuario | null = null;
   constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController, private dbService: BdserviceService) { }
 
   ngOnInit() {
-    this.usuario = this.activatedRoute.snapshot.paramMap.get('usuario');
+    this.dbService.getUsuarioActual().subscribe((usuario) => {
+      this.usuario = usuario;
+    });
   
   }
-  editarPerfil() {
-    // Redirige a la página de edición de perfil con los datos del usuario
-    this.navCtrl.navigateForward('/editarperfil', {
-      state: {
-        usuario: this.usuario,
-      },
-    });
-  }
+
 
 }

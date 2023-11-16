@@ -7,7 +7,7 @@ export class Zapatilla {
     precio!: number; 
     tallas!: string; 
     cantidad!: number;
-    
+    seccion!: string;
     constructor() {
     }
 }
