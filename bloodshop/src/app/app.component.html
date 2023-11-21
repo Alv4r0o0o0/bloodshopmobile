@@ -83,6 +83,13 @@
           </ion-menu-toggle>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="esUsuario()">
+        <ion-col>
+          <ion-menu-toggle>
+            <ion-button expand="full" [routerLink]="['/miscompras']">Mis compras</ion-button>
+          </ion-menu-toggle>
+        </ion-col>
+      </ion-row>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>

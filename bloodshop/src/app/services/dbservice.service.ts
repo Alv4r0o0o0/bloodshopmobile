@@ -5,7 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Zapatilla } from './zapatilla';
 import { Usuario } from './usuario';
 import { Rol } from './rol';
-import { map } from 'rxjs/operators';
+import { Detalle } from './detalle';
+import { Venta } from './venta';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,17 @@ export class BdserviceService {
   logueado: number = 0;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
-  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER,seccion VARCHAR(10) NOT NULL, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
+  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, seccion VARCHAR(10) NOT NULL, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
   tablaUsuarios: string = `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL, foto TEXT, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol (id_rol));`;
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY autoincrement, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_usuario) REFERENCES usuarios(id) , FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
+  tablaVentasU: string = "CREATE TABLE IF NOT EXISTS venta (id_venta INTEGER PRIMARY KEY AUTOINCREMENT, total FLOAT NOT NULL, id_usuario INTEGER NOT NULL, estado VARCHAR(50) NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuarios(id));";
   //LISTAS
-  listaZapatillas = new BehaviorSubject<Zapatilla[]>([]);
+  listaZapatillas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
+  listaDetalle = new BehaviorSubject([]);
+  listaVentasU = new BehaviorSubject([]);
   listaRoles = new BehaviorSubject([]);
   private usuarioActual: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
 
@@ -42,8 +46,15 @@ export class BdserviceService {
     return this.isDBReady.asObservable();
   }
 
+  fetchDetalle():Observable<Detalle[]>{
+    return this.listaDetalle.asObservable();
+  }
+
   fetchZapatillas(): Observable<Zapatilla[]> {
     return this.listaZapatillas.asObservable();
+  }
+  fetchVentas(): Observable<Venta[]>{
+    return this.listaVentasU.asObservable();
   }
   
 
@@ -90,6 +101,8 @@ export class BdserviceService {
     });
   }
 
+  
+
   modificar(id: any, nombrezapatilla: any, marca: any, descripcion: any, foto: any, precio: any, tallas: any, cantidad: any, seccion: any) {
     return this.database.executeSql('UPDATE zapatilla SET nombrezapatilla=?, marca=?, descripcion=?, foto=?, precio=?, tallas=?, cantidad=?, seccion=? WHERE id=?', [nombrezapatilla, marca, descripcion, foto, precio, tallas, cantidad, seccion, id]).then(res => {
       this.buscarZapatillas();
@@ -127,6 +140,7 @@ export class BdserviceService {
       this.usuarioActual.next(items.length > 0 ? items[0] : null);
     });
   }
+  
   registrarUsuario(nombre: string, apellido: string, fechanacimiento: string, rut: string, correo: string, telefono: string, clave: string) {
     const id_rolPredeterminado = 1; // Usuario
     this.database.executeSql('INSERT INTO usuarios (nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rolPredeterminado]).then(() => {
@@ -205,7 +219,7 @@ export class BdserviceService {
     try {
       await this.database.executeSql(this.tablaMarca, []);
       await this.database.executeSql(this.tablaZapatilla, []);
-
+      await this.database.executeSql(this.tablaDetalle,[])
       await this.database.executeSql(this.tablaRoles, []);
       await this.database.executeSql(this.tablaUsuarios, []);
 
@@ -245,7 +259,12 @@ export class BdserviceService {
     });
   }
 
-
+  obtenerUsuarioId(): number | null {
+    if (this.usuario) {
+      return this.usuario.id;
+    }
+    return null;
+  }
 
   async presentAlertN(msj: string) {
     const alert = await this.alertController.create({
@@ -277,7 +296,7 @@ export class BdserviceService {
     await alert.present();
   }
 
-  //CARRITO DE COMPRAS
+  //CARRITO DE Detalle
   agregarAlCarrito(zapatilla: Zapatilla, cantidadSeleccionada: number) {
     this.carrito.push(zapatilla);
     this.cantidadSeleccionada.push(cantidadSeleccionada);
@@ -285,6 +304,7 @@ export class BdserviceService {
   obtenerCarrito() {
     return this.carrito;
   }
+
   eliminarDelCarrito(zapatilla: Zapatilla, index: number) {
     const indexEnCarrito = this.carrito.findIndex((item) => item.id === zapatilla.id);
     if (indexEnCarrito !== -1) {
@@ -292,8 +312,36 @@ export class BdserviceService {
       this.cantidadSeleccionada.splice(index, 1); // Elimina la cantidad seleccionada correspondiente al índice
     }
   }
+
   obtenerCantidadSeleccionada(index: number) {
     return this.cantidadSeleccionada[index];
+  }
+  
+  agregarDetalle(id_detalle: any, id_producto: any, cantidad: any, subtotal: any, id_usuario: any) {
+    return this.database.executeSql('INSERT INTO detalle (id_detalle, id_producto, cantidad, id_venta, subtotal, id_usuario) VALUES (?,?,?,?,?,?)', [id_detalle, id_producto, cantidad, subtotal, id_usuario]).then(res => {
+      this.fetchDetalleRealizadas();
+    });
+  }
+  
+  fetchDetalleRealizadas() {
+    this.database.executeSql('SELECT * FROM detalle', []).then(res => {
+      let Detalle: any[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          Detalle.push({
+            id_detalle: res.rows.item(i).id_detalle,
+            id_producto: res.rows.item(i).id_producto,
+            id_usuario: res.rows.item(i).id_usuario,
+            cantidad: res.rows.item(i).cantidad,
+            id_venta: res.rows.item(i).id_venta,
+            subtotal: res.rows.item(i).subtotal
+          });
+        }
+      }
+      this.listaDetalle.next(Detalle as any);
+    }).catch(e => {
+      this.presentAlertN('Error al obtener las Detalle realizadas: ' + e);
+    });
   }
 
 

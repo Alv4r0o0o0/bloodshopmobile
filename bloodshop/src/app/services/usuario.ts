@@ -9,9 +9,4 @@ export class Usuario {
     clave!: string;
     token!: string;
     id_rol!: number;
-
-    constructor(
-    ) {
-
-    }
 }

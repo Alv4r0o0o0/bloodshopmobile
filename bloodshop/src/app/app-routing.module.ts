@@ -71,6 +71,19 @@ const routes: Routes = [
     path: 'editarperfil',
     loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
   },
+  {
+    path: 'tablaventas',
+    loadChildren: () => import('./pages/tablaventas/tablaventas.module').then( m => m.TablaventasPageModule)
+  },  {
+    path: 'checkout',
+    loadChildren: () => import('./pages/checkout/checkout.module').then( m => m.CheckoutPageModule)
+  },
+  {
+    path: 'miscompras',
+    loadChildren: () => import('./pages/miscompras/miscompras.module').then( m => m.MiscomprasPageModule)
+  },
+
+
 
 
 

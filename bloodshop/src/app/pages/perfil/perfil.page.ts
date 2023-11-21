@@ -19,6 +19,11 @@ export class PerfilPage implements OnInit {
     });
   
   }
+  editarPerfil() {
+    if (this.usuario) {
+      this.navCtrl.navigateForward(['/editarperfil']);
+    }
+  }
 
 
 }

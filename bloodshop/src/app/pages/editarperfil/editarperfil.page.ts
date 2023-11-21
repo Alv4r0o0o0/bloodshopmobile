@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/dbservice.service';
 
@@ -91,8 +91,9 @@ export class EditarperfilPage implements OnInit {
   usuario: any;
   nuevaContrasena: string = '';
   editarForm!: FormGroup;
+  perfilUsuario: any[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private navCtrl: NavController, private dbService: BdserviceService) {
+  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private navCtrl: NavController, private dbService: BdserviceService, private router: Router) {
     this.editarForm = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
@@ -101,25 +102,24 @@ export class EditarperfilPage implements OnInit {
       telefono: ['', [Validators.required, validatePhoneNumber]],
       correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]]
     });
-
-    // Obtén los datos del usuario del servicio
-    this.usuario = this.dbService.getUsuario();
-    
-    // Establece los valores iniciales en el formulario
-    this.editarForm.patchValue({
-      nombre: this.usuario.nombre,
-      apellido: this.usuario.apellido,
-      rut: this.usuario.rut,
-      fechnac: this.usuario.fechanacimiento,
-      telefono: this.usuario.telefono,
-      correo: this.usuario.correo
-    });
-   }
+  }
 
   ngOnInit() {
-    this.usuario = this.dbService.getUsuario();
-    
+    this.dbService.getUsuarioActual().subscribe((usuario) => {
+      this.usuario = usuario;
+      if (this.usuario) {
+        this.editarForm.patchValue({
+          nombre: this.usuario.nombre,
+          apellido: this.usuario.apellido,
+          rut: this.usuario.rut,
+          fechnac: this.usuario.fechanacimiento,
+          telefono: this.usuario.telefono,
+          correo: this.usuario.correo,
+        });
+      }
+    });
   }
+
   validateRutFormat(control: FormControl) {
     const rut = control.value;
     if (!RutValidator.validaRut(rut)) {
@@ -129,23 +129,16 @@ export class EditarperfilPage implements OnInit {
   }
 
   guardarCambios() {
-    const { id, nombre, apellido, fechanacimiento, rut, correo, telefono} = this.usuario;
-    
-    // Actualizar en la base de datos
-    this.dbService.modificarPerfil(id, nombre, apellido, fechanacimiento, rut, correo, telefono);
-    this.usuario = {
-      ...this.usuario,
-      nombre: this.editarForm.value.nombre,
-      apellido: this.editarForm.value.apellido,
-      rut: this.editarForm.value.rut,
-      fechanacimiento: this.editarForm.value.fechnac,
-      correo: this.editarForm.value.correo,
-      telefono: this.editarForm.value.telefono
-    };
-    this.dbService.setUsuario(this.usuario);
+    if (this.usuario) {
+      const { id, correo } = this.usuario;
+      const { nombre, apellido, fechnac, rut, telefono } = this.editarForm.value;
 
-    this.dbService.presentAlertP("Se han guardado sus datos correctamente");
-    this.navCtrl.navigateForward('/perfil');
-
+      // Actualizar en la base de datos
+      this.dbService.modificarPerfil(id, nombre, apellido, fechnac, rut, correo, telefono);
+      this.usuario = {...this.usuario, nombre, apellido, rut, fechanacimiento: fechnac, telefono,};
+      this.dbService.setUsuario(this.usuario);
+      this.dbService.presentAlertP('Se han guardado sus datos correctamente');
+      this.router.navigate(['/perfil']);
+    }
   }
 }

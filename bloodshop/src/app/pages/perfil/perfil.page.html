@@ -4,41 +4,41 @@
       <app-header></app-header>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-card>
     <ion-card-content>
       <ion-card-title class="ion-text-center">PERFIL DE USUARIO</ion-card-title>
       <ion-list lines="full" *ngIf="usuario">
         <ion-item>
-          <ion-label>Nombre:</ion-label>
-          <ion-input readonly>{{ usuario.nombre }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">Nombre: </ion-label>
+          <ion-input type="text" readonly>{{ usuario.nombre }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Apellido:</ion-label>
-          <ion-input readonly>{{ usuario.apellido }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">Apellido: </ion-label>
+          <ion-input type="text" readonly>{{ usuario.apellido }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Fecha de Nacimiento:</ion-label>
-          <ion-input readonly>{{ usuario.fechanacimiento }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">Fecha de Nacimiento: </ion-label>
+          <ion-input type="text" readonly>{{ usuario.fechanacimiento }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>RUT:</ion-label>
-          <ion-input readonly>{{ usuario.rut }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">RUT: </ion-label>
+          <ion-input type="text" readonly>{{ usuario.rut }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Correo Electrónico:</ion-label>
-          <ion-input readonly>{{ usuario.correo }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">Correo Electrónico: </ion-label>
+          <ion-input type="text" readonly>{{ usuario.correo }}</ion-input>
         </ion-item>
         <ion-item>
-          <ion-label>Teléfono:</ion-label>
-          <ion-input readonly>{{ usuario.telefono }}</ion-input>
+          <ion-label style="font-size: 12px; font-weight: 500;">Teléfono:</ion-label>
+          <ion-input type="text" readonly>{{ usuario.telefono }}</ion-input>
         </ion-item>
       </ion-list>
       <div class="ion-text-center">
-      <ion-button shape="round" size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
-    </div>
+        <ion-button shape="round" size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
 
-  
+
 </ion-content>
