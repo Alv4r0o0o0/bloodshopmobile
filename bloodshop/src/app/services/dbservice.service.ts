@@ -21,11 +21,11 @@ export class BdserviceService {
   logueado: number = 0;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
-  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY autoincrement, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, seccion VARCHAR(10) NOT NULL, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   //TABLAS DE USUARIOS
   tablaRoles: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY autoincrement, nombre VARCHAR(50) NOT NULL);";
-  tablaUsuarios: string = `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL, foto TEXT, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol (id_rol));`;
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY autoincrement, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_usuario) REFERENCES usuarios(id) , FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
+  tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, apellido VARCHAR(100) NOT NULL, fechanacimiento DATE NOT NULL, rut VARCHAR(12) NOT NULL, foto TEXT, correo VARCHAR(100) NOT NULL UNIQUE, telefono VARCHAR(20), clave VARCHAR(256) NOT NULL, token VARCHAR(256), id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol (id_rol));";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, id_producto INTEGER, cantidad INTEGER, id_venta INTEGER, subtotal FLOAT, id_usuario INTEGER, FOREIGN KEY (id_producto) REFERENCES producto(id_producto), FOREIGN KEY (id_usuario) REFERENCES usuarios(id) , FOREIGN KEY (id_venta) REFERENCES venta(id_venta));";
+  tablaZapatilla: string = "CREATE TABLE IF NOT EXISTS zapatilla(id INTEGER PRIMARY KEY AUTOINCREMENT, nombrezapatilla VARCHAR(100) NOT NULL, marca INTEGER, descripcion VARCHAR(300) NOT NULL, foto TEXT, precio FLOAT, tallas VARCHAR(20) NOT NULL, cantidad INTEGER, seccion VARCHAR(10) NOT NULL, FOREIGN KEY(marca) REFERENCES marca(codigomarca));";
   tablaVentasU: string = "CREATE TABLE IF NOT EXISTS venta (id_venta INTEGER PRIMARY KEY AUTOINCREMENT, total FLOAT NOT NULL, id_usuario INTEGER NOT NULL, estado VARCHAR(50) NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuarios(id));";
   //LISTAS
   listaZapatillas = new BehaviorSubject([]);
