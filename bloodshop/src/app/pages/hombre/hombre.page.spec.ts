@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { HombrePage } from './hombre.page';
+import { DatePipe } from '@angular/common';
 
 describe('HombrePage', () => {
   let component: HombrePage;
@@ -8,7 +9,8 @@ describe('HombrePage', () => {
 
   beforeEach(async() => {
     await TestBed.configureTestingModule({
-      providers: [SQLite]
+      declarations: [HombrePage],
+      providers: [SQLite, DatePipe]
     }).compileComponents();
     
     fixture = TestBed.createComponent(HombrePage);
