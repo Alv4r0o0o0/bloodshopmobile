@@ -5,7 +5,7 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>BLOODSHOP</ion-title>
-      <ion-buttons slot="end">
+      <ion-buttons *ngIf="esUsuario()" slot="end">
         <ion-button [routerLink]="['/carrito']">
           <ion-icon name="cart-outline"></ion-icon>
           <span>{{obtenerNumeroCarrito()}}</span>
@@ -57,13 +57,6 @@
         <ion-col>
           <ion-menu-toggle>
             <ion-button expand="full" [routerLink]="['/mujer']">Mujer</ion-button>
-          </ion-menu-toggle>
-        </ion-col>
-      </ion-row>
-      <ion-row *ngIf="estaLogueado()">
-        <ion-col>
-          <ion-menu-toggle>
-            <ion-button expand="full" [routerLink]="['/ninos']">Niños</ion-button>
           </ion-menu-toggle>
         </ion-col>
       </ion-row>

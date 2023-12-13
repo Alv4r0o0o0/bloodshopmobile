@@ -4,31 +4,112 @@
       <app-header></app-header>
     </ion-toolbar>
   </ion-header>
-  
-  <ion-list>
-    <ion-item *ngFor="let producto of carrito">
-      <ion-label>
-        <h2>{{ producto.nombre }}</h2>
-        <p>Cantidad: {{ producto.cantidad }}</p>
-        <p>Subtotal: {{ producto.subtotal }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-  <ion-item>
-    <ion-label>Total:</ion-label>
-    <ion-note slot="end">{{ subtotal }}</ion-note>
+  <br>
+  <h2 class="ion-text-center">PRODUCTOS</h2>
+  <ion-item *ngFor="let zapatilla of zapatillasEnCarrito; let i = index">
+    <br>
+    <ion-thumbnail slot="start">
+      <img [src]="zapatilla.foto" alt="Imagen de la zapatilla">
+    </ion-thumbnail>
+    <ion-label>
+      <h4>{{ zapatilla.nombrezapatilla }}</h4>
+      <p>Talla: {{ zapatilla.tallas }}</p>
+      <p>Precio: ${{ zapatilla.precio }}</p>
+      <p>Cantidad: {{ bdService.obtenerCantidadSeleccionada(i) }}</p>
+      <p>Total: {{ zapatilla.precio * bdService.obtenerCantidadSeleccionada(i) }}</p>
+    </ion-label>
+    <br>
   </ion-item>
-
-  <ion-item>
-    <ion-label>Cantidad Total:</ion-label>
-    <ion-note slot="end">{{ cantidadTotal }}</ion-note>
+  <h2 class="ion-text-center">SUBTOTALES</h2>
+  <ion-item class="ion-text-center">
+    <div class="ion-text-center">
+      <h3>Compra Total: ${{ calcularCompraTotal() }} </h3>
+    </div>
+    <div class="ion-text-center">
+      <h3>Cantidad Total: {{ calcularCantidadTotal() }}</h3>
+    </div>
   </ion-item>
+  <h2 class="ion-text-center">INGRESA TUS DATOS</h2>
+  <form [formGroup]="checkoutForm" (ngSubmit)="realizarCompra()">
+    <ion-grid>
+      <ion-row>
+        <ion-col><ion-input type="text" formControlName="nombre" label="NOMBRE" label-placement="floating"
+            fill="outline" placeholder="Ingresa tu nombre"></ion-input>
+          <div style="color: red; margin-top: 3px; margin-left: 5px;"
+            *ngIf="checkoutForm.get('nombre')?.invalid && (checkoutForm.get('nombre')?.dirty || checkoutForm.get('nombre')?.touched)">
+            <div *ngIf="checkoutForm.get('nombre')?.hasError('required')">El nombre es obligatorio.</div>
+            <div *ngIf="checkoutForm.get('nombre')?.hasError('maxlength')">El nombre debe tener 12 caracteres máximo.
+            </div>
+            <div *ngIf="checkoutForm.get('nombre')?.hasError('minlength')">El nombre debe tener 3 caracteres minimo
+            </div>
+            <div *ngIf="checkoutForm.get('nombre')?.hasError('pattern')">El nombre no puede contener números</div>
+          </div>
+        </ion-col>
+        <ion-col><ion-input type="text" formControlName="apellido" label="APELLIDO" label-placement="floating"
+            fill="outline" placeholder="Ingresa tu apellido"></ion-input>
+          <div style="color: red; margin-top: 3px; margin-left: 5px;"
+            *ngIf="checkoutForm.get('apellido')?.invalid && (checkoutForm.get('apellido')?.dirty || checkoutForm.get('apellido')?.touched)">
+            <div *ngIf="checkoutForm.get('apellido')?.hasError('required')">El apellido es obligatorio.</div>
+            <div *ngIf="checkoutForm.get('apellido')?.hasError('maxlength')">El apellido debe tener 12 caracteres
+              máximo.</div>
+            <div *ngIf="checkoutForm.get('apellido')?.hasError('minlength')">El apellido debe tener 3 caracteres minimo
+            </div>
+            <div *ngIf="checkoutForm.get('apellido')?.hasError('pattern')">El nombre no puede contener números</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-item>
-    <ion-label>Dirección de Envío:</ion-label>
-    <ion-input [(ngModel)]="direccion" placeholder="Ingresa tu dirección"></ion-input>
-  </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-segment>
+            <ion-segment-button value="retiro">RETIRO EN TIENDA</ion-segment-button>
+            <ion-segment-button value="envio">ENVIO A DOMICILIO</ion-segment-button>
+          </ion-segment>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-button expand="full" (click)="realizarCompra()">Realizar Compra</ion-button>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col><ion-input type="text" formControlName="rut" label="RUT" label-placement="floating" fill="outline"
+            placeholder="Ingresa tu RUT"></ion-input>
+          <div style="color: red; margin-top: 3px; margin-left: 5px;"
+            *ngIf="checkoutForm.get('rut')?.invalid && (checkoutForm.get('rut')?.dirty || checkoutForm.get('rut')?.touched)">
+            <div *ngIf="checkoutForm.get('rut')?.hasError('required')">El RUT es obligatorio.</div>
+            <div *ngIf="checkoutForm.get('rut')?.hasError('invalidRut')">El RUT es invalido.</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+    <ion-grid>
+      <ion-row>
+        <ion-col><ion-input type="text" formControlName="correo" label="EMAIL" label-placement="floating" fill="outline"
+            placeholder="Ingresa tu email"></ion-input>
+          <div style="color: red; margin-top: 3px; margin-left: 5px;"
+            *ngIf="checkoutForm.get('correo')?.invalid && (checkoutForm.get('correo')?.dirty || checkoutForm.get('correo')?.touched)">
+            <div *ngIf="checkoutForm.get('correo')?.hasError('required')">El correo es obligatorio.</div>
+            <div *ngIf="checkoutForm.get('correo')?.hasError('pattern')">El correo no es valido.</div>
+          </div>
+        </ion-col>
+        <ion-col><ion-input type="text" formControlName="direccion" label="DIRECCIÓN" label-placement="floating"
+            fill="outline" placeholder="Ingresa tu dirección"></ion-input>
+          <div style="color: red; margin-top: 3px; margin-left: 5px;"
+            *ngIf="checkoutForm.get('direccion')?.invalid && (checkoutForm.get('direccion')?.dirty || checkoutForm.get('direccion')?.touched)">
+            <div *ngIf="checkoutForm.get('direccion')?.hasError('required')">El direccion es obligatorio.</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+    <div class="ion-text-center">
+      <ion-button type="submit" [disabled]="!checkoutForm.valid">Realizar Compra</ion-button>
+    </div>
+  </form>
 </ion-content>

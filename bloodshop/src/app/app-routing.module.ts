@@ -82,6 +82,10 @@ const routes: Routes = [
     path: 'miscompras',
     loadChildren: () => import('./pages/miscompras/miscompras.module').then( m => m.MiscomprasPageModule)
   },
+  {
+    path: 'tiendas',
+    loadChildren: () => import('./pages/tiendas/tiendas.module').then( m => m.TiendasPageModule)
+  },
 
 
 

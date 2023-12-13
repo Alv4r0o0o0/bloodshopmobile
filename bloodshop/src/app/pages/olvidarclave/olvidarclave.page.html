@@ -1,24 +1,47 @@
-<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <app-header></app-header>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
   <ion-card>
     <ion-card-content>
-      <form>
-        <ion-item lines="full">
-          <ion-label position="floating">Email <ion-icon name="person-outline"></ion-icon></ion-label>
-          <ion-input type="email" required></ion-input>
+      <form [formGroup]="cambioClave">
+        <!-- Campos del formulario para cambiar la contraseña -->
+        <ion-item>
+          <ion-label style="font-size: 12px; font-weight: 500;">Contraseña actual:</ion-label>
+          <ion-input formControlName="anteriorClave" type="password"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
-        
-        <ion-row>
-          <ion-col>
-            <ion-button type="submit" color="danger" expand="block">Enviar</ion-button>
-          </ion-col>
-        </ion-row>
-        <small>
-          Porfavor revise su correo electronico!
-        </small>
+        <div style="color: red; margin-top: 3px;" *ngIf="errorClave">La contraseña actual no es correcta.</div>
+
+        <ion-item>
+          <ion-label style="font-size: 12px; font-weight: 500;">Nueva contraseña:</ion-label>
+          <ion-input formControlName="claveNueva" type="password"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('claveNueva')?.invalid && (cambioClave.get('claveNueva')?.dirty || cambioClave.get('claveNueva')?.touched)">
+          <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('claveNueva')?.hasError('required')">La contraseña es requerida.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('claveNueva')?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('claveNueva')?.hasError('pattern')">La contraseña debe tener al menos 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial.</div>
+        </div>
+
+        <ion-item>
+          <ion-label style="font-size: 12px; font-weight: 500;">Confirmar nueva contraseña:</ion-label>
+          <ion-input formControlName="confClaveNueva" type="password"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('confClaveNueva')?.invalid && (cambioClave.get('confClaveNueva')?.dirty || cambioClave.get('confClaveNueva')?.touched)">
+          <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('confClaveNueva')?.hasError('required')">Confirma tu contraseña.</div>
+          <div style="color: red; margin-top: 3px;" *ngIf="cambioClave.get('confClaveNueva')?.hasError('mismatch')">La contraseña no coincide.</div>
+        </div>
+
+        <!-- Botón para cambiar la contraseña -->
+        <div class="ion-text-center">
+          <ion-button shape="round" size="default" (click)="modificarClave()">Cambiar Contraseña</ion-button>
+        </div>
       </form>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

@@ -9,6 +9,10 @@
     <ion-card-content>
       <ion-card-title class="ion-text-center">PERFIL DE USUARIO</ion-card-title>
       <ion-list lines="full" *ngIf="usuario">
+        <ion-item>  
+          <ion-label style="font-size: 12px; font-weight: 500;">Foto de perfil:</ion-label>
+          <img [src]="usuario.foto" style="max-width: 100px; border-radius: 50%;" alt="Foto de perfil">
+        </ion-item>
         <ion-item>
           <ion-label style="font-size: 12px; font-weight: 500;">Nombre: </ion-label>
           <ion-input type="text" readonly>{{ usuario.nombre }}</ion-input>
@@ -36,6 +40,10 @@
       </ion-list>
       <div class="ion-text-center">
         <ion-button shape="round" size="default" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
+      </div>
+      <div class="ion-text-center">
+        <ion-button shape="round" size="small" [routerLink]="['/olvidarclave']"
+        style="--background: rgb(102, 102, 102);">¿Olvidaste tu contraseña?</ion-button>
       </div>
     </ion-card-content>
   </ion-card>

@@ -18,6 +18,7 @@ export class BdserviceService {
   cantidadSeleccionada: number[] = [];
   private rolActual: number = 0;
   private usuario: any;
+  private detalle: any;
   logueado: number = 0;
   //TABLA DE ZAPATILLA
   tablaMarca: string = "CREATE TABLE IF NOT EXISTS marca(codigomarca INTEGER PRIMARY KEY, nombremarca VARCHAR(100) NOT NULL);";
@@ -109,8 +110,14 @@ export class BdserviceService {
     });
   }
 
-  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any) {
-    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=? WHERE id=?', [nombre, apellido, fechanacimiento, rut, correo, telefono, id]).then(res => {
+  modificarPerfil(id: any, nombre: any, apellido: any, fechanacimiento: any, rut: any, correo: any, telefono: any, foto: any) {
+    return this.database.executeSql('UPDATE usuarios SET nombre=?, apellido=?, fechanacimiento=?, rut=?, correo=?, telefono=?, foto=? WHERE id=?', [nombre, apellido, fechanacimiento, rut, correo, telefono, foto, id]).then(res => {
+      this.buscarUsuarios();
+    });
+  }
+
+  modificarContraseña(correo: string, nuevaClave: string) {
+    return this.database.executeSql('UPDATE usuarios SET clave=? WHERE correo=?', [nuevaClave, correo]).then(res => {
       this.buscarUsuarios();
     });
   }
@@ -128,6 +135,7 @@ export class BdserviceService {
             apellido: res.rows.item(i).apellido,
             fechanacimiento: res.rows.item(i).fechanacimiento,
             rut: res.rows.item(i).rut,
+            foto: res.rows.item(i).foto,
             correo: res.rows.item(i).correo,
             telefono: res.rows.item(i).telefono,
             clave: res.rows.item(i).clave,
@@ -136,14 +144,16 @@ export class BdserviceService {
           });
         }
       }
+      this.fetchUsuarios();
       this.listaUsuarios.next(items as any);
       this.usuarioActual.next(items.length > 0 ? items[0] : null);
     });
   }
   
-  registrarUsuario(nombre: string, apellido: string, fechanacimiento: string, rut: string, correo: string, telefono: string, clave: string) {
+  registrarUsuario(nombre: string, apellido: string, fechanacimiento: string, rut: string, correo: string, telefono: string, clave: string, foto: string) {
     const id_rolPredeterminado = 1; // Usuario
-    this.database.executeSql('INSERT INTO usuarios (nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellido, fechanacimiento, rut, correo, telefono, clave, id_rolPredeterminado]).then(() => {
+    const fotoData = foto.split(',')[1]; 
+    this.database.executeSql('INSERT INTO usuarios (nombre, apellido, fechanacimiento, rut, foto, correo, telefono, clave, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellido, fechanacimiento, rut, fotoData, correo, telefono, clave, id_rolPredeterminado]).then(() => {
       this.buscarUsuarios();
       this.presentAlertP("Usuario creado exitosamente");
     }).catch(e => {
@@ -154,13 +164,14 @@ export class BdserviceService {
       }
     });
   }
+  
   async iniciarSesion(correo: string, clave: string): Promise<Usuario | false> {
     try {
       const res = await this.database.executeSql('SELECT * FROM usuarios WHERE correo = ? AND clave = ?', [correo, clave]);
-  
       if (res.rows.length > 0) {
         const usuario: Usuario = {
           id: res.rows.item(0).id,
+          foto: res.rows.item(0).foto,
           nombre: res.rows.item(0).nombre,
           apellido: res.rows.item(0).apellido,
           fechanacimiento: res.rows.item(0).fechanacimiento,
@@ -181,17 +192,23 @@ export class BdserviceService {
     }
   }
 
-  setUsuario(usuario: any) {
+  setUsuario(usuario: Usuario) {
     this.usuario = usuario;
     this.buscarUsuarios();
   }
 
   getUsuario(): any {
     return this.usuario;
+
   }
   getUsuarioActual(): Observable<Usuario | null> {
     return this.usuarioActual.asObservable();
   }
+
+  obtenerUsuario(): any{
+    return this.fetchUsuarios();
+  }
+
 
   setRolActual(rol: number): void {
     this.rolActual = rol;
@@ -301,6 +318,7 @@ export class BdserviceService {
     this.carrito.push(zapatilla);
     this.cantidadSeleccionada.push(cantidadSeleccionada);
   }
+  
   obtenerCarrito() {
     return this.carrito;
   }
@@ -309,38 +327,46 @@ export class BdserviceService {
     const indexEnCarrito = this.carrito.findIndex((item) => item.id === zapatilla.id);
     if (indexEnCarrito !== -1) {
       this.carrito.splice(indexEnCarrito, 1);
-      this.cantidadSeleccionada.splice(index, 1); // Elimina la cantidad seleccionada correspondiente al índice
+      this.cantidadSeleccionada.splice(index, 1);
     }
+  }
+  limpiarCarrito() {
+    this.carrito = [];
+    this.cantidadSeleccionada = [];
   }
 
   obtenerCantidadSeleccionada(index: number) {
     return this.cantidadSeleccionada[index];
   }
   
-  agregarDetalle(id_detalle: any, id_producto: any, cantidad: any, subtotal: any, id_usuario: any) {
-    return this.database.executeSql('INSERT INTO detalle (id_detalle, id_producto, cantidad, id_venta, subtotal, id_usuario) VALUES (?,?,?,?,?,?)', [id_detalle, id_producto, cantidad, subtotal, id_usuario]).then(res => {
+  agregarDetalle(id_producto: any, cantidad: any, subtotal: any, id_usuario: any) {
+    return this.database.executeSql('INSERT INTO detalle (id_producto, cantidad, subtotal, id_usuario) VALUES (?,?,?,?,?)', [id_producto, cantidad, subtotal, id_usuario]).then(res => {
       this.fetchDetalleRealizadas();
     });
   }
   
-  fetchDetalleRealizadas() {
-    this.database.executeSql('SELECT * FROM detalle', []).then(res => {
-      let Detalle: any[] = [];
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          Detalle.push({
-            id_detalle: res.rows.item(i).id_detalle,
-            id_producto: res.rows.item(i).id_producto,
-            id_usuario: res.rows.item(i).id_usuario,
-            cantidad: res.rows.item(i).cantidad,
-            id_venta: res.rows.item(i).id_venta,
-            subtotal: res.rows.item(i).subtotal
-          });
+  fetchDetalleRealizadas(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.database.executeSql('SELECT * FROM detalle', []).then(res => {
+        let Detalle: any[] = [];
+        if (res.rows.length > 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            Detalle.push({
+              id_detalle: res.rows.item(i).id_detalle,
+              id_producto: res.rows.item(i).id_producto,
+              id_usuario: res.rows.item(i).id_usuario,
+              cantidad: res.rows.item(i).cantidad,
+              id_venta: res.rows.item(i).id_venta,
+              subtotal: res.rows.item(i).subtotal
+            });
+          }
         }
-      }
-      this.listaDetalle.next(Detalle as any);
-    }).catch(e => {
-      this.presentAlertN('Error al obtener las Detalle realizadas: ' + e);
+        this.listaDetalle.next(Detalle as any);
+        resolve(Detalle);
+      }).catch(e => {
+        this.presentAlertN('Error al obtener las Detalle realizadas: ' + e);
+        reject(e);
+      });
     });
   }
 

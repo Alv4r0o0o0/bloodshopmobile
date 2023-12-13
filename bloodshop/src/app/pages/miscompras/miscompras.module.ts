@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MiscomprasPageRoutingModule } from './miscompras-routing.module';
 
 import { MiscomprasPage } from './miscompras.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MiscomprasPageRoutingModule
+    MiscomprasPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [MiscomprasPage]
 })

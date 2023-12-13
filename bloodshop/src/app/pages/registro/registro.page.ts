@@ -114,7 +114,7 @@ export class RegistroPage implements OnInit {
   }
 
   registroForm: FormGroup;
-  capturedImage: string | null = null;
+  capturedImage!: string;
   
 
   constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private db: BdserviceService, private router: Router) {
@@ -137,14 +137,7 @@ export class RegistroPage implements OnInit {
     }
     return null;
   }
-  submitForm() {
-    if (this.registroForm.valid) {
-      const formValue = this.registroForm.value;
-      this.db.registrarUsuario(formValue.nombre, formValue.apellido, formValue.fechnac, formValue.rut, formValue.correo, formValue.telefono, formValue.contraseña);
-      this.navCtrl.navigateForward('/home');
-    }
-
-  }
+  
   async takePhoto() {
     try {
       const image = await Camera.getPhoto({
@@ -160,6 +153,16 @@ export class RegistroPage implements OnInit {
       console.error('Error al capturar la imagen:', error);
     }
   }
+
+  submitForm() {
+    if (this.registroForm.valid) {
+      const formValue = this.registroForm.value;
+      this.db.registrarUsuario(formValue.nombre, formValue.apellido, formValue.fechnac, formValue.rut, formValue.correo, formValue.telefono, formValue.contraseña, this.capturedImage);
+      this.navCtrl.navigateForward('/home');
+    }
+
+  }
+
 
   ngOnInit() {
   }

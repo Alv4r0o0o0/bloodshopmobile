@@ -10,12 +10,13 @@ import { BdserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  usuario: Usuario | null = null;
+  usuario: any;
   constructor(private activatedRoute: ActivatedRoute, private navCtrl: NavController, private dbService: BdserviceService) { }
 
   ngOnInit() {
     this.dbService.getUsuarioActual().subscribe((usuario) => {
       this.usuario = usuario;
+      this.dbService.presentAlertP
     });
   
   }

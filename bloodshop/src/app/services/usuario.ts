@@ -4,6 +4,7 @@ export class Usuario {
     apellido!: number;
     fechanacimiento!: string;
     rut!: number;
+    foto!: string;
     correo!: string; 
     telefono!: number;
     clave!: string;

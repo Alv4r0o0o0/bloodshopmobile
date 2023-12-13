@@ -1,13 +1,30 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>miscompras</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">miscompras</ion-title>
+      <app-header></app-header>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list *ngIf="usuario">
+    <ion-item>
+      <ion-label>
+        <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+        <p>{{ usuario.correo }}</p>
+      </ion-label>
+    </ion-item>
+
+    <div class="ion-text-center">
+      <h3>Historial de Compras</h3>
+    </div>
+
+    <ion-item *ngFor="let a of arregloDetalles">
+      <ion-label>
+        <p>Id Detalle: {{ a.id_detalle }}</p>
+        <p>Id Venta: {{ a.id_venta }}</p>
+        <p>Producto: {{ a.id_producto }}</p>
+        <p>Cantidad total: {{ a.cantidad }}</p>
+        <p>Monto total: ${{ a.subtotal }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

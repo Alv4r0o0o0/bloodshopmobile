@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/dbservice.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { Usuario } from 'src/app/services/usuario';
 
 const RutValidator = {
   validaRut(rutCompleto: string): boolean {
@@ -88,19 +90,21 @@ export class EditarperfilPage implements OnInit {
     correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
   }
-  usuario: any;
+  usuario!: Usuario | null;
   nuevaContrasena: string = '';
+  capturedImage!: string;
   editarForm!: FormGroup;
   perfilUsuario: any[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private navCtrl: NavController, private dbService: BdserviceService, private router: Router) {
+  constructor(private cdr: ChangeDetectorRef,private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private navCtrl: NavController, private dbService: BdserviceService, private router: Router) {
     this.editarForm = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10), Validators.pattern(this.pattern.nombre)]],
       rut: ['', [Validators.required, this.validateRutFormat.bind(this)]],
       fechnac: ['', [Validators.required, validateBirthDate]],
       telefono: ['', [Validators.required, validatePhoneNumber]],
-      correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]]
+      correo: ['', [Validators.required, Validators.pattern(this.pattern.correo)]],
+      foto: [''],
     });
   }
 
@@ -115,6 +119,7 @@ export class EditarperfilPage implements OnInit {
           fechnac: this.usuario.fechanacimiento,
           telefono: this.usuario.telefono,
           correo: this.usuario.correo,
+          foto: this.usuario.foto,
         });
       }
     });
@@ -127,18 +132,39 @@ export class EditarperfilPage implements OnInit {
     }
     return null;
   }
+  async takePhoto() {
+    try {
+      Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+      }).then((image) => {
+        if (image && image.dataUrl) {
+          this.editarForm.patchValue({
+            foto: image.dataUrl, // Actualiza el valor del campo 'foto' en el formulario
+          });
+        }
+      });
+    } catch (error) {
+      console.error('Error al capturar la imagen:', error);
+    }
+  }
 
   guardarCambios() {
     if (this.usuario) {
       const { id, correo } = this.usuario;
       const { nombre, apellido, fechnac, rut, telefono } = this.editarForm.value;
+      const foto = this.editarForm.get('foto')?.value || ''
+
 
       // Actualizar en la base de datos
-      this.dbService.modificarPerfil(id, nombre, apellido, fechnac, rut, correo, telefono);
-      this.usuario = {...this.usuario, nombre, apellido, rut, fechanacimiento: fechnac, telefono,};
+      this.dbService.modificarPerfil(id, nombre, apellido, fechnac, rut, correo, telefono, foto);
+      this.usuario = {...this.usuario, nombre, apellido, rut, fechanacimiento: fechnac, telefono, foto};
       this.dbService.setUsuario(this.usuario);
       this.dbService.presentAlertP('Se han guardado sus datos correctamente');
       this.router.navigate(['/perfil']);
     }
   }
+
+
 }

@@ -1,13 +1,23 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>tablaventas</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">tablaventas</ion-title>
+      <app-header></app-header>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+
+  <ion-content>
+    <ion-list *ngIf="detalles && detalles.length > 0">
+      <ion-item *ngFor="let detalle of detalles">
+        <ion-label>
+          <h2>{{ detalle.id_detalle }}</h2>
+          <p>Producto: {{ detalle.id_producto }}</p>
+          <p>Cantidad: {{ detalle.cantidad }}</p>
+          <p>Subtotal: {{ detalle.subtotal }}</p>
+          <p>Usuario: {{ detalle.id_usuario }}</p>
+          <!-- Agrega aquí otros campos del detalle -->
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-note *ngIf="!(detalles && detalles.length > 0)">No hay detalles de ventas.</ion-note>
+  </ion-content>
